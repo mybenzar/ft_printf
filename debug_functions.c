@@ -13,7 +13,8 @@ void	printf_flags(t_flags *flag)
 		printf("sharp=%d\n", flag->sharp);
 		printf("plus=%c\n", flag->plus);
 		printf("id_conv=%c\n", flag->id_conv);
-		printf("modif=%c\n", flag->modif);
+		printf("modif=%d\n", flag->modif);
+		printf("zero=%d\n", flag->zero);
 }
 
 void	put_flags(t_flags *flags)

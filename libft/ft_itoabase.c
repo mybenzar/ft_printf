@@ -6,12 +6,12 @@
 /*   By: malavent <malavent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 11:48:56 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/02 21:25:24 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/25 17:49:38 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
+
 static char	*ft_fill_itoa(int base, uintmax_t value, size_t size)
 {
 	char *itoa;
@@ -19,7 +19,7 @@ static char	*ft_fill_itoa(int base, uintmax_t value, size_t size)
 	if (!(itoa = (char *)ft_memalloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	itoa[size] = '\0';
-	while ((int)(value) >= base && size)
+	while (value >= (uintmax_t)base && size)
 	{
 		itoa[size - 1] = ft_convert_itoc(value % base);
 		value = value / base;

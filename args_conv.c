@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 11:25:41 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/24 15:22:17 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/25 18:50:47 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	pr_uint(t_flags *flags, va_list va)
 {
 	if (flags->modif == h)
 		int_converter(flags, va_arg(va, unsigned int));
-	if (flags->modif == hh)
+	else if (flags->modif == hh)
 		int_converter(flags, (unsigned char)va_arg(va, unsigned int));
-	if (flags->modif == l)
+	else if (flags->modif == l)
 		int_converter(flags, va_arg(va, unsigned long int));
-	if (flags->modif == ll)
+	else if (flags->modif == ll)
 		int_converter(flags, va_arg(va, unsigned long long int));
 	else
 		int_converter(flags, va_arg(va, unsigned int));
