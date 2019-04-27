@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/26 12:11:51 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/27 12:43:34 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int	main(void)
 //tests basiques
 int main (void)
 {
-printf("@moulitest: %#.x %#.0o", 0, 0);	
+	  ft_printf("%0+5d", 42);
+	//ft_putchar('\n');
+
+//ft_printf("@moulitest: %#.o %#.0o", 0, 0);	
 	/*
 	ft_printf("%-5%");                          
 	ft_printf("%.0%");                           

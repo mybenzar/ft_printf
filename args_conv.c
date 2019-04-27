@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 11:25:41 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/25 18:50:47 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/27 12:43:32 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static intmax_t	conv_signed(t_flags *flags, va_list va)
 	if (flags->modif == ll)
 		return (va_arg(va, long long int));
 	else
-		return (va_arg(va, intmax_t));
+		return (va_arg(va, int));
 }
 
 void	pr_uint(t_flags *flags, va_list va)
@@ -92,6 +92,7 @@ void	print_param(t_flags *flags, va_list va)
 		{
 			nb_sign = -nb_sign;
 			flags->plus = '-';
+			flags->zero = 0;
 			flags->space = 0;
 		}
 		int_converter(flags, nb_sign);

@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/26 12:11:51 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/27 12:43:31 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,12 @@ static void		fill_zero_space(t_flags *flag, int len)
 		flag->zero = flag->zero + ((flag->dot > len) ? (flag->dot - len) : 0);
 	if (flag->id_conv == 'f')
 		flag->dot = tmp;
-	if (flag->sharp == 1 && (flag->space || flag->zero))
+	if (flag->sharp == 1 && (flag->space || flag->zero) && ft_strchr("oxX", flag->id_conv))
 	{
-		flag->zero = flag->zero - (flag->zero != 0 ? 2 : (flag->id_conv == 'o' ? 1 : 0));
-		flag->space = flag->space - (flag->space != 0 ? 2 : 0) + (flag->id_conv == 'o' ? 1 : 0);;
+		if (flag->zero)
+			flag->zero -= (flag->id_conv == 'o' ? 1 : 2);
+		if (flag->space)
+			flag->space -= (flag->id_conv == 'o' ? 1 : 2);
 	}
 }
 
@@ -139,8 +141,8 @@ static void		print_exp(t_flags *flag)
 	}
 	if (flag->id_conv == 'X')
 		ft_putchar('X');
-	flag->len += 2;
-	//flag->len += (flag->id_conv == 'o' ? 1 : 2);
+	//flag->len += 2;
+	flag->len += (flag->id_conv == 'o' ? 1 : 2);
 }
 
 static void		print_nb_padding(t_flags *flag, char *nb_str)
@@ -149,7 +151,8 @@ static void		print_nb_padding(t_flags *flag, char *nb_str)
 		ft_putchar('+');
 	if (flag->plus == '-')
 		ft_putchar('-');
-	if (flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
+	if ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
+		|| (flag->sharp == 1 && flag->id_conv == 'o'))
 		print_exp(flag);
 	if (flag->zero != 0)
 		print_nchar(flag->zero, '0');
@@ -167,7 +170,8 @@ static void		print_nb(t_flags *flag, char *nb_str)
 		ft_putchar('+');
 	if (flag->plus == '-')
 		ft_putchar('-');
-	if (flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
+	if ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
+		|| (flag->sharp == 1 && flag->id_conv == 'o'))
 		print_exp(flag);
 	if (flag->zero != 0)
 		print_nchar(flag->zero, '0');
@@ -246,7 +250,9 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 	printf("flag->plus = %d\n", flag->plus);
 	printf("flag->space = %d\n", flag->space);
 	printf("len = %d\n", len);*/
-	flag->len += len + flag->zero + flag->plus + flag->space;
+	if (flag->plus)
+		flag->len++;
+	flag->len += len + flag->zero + flag->space;
 	//printf("after, flag->len = %d\n", flag->len);
 }
 
@@ -276,12 +282,12 @@ void	str_converter(t_flags *flag, char *str)
 		if (flag->dot != 0)
 			ft_putnstr(str, min_width);
 	}
-	if (DEBUG)
+/*	if (DEBUG)
 	{
 		printf("before, flag->len = %d\n", flag->len);
 		printf("flag->space = %d\n", flag->space);
 		printf("min_width = %d\n", min_width);
-	}
+	}*/
 	flag->len = flag->space + ((min_width > len) ? len : min_width);
 	//printf("after, flag->len = %d\n", flag->len);
 }

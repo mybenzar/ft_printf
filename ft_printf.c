@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 17:49:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/26 11:49:39 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/27 12:39:21 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ int	ft_printf(const char *format, ...)
 			if (str_format[i] && (flags->spec = get_flag_conv(str_format, &i, flags)))
 			{
 				get_flags(flags);
-				if (DEBUG)
+	/*		if (DEBUG)
 				{
 					printf("\n\nFLAGS\n");
 					printf_flags(flags);
 					printf("\n\n");
-				}
+				}*/
 				print_param(flags, va);
 			}
 			len = len + flags->len;
@@ -56,7 +56,7 @@ int	ft_printf(const char *format, ...)
 	}
 	va_end (va);
 	free_flags(flags);
-	if (DEBUG)
-		printf("final len = %d\n", len);
+/*	if (DEBUG)
+		printf("final len = %d\n", len);*/
 	return (len);
 }

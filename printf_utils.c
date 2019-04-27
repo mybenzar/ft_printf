@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 16:05:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/26 12:11:52 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/27 12:43:31 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ void get_opt(t_flags *flags, int *i)
 			flags->minus = 1;
 		if (flags->spec[*i] == '+')
 			flags->plus = '+';
-		if (flags->spec[*i] == ' ' && flags->width)
+		if (flags->spec[*i] == ' ' && (flags->width || flags->id_conv == 'd'
+			|| flags->id_conv == 'i'))
 			flags->space = 1;
 	}
 }
@@ -116,7 +117,7 @@ void 	parsing_flags(t_flags *flags)
 		flags->id_conv = 'd'; // i est deprecie
 	if (flags->zero != 0 && flags->minus != 0)
 		flags->zero = 0;
-	if (flags->space == 1 && flags->plus == 1)
+	if (flags->space == 1 && flags->plus == '+')
 		flags->space = 0; // gerer le cas ou l'arg est signe et neg remmettre a 0
 }
 
