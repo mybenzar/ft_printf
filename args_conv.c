@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 11:25:41 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/27 12:43:32 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/27 15:51:45 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static intmax_t	conv_signed(t_flags *flags, va_list va)
 
 void	pr_uint(t_flags *flags, va_list va)
 {
+	flags->plus = 0;
 	if (flags->modif == h)
 		int_converter(flags, va_arg(va, unsigned int));
 	else if (flags->modif == hh)
@@ -92,8 +93,10 @@ void	print_param(t_flags *flags, va_list va)
 		{
 			nb_sign = -nb_sign;
 			flags->plus = '-';
-			flags->zero = 0;
-			flags->space = 0;
+			if (!flags->width && flags->space)
+				flags->space = 0;
+			/*flags->zero = (flags->zero == 0) ? 0 : (flags->zero - 1);
+			flags->space = (flags->space == 0) ? 0 : (flags->space - 1);*/
 		}
 		int_converter(flags, nb_sign);
 	}

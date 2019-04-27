@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 16:05:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/27 12:43:31 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/27 22:27:39 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int is_integer(char id_conv)
 		return (1);
 	return (0);
 }
-
+/*
 int parse_modifiers(t_flags *flags)
 {	
 	if ((flags->modif == l || flags->modif == h) && !(ft_strchr("diouxXp", flags->id_conv)))
@@ -59,7 +59,7 @@ int parse_modifiers(t_flags *flags)
 	}
 	return (1);
 }
-
+*/
 void	get_modif(t_flags *flags)
 {
 	char *tmp;
@@ -69,9 +69,9 @@ void	get_modif(t_flags *flags)
 		flags->modif = n;
 		return ;
 	}
-	if (ft_strncmp(tmp, "hh", 2) == 0)
+	if (ft_strncmp(flags->spec, "hh", 2) == 0)
 		flags->modif = hh;
-	else if (ft_strncmp(tmp, "ll", 2) == 0)
+	else if (ft_strncmp(flags->spec, "ll", 2) == 0)
 		flags->modif = ll;
 	else if (tmp[0] == 'l' )
 		flags->modif = l;
@@ -82,7 +82,7 @@ void	get_modif(t_flags *flags)
 	else
 		flags->modif = n;
 	free(tmp);
-	parse_modifiers(flags);	
+//	parse_modifiers(flags);	
 }
 
 void get_opt(t_flags *flags, int *i)
@@ -105,10 +105,15 @@ void get_opt(t_flags *flags, int *i)
 			flags->minus = 1;
 		if (flags->spec[*i] == '+')
 			flags->plus = '+';
-		if (flags->spec[*i] == ' ' && (flags->width || flags->id_conv == 'd'
+		if (flags->spec[*i] == ' ' && flags->plus != '+' && (flags->width || flags->id_conv == 'd'
 			|| flags->id_conv == 'i'))
 			flags->space = 1;
 	}
+	// invisible minus sign
+	if (flags->minus == 1 && flags->space == 1)
+		flags->minus = 'i';
+	if (flags->minus == 1 && flags->zero)
+		flags->zero = 0;
 }
 
 void 	parsing_flags(t_flags *flags)
@@ -198,7 +203,7 @@ char *get_flag_conv(char *format, int *i, t_flags *flags)
 	{
 		flags->id_conv = 'n';
 		if (format[index_is_special(format + 1)])
-			*i = index_is_special(format + 1);
+			*i = k + index_is_special(format + 1);
 		return (format + 1);
 	}
 	while (format[k] && format[k] != '%' && !is_alt_special(format[k])

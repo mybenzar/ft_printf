@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/27 12:43:31 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/27 22:27:38 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,34 +69,42 @@ static int		get_min_width(t_flags *flag, int len)
 static void		fill_zero_space(t_flags *flag, int len)
 {
 	int	tmp;
+	int plus;
 
+	plus = (flag->plus == 0 ? 0 : 1);
 	if (flag->id_conv == 'f')
 		tmp = flag->dot;
 	if (flag->dot <= 0 && flag->width > len)
 	{
 		// a ete recemment modifie. avant il n yavait pas de condition if, et seul le else existait
 		if (flag->zero == 1)
-			flag->zero = flag->width - len;
+		{
+			flag->zero = flag->width - len - plus - (flag->space == 0 ? 0 : 1);
+			if (flag->dot == 0)
+				flag->space = flag->width - len - plus;
+		}
 		else
-			flag->space = flag->space + flag->width - len;
+			flag->space = flag->width - len - plus;
 	}
+	if (flag->dot <= 0 && flag->width <= len)
+		flag->zero = 0;
 	else if (flag->dot > 0 && flag->width != 0)
 	{
 		if (flag->dot > len && flag->dot > flag->width)
-			flag->zero = flag->zero + flag->dot - len;
+			flag->zero = flag->dot - len;
 		else if (flag->dot > len && flag->dot < flag->width)
 		{
-			flag->zero = flag->zero + flag->dot - len;
-			flag->space = flag->space + flag->width - flag->dot;
+			flag->zero = flag->dot - len;
+			flag->space = flag->width - flag->dot - plus;
 		}
 		else if (flag->dot <= len && flag->dot > flag->width)
-			flag->zero = flag->zero + flag->dot - len;
+			flag->zero = flag->dot - len;
 		else if (flag->dot <= len && flag->dot < flag->width
 				&& len < flag->width)
-			flag->space = flag->space + flag->width - len;
+			flag->space = flag->width - len - plus;
 	}
 	else if (flag->dot != 0 && flag->width == 0)
-		flag->zero = flag->zero + ((flag->dot > len) ? (flag->dot - len) : 0);
+		flag->zero = ((flag->dot > len) ? (flag->dot - len) : 0);
 	if (flag->id_conv == 'f')
 		flag->dot = tmp;
 	if (flag->sharp == 1 && (flag->space || flag->zero) && ft_strchr("oxX", flag->id_conv))
@@ -105,6 +113,11 @@ static void		fill_zero_space(t_flags *flag, int len)
 			flag->zero -= (flag->id_conv == 'o' ? 1 : 2);
 		if (flag->space)
 			flag->space -= (flag->id_conv == 'o' ? 1 : 2);
+	}
+	if (DEBUG)
+	{
+		printf("at the end of zero fill, flag->space = %d\n", flag->space);
+		printf("flag->zero = %d\n", flag->zero);
 	}
 }
 
@@ -141,7 +154,6 @@ static void		print_exp(t_flags *flag)
 	}
 	if (flag->id_conv == 'X')
 		ft_putchar('X');
-	//flag->len += 2;
 	flag->len += (flag->id_conv == 'o' ? 1 : 2);
 }
 
@@ -231,29 +243,45 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 	char	*nb_str;
 	int		len;
 	
-	if (flag->dot == 0)
+	if (flag->dot == 0 && nb == 0)
+	{
+		flag->zero = 0;
 		nb_str = "";
+	}
 	else if (!(nb_str = ft_itoabase(nb, get_base(flag->id_conv))))
 		return ;
 	if (flag->id_conv == 'X')
 		nb_str = ft_strupper(nb_str);
 	len = (int)ft_strlen(nb_str);
+	if (DEBUG)
+		printf("in intconv, len = %d\n", len);
 	fill_zero_space(flag, len);
 	if (flag->dot < len && flag->dot != -1)
 		flag->zero = 0;
+	if (flag->minus == 'i')
+	{
+		ft_putchar(' ');
+		flag->len++;
+		flag->space--;
+		flag->minus = 1;
+	}
 	if (flag->minus == 1)
 		print_nb_padding(flag, nb_str);
 	else
 		print_nb(flag, nb_str);
-	/*printf("in int_converter, flag->len = %d\n", flag->len);
-	printf("flag->zero = %d\n", flag->zero);
-	printf("flag->plus = %d\n", flag->plus);
-	printf("flag->space = %d\n", flag->space);
-	printf("len = %d\n", len);*/
+	if (DEBUG)
+	{
+		printf("\n\nin int_converter, flag->len = %d\n", flag->len);
+		printf("flag->zero = %d\n", flag->zero);
+		printf("flag->plus = %d\n", flag->plus);
+		printf("flag->space = %d\n", flag->space);
+		printf("len = %d\n\n", len);
+	}
 	if (flag->plus)
 		flag->len++;
 	flag->len += len + flag->zero + flag->space;
-	//printf("after, flag->len = %d\n", flag->len);
+	if (DEBUG)
+		printf("final int conv flag->len = %d\n", flag->len);
 }
 
 void	str_converter(t_flags *flag, char *str)
