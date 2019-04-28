@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/27 22:27:40 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/28 11:55:00 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define F_TYPE "diouxXcspf"
 # define VALID "0123456789#0.+- hlLdiouxXcspf"
 
-#define DEBUG 0 
+#define DEBUG 1 
 
 #include <stdio.h>
 

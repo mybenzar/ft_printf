@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 11:25:41 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/27 15:51:45 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/28 11:54:58 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	other_conv(t_flags *flags, va_list va)
 		if (flags->modif == l)
 			print_memory(flags, va_arg(va, long int *));
 		else*/
-		flags->id_conv = 'x';
 		flags->sharp = 1;
 		int_converter(flags, (uintmax_t)va_arg(va, void *));
 	}
@@ -95,8 +94,6 @@ void	print_param(t_flags *flags, va_list va)
 			flags->plus = '-';
 			if (!flags->width && flags->space)
 				flags->space = 0;
-			/*flags->zero = (flags->zero == 0) ? 0 : (flags->zero - 1);
-			flags->space = (flags->space == 0) ? 0 : (flags->space - 1);*/
 		}
 		int_converter(flags, nb_sign);
 	}

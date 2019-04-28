@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 16:05:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/27 22:27:39 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/28 11:41:08 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	get_modif(t_flags *flags)
 {
 	char *tmp;
 
+	if (ft_strlen(flags->spec) < 2)
+		return ;
 	if (!(tmp = ft_strdup(flags->spec + (ft_strlen(flags->spec) - 2))))
 	{
 		flags->modif = n;
@@ -224,7 +226,9 @@ void	free_flags(t_flags *flags)
 {
 	ft_bzero(flags, sizeof(t_flags));
 	free(flags->spec);
+	flags->spec = NULL;
 	free(flags);
+	flags = NULL;
 }
 
 

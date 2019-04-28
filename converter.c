@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/27 22:27:38 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/28 11:54:59 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,13 +243,27 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 	char	*nb_str;
 	int		len;
 	
+	if (DEBUG)
+		printf("nb to be processed in int conv = %lu\n", nb);
+	if (flag->id_conv == 'p')
+	{	
+		if (nb == 0)
+		{
+			ft_putstr("0x");
+			flag->len += 2;
+		}
+		flag->id_conv = 'x';
+	}
 	if (flag->dot == 0 && nb == 0)
 	{
 		flag->zero = 0;
-		nb_str = "";
+		if (!(nb_str = ft_strdup("")))
+			return ;
 	}
 	else if (!(nb_str = ft_itoabase(nb, get_base(flag->id_conv))))
 		return ;
+	if (DEBUG)
+		printf("nb_str to be printed before process in int conv = %s\n", nb_str);
 	if (flag->id_conv == 'X')
 		nb_str = ft_strupper(nb_str);
 	len = (int)ft_strlen(nb_str);
@@ -277,6 +291,7 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 		printf("flag->space = %d\n", flag->space);
 		printf("len = %d\n\n", len);
 	}
+	free(nb_str);
 	if (flag->plus)
 		flag->len++;
 	flag->len += len + flag->zero + flag->space;
