@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 16:05:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/29 11:35:42 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/29 14:41:05 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,10 +204,12 @@ int	get_flag_conv(char *format, int *i, t_flags *flags)
 	if (format[k] && no_id_conv(format))
 	{
 		flags->id_conv = 'n';
-		if (format[index_is_special(format + 1)])
-			*i = k + index_is_special(format + 1);
-		if (!(flags->spec = ft_strdup(format + 1)))
+		if (format[index_is_special(format + k)])
+			*i = k + index_is_special(format + k);
+		if (!(flags->spec = ft_strdup(format + k)))
 			return (0);
+		if (DEBUG)
+			printf("in get flag conv for id_conv 'n', flags->spec = %s\n", flags->spec);
 		return (1);
 	}
 	while (format[k] && format[k] != '%' && !is_alt_special(format[k])

@@ -6,7 +6,7 @@
 /*   By: malavent <malavent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 11:48:56 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/29 12:20:59 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:59:43 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*ft_fill_itoa(int base, uintmax_t value, size_t size)
 		value = value / base;
 		size--;
 	}
-	itoa[0] = ft_convert_itoc(value);
+	itoa[0] = value != 0 ? ft_convert_itoc(value) : '0';
 	return (itoa);
 }
 
@@ -36,6 +36,8 @@ char		*ft_itoabase(uintmax_t value, int base)
 	
 	if (base == 10)
 		return (ft_itoa(value));
+	if (value == 0)
+		return (ft_itoa(0));
 	size = ft_numlen_base(value, base);
 	itoa = ft_fill_itoa(base, value, size);
 	return (itoa);
