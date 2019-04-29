@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/28 11:39:42 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/29 12:29:33 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,8 @@ int	main(void)
 //tests basiques
 int main (void)
 {
-	char *str;
-	int i = 0;
-	
-	if (!(str = (char*)malloc(sizeof(char) * 50)))
-		return (0);
-	while (i < 49)
-		str[i++] = 'A';
-	str[i] = 0;
-
-	ft_printf("\nFt_Printf : | %25p |", &str[0]);
-	printf("\nPrintf :    | %25p |\n", &str[0]);
-
+  ft_printf("%hx", 4294967296);
+  
+  printf("\n\n%hx", 4294967296);
+	//	ft_printf("10%% = %10%\n");
 }

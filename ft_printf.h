@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/28 11:55:00 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/29 12:33:45 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int		index_is_special(char *str);
 **		Parsing Functions
 */
 
-char 	*get_flag_conv(char *format, int *i, t_flags *flags);
+int 	get_flag_conv(char *format, int *i, t_flags *flags);
 int 	is_alt_special(char c);
 int 	is_special(char c);
 int 	get_size(char *spec, int *i); // chope la size pour la precision ou la width

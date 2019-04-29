@@ -6,7 +6,7 @@
 /*   By: malavent <malavent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 11:48:56 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/25 17:49:38 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/29 12:20:59 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*ft_fill_itoa(int base, uintmax_t value, size_t size)
 {
 	char *itoa;
 
-	if (!(itoa = (char *)ft_memalloc(sizeof(char) * (size + 1))))
+	if (!(itoa = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	itoa[size] = '\0';
 	while (value >= (uintmax_t)base && size)
@@ -36,7 +36,6 @@ char		*ft_itoabase(uintmax_t value, int base)
 	
 	if (base == 10)
 		return (ft_itoa(value));
-//	value = value < 0 ? -value : value;
 	size = ft_numlen_base(value, base);
 	itoa = ft_fill_itoa(base, value, size);
 	return (itoa);

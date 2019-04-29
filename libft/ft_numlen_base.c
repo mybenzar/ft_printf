@@ -6,7 +6,7 @@
 /*   By: malavent <malavent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 10:09:37 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/02 20:54:37 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/29 12:19:21 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 size_t	ft_numlen_base(uintmax_t value, uintmax_t base)
 {
-	static size_t size = 0;
-
-	if (value < base)
-		size++;
-	else
+	size_t	size;
+	
+	size = 0;
+	while (value != 0)
 	{
-		ft_numlen_base(value / base, base);
-		ft_numlen_base(value % base, base);
+		value /= base;
+		size++;
 	}
 	return (size);
 }

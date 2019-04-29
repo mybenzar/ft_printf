@@ -6,7 +6,7 @@
 /*   By: roster <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 10:36:16 by roster            #+#    #+#             */
-/*   Updated: 2019/04/27 18:30:47 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/29 12:33:47 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int		main(void)
 	printf("---------------------------\n");
 	printf(MAGENTA"# unsigned hexa_maj = X|\n"RESET);
 	printf("return = |%d | |%d|\n", printf("hex_maj = |%X|\n", i), ft_printf("hex_maj = |%X|\n", i));
-
-return (0); 
 
 	printf(YELLOW"|\n--------------------\n");
 	printf("|       float      |\n");

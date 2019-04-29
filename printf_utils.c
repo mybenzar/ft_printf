@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 16:05:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/28 11:41:08 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/29 11:35:42 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int	no_id_conv(char *format)
 	return (1);
 }
 
-char *get_flag_conv(char *format, int *i, t_flags *flags)
+int	get_flag_conv(char *format, int *i, t_flags *flags)
 {
 	int start;
 	int k;
@@ -206,7 +206,9 @@ char *get_flag_conv(char *format, int *i, t_flags *flags)
 		flags->id_conv = 'n';
 		if (format[index_is_special(format + 1)])
 			*i = k + index_is_special(format + 1);
-		return (format + 1);
+		if (!(flags->spec = ft_strdup(format + 1)))
+			return (0);
+		return (1);
 	}
 	while (format[k] && format[k] != '%' && !is_alt_special(format[k])
 		&& (ft_strchr(VALID, format[k]) != NULL)) //si il y a un char alt_spe, il met fin a la specification de format
@@ -215,11 +217,13 @@ char *get_flag_conv(char *format, int *i, t_flags *flags)
 		{
 			flags->id_conv = format[k];
 			*i = k;
-			return (ft_strsub(format, start, k - start + 1));
+			if (!(flags->spec = ft_strsub(format, start, k - start + 1)))
+				return (0);
+			return (1);
 		}
 		k += 1;
 	}
-	return (NULL);
+	return (0);
 }
 
 void	free_flags(t_flags *flags)
