@@ -338,6 +338,42 @@ char	*vlq_mult(char *s1, char *s2)
 	return (sum + i);
 }
 
+int		is_valid_nbstr(char *nb)
+{
+	int i;
+
+	i = 0;
+	while (nb_str[i] != '\0')
+	{
+		if (!ft_isdigit(nb[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int		is_div_by_two(char *nb)
+{
+	ft_strrev(nb);
+	if (nb[ft_strlen(nb) - 1] % 2)
+		return (1);
+	else
+		return (0);
+}
+
+char	*vlq_div_by2(char *divid)
+{
+	int i;
+
+	i = ft_strlen(divid) - 1;
+	if (!is_valid_nbstr(divid) && !is_div_by_two(divid))
+		return (0);
+	while (i >= 0)
+	{
+
+	}
+}
+
 /*
  ** Returns 0 if equal, positive int if s1 > s2, neg int if s2 > s1
 */
@@ -374,7 +410,8 @@ char	*vlq_sub(char *s1, char *s2)
 		printf("\n\nIm in vlq_sub\n");
 		printf("s1 = %s and s2 = %s\n", s1, s2);
 	}
-	if (!(diff = ft_strdup("0")) || !(tmp = ft_strdup("0")) || !(one = ft_strdup("1")) || !(tmp_diff = ft_strdup("0")))
+	if (!(diff = ft_strdup("0")) || !(tmp = ft_strdup("0"))
+		|| !(one = ft_strdup("1")) || !(tmp_diff = ft_strdup("0")))
 		return (NULL);
 	while (vlq_cmp(s1, tmp))
 	{
@@ -393,6 +430,8 @@ char	*vlq_sub(char *s1, char *s2)
 	free(tmp);
 	return ("0");
 }
+
+
 
 char	*vlq_divmod(char *divid, char *divis, char *mod)
 {
