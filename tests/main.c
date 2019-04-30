@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/30 14:09:49 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/30 16:08:40 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,18 +83,5 @@ int	main(void)
 //tests basiques
 int main (void)
 {
-//	char *str = "42 42 42 42 42 42 42 42 42 42 42 42";
-//	int i = 42424242;
-  	
-	printf("%d | %d\n", printf("@moulitest: %-1.s\n", NULL), ft_printf("@moulitest: %-1.s\n", NULL));
-	//printf("%d | %d\n", printf("|%-1.s|\n", NULL), ft_printf("|%-1.s|\n", NULL));
-	//printf("%d | %d\n", printf("OF ->|%0#10.0x|\n", 0), ft_printf("US ->|%0#10.0x|\n", 0));
-	/*printf("---------------------------\n");
-	printf("%d | %d\n", printf("cc|%#.4X| et |%#0012x| |%#04hX| !!|\n", 0xaef, 0xe, (unsigned short)0), ft_printf("cc|%#.4X| et |%#0012x| |%#04hX| !!|\n", 0xaef, 0xe, (unsigned short)0));
-	printf("---------------------------\n");
-	printf("%d | %d\n", printf("toto |%0##0.4X||%#4.2x|et c'est fini |\n", 0x037a, 0x9e), ft_printf("toto |%0##0.4X||%#4.2x|et c'est fini |\n", 0x037a, 0x9e));
-	printf("---------------------------\n");
-	printf("%d | %d\n", printf("test|%-8p |%---32p |%#5.3x|%#024X|\n", &i, &str, 0x25, 50), ft_printf("test|%-8p |%---32p |%#5.3x|%#024X|\n", &i, &str, 0x25, 50));
-	printf("---------------------------\n");
-	printf("%d | %d\n", printf("t|%04.2o|%#2oet |%#-8.3o titi|\n", 0, 0, 0), ft_printf("t|%04.2o|%#2oet |%#-8.3o titi|\n", 0, 0, 0));*/
+	printf("%d | %d\n", printf("t|%04.2o|%#2oet |%#-8.3o titi|\n", 0, 0, 0), ft_printf("t|%04.2o|%#2oet |%#-8.3o titi|\n", 0, 0, 0));
 }

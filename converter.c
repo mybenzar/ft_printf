@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/30 14:09:47 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/30 16:08:39 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,23 @@ static void		fill_zero_space(t_flags *flag, int len)
 	}
 	else if (flag->dot != 0 && flag->width == 0)
 		flag->zero = ((flag->dot > len) ? (flag->dot - len) : 0);
+	if (DEBUG)
+	{
+		printf("her,e flag->dot = %d\n", flag->dot);
+		printf("her,e flag->space = %d\n", flag->space);
+		printf("here, flag->zero = %d\n", flag->zero);
+		printf("here, flag->width = %d\n", flag->width);
+		printf("here, len = %d\n", len);
+		printf("flag->sharp = %d\n", flag->sharp);
+	}
 	if (flag->id_conv == 'f')
 		flag->dot = tmp;
-	if (flag->sharp == 1 &&  (flag->space || flag->zero) && ft_strchr("oxX", flag->id_conv))
+	if (flag->width > len && flag->sharp == 1
+		&& (flag->space || flag->zero) && ft_strchr("oxX", flag->id_conv))
 	{
-		if (flag->zero)
+		if (flag->zero /*&& flag->dot < len*/)
 			flag->zero -= (flag->id_conv == 'o' ? 1 : 2);
-		if (flag->space)
+		if (flag->space/* && flag->dot < len*/)
 			flag->space -= (flag->id_conv == 'o' ? 1 : 2);
 	}
 	if (DEBUG)
@@ -128,6 +138,8 @@ static void		fill_zero_space(t_flags *flag, int len)
 		printf("flag->zero = %d\n", flag->zero);
 	}
 }
+
+// regler sur papier le probleme des flags->zero flag->space
 
 void		print_nchar(int size, char c)
 {
@@ -262,11 +274,11 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 		}
 		flag->id_conv = 'x';
 	}
+	if (nb == 0 && flag->sharp == 1 && (flag->id_conv != 'o' /*|| (flag->id_conv == 'o' && flag->width))*/))
+		flag->sharp = 0;
 	if (flag->dot == 0 && nb == 0)
 	{
 		flag->zero = 0;
-		if (flag->sharp == 1 && flag->id_conv != 'o')
-			flag->sharp = 0;
 		if (!(nb_str = ft_strdup("")))
 			return ;
 	}
@@ -315,7 +327,7 @@ void	str_converter(t_flags *flag, char *str)
 	int	len;
 
 	if (str == NULL)
-	{	
+	{
 		if (!(str = ft_strdup("(null)")))
 			return ;
 	}
@@ -348,8 +360,8 @@ void	str_converter(t_flags *flag, char *str)
 		printf("min_width = %d\n", min_width);
 		printf("len = %d\n", len);
 	}
-	if (!ft_strcmp(str, "(null)"))
-		flag->len = flag->space + len;
+	if (!ft_strcmp(str, "(null)") && flag->dot == 0)
+		flag->len = flag->space;
 	else
 		flag->len = flag->space + ((min_width > len) ? len : min_width);
 	//printf("after, flag->len = %d\n", flag->len);
