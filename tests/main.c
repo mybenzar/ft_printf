@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/29 15:42:16 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/30 14:09:49 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ int main (void)
 {
 //	char *str = "42 42 42 42 42 42 42 42 42 42 42 42";
 //	int i = 42424242;
-
-	printf("%d | %d\n", printf("u|%4.2s|s |%-1.s|\n |%---5.3s| |\n", "coco", NULL, "yooo"), ft_printf("u|%4.2s|s |%-1.s|\n |%---5.3s| |\n", "coco", NULL, "yooo"));
+  	
+	printf("%d | %d\n", printf("@moulitest: %-1.s\n", NULL), ft_printf("@moulitest: %-1.s\n", NULL));
+	//printf("%d | %d\n", printf("|%-1.s|\n", NULL), ft_printf("|%-1.s|\n", NULL));
 	//printf("%d | %d\n", printf("OF ->|%0#10.0x|\n", 0), ft_printf("US ->|%0#10.0x|\n", 0));
 	/*printf("---------------------------\n");
 	printf("%d | %d\n", printf("cc|%#.4X| et |%#0012x| |%#04hX| !!|\n", 0xaef, 0xe, (unsigned short)0), ft_printf("cc|%#.4X| et |%#0012x| |%#04hX| !!|\n", 0xaef, 0xe, (unsigned short)0));

@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/30 12:10:56 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/30 14:09:47 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static int		min_width_no_precision(t_flags *flag, int len)
 	if (flag->dot == 0)
 	{
 		flag->space = flag->width;
-		return (flag->width);
+		if (len == 0)
+			return (len);
+		else
+			return (flag->width);
 	}
 	else if (flag->dot < 0)
 	{
@@ -262,7 +265,7 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 	if (flag->dot == 0 && nb == 0)
 	{
 		flag->zero = 0;
-		if (flag->sharp == 1)
+		if (flag->sharp == 1 && flag->id_conv != 'o')
 			flag->sharp = 0;
 		if (!(nb_str = ft_strdup("")))
 			return ;
@@ -317,7 +320,8 @@ void	str_converter(t_flags *flag, char *str)
 			return ;
 	}
 	len = (int)ft_strlen(str);
-	min_width = ft_strcmp(str, "(null)") == 0 ? get_min_width(flag, 0) : get_min_width(flag, len);
+	min_width = get_min_width(flag, len);
+	//min_width = ft_strcmp(str, "(null)") == 0 ? get_min_width(flag, 0) : get_min_width(flag, len);
 	if (DEBUG)
 	{
 		printf("string to be printed in str_conv  = %s\n", str);
@@ -344,7 +348,10 @@ void	str_converter(t_flags *flag, char *str)
 		printf("min_width = %d\n", min_width);
 		printf("len = %d\n", len);
 	}
-	flag->len = flag->space + ((min_width > len) ? len : min_width);
+	if (!ft_strcmp(str, "(null)"))
+		flag->len = flag->space + len;
+	else
+		flag->len = flag->space + ((min_width > len) ? len : min_width);
 	//printf("after, flag->len = %d\n", flag->len);
 }
 
