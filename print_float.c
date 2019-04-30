@@ -156,6 +156,11 @@ char	*ft_bintowhole(char *vlq)
 	return (ret);
 }
 
+/*
+**	reecrire bintodec pour qu'elle trouve le MSB, calcule le frac bit et ensuite calcule
+**   (sum 5^(frac_digits - i) qui correspond a la partie decimale
+*/
+
 char	*ft_bintodec(char *vlq)
 {
 	int		i;

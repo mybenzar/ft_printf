@@ -338,20 +338,6 @@ char	*vlq_mult(char *s1, char *s2)
 	return (sum + i);
 }
 
-int		is_valid_nbstr(char *nb)
-{
-	int i;
-
-	i = 0;
-	while (nb_str[i] != '\0')
-	{
-		if (!ft_isdigit(nb[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int		is_div_by_two(char *nb)
 {
 	ft_strrev(nb);
@@ -361,18 +347,6 @@ int		is_div_by_two(char *nb)
 		return (0);
 }
 
-char	*vlq_div_by2(char *divid)
-{
-	int i;
-
-	i = ft_strlen(divid) - 1;
-	if (!is_valid_nbstr(divid) && !is_div_by_two(divid))
-		return (0);
-	while (i >= 0)
-	{
-
-	}
-}
 
 /*
  ** Returns 0 if equal, positive int if s1 > s2, neg int if s2 > s1
