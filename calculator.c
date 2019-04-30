@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 16:20:44 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/30 12:09:18 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/30 18:46:10 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ int		ft_str_isdigit(char *s)
 	i = 0;
 	while (s[i])
 	{
-		printf("s[%d] = %d\n", i, s[i]);
 		if (!(ft_isdigit(s[i])))
 			return (0);
 		i++;
 	}
-	printf("out\n");
 	return (1);
 }
 
@@ -152,7 +150,8 @@ char	*vlq_sum(char *s1, char *s2)
 	while (res[i] == 0)
 		i++;
 	free_calc(info);
-	printf("end of vlq_sum\n\n");
+	//printf("sum to be printed = %s\n", res + i);
+	//printf("end of vlq_sum\n\n");
 	return (res + i);
 }
 
@@ -261,12 +260,12 @@ char	*vlq_mult(char *s1, char *s2)
 	info->len1 -= 1;
 	info->len2 -= 1;
 	i = info->sum;
-/*	if (DEBUG)
+	if (DEBUG)
 	{
 		printf("len_max = %d\n", i);
 		printf("len1 = %d\n", info->len1);
 		printf("len2 = %d\n", info->len2);
-	}*/
+	}
 	if (!(res = ft_strnew(i + 1)))
 		return (NULL);
 	if (!(sum = ft_strnew(info->max)))
@@ -334,7 +333,7 @@ char	*vlq_mult(char *s1, char *s2)
 	vlq_tmp_conv_rev2(info, s1, s2);
 	free_calc(info);
 	free(res);
-	printf("end of vlq_mult\n\n");
+	//printf("end of vlq_mult\n\n");
 	return (sum + i);
 }
 

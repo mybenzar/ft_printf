@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/22 12:06:47 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/30 18:46:09 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  ** FLT_MAX
  ** DBL_MAX
  ** LDBL_MAX
-*/
+ */
 
 static char	*ft_dftoa(double x)
 {
@@ -126,6 +126,33 @@ char	*vlq_binpow(int n)
 	return (res);
 }
 
+char	*vlq_fivepow(int n)
+{
+	int i;
+	char *res;
+	char *tmp;
+	char *five;
+
+	i = 0;
+	if (!(five = ft_strdup("5")))
+		return (NULL);
+	if (!(res = ft_strdup(five)))
+		return (NULL);
+	while (i < n)
+	{
+		if (!(tmp = ft_strdup(res)))
+			return (NULL);
+		free(res);
+		if (!(res = ft_strdup(vlq_mult(tmp, five))))
+			return (NULL);
+		printf("in fivepow, res for i = %d is |%s|\n", i, res);
+		free(tmp);
+		i++;
+	}
+	free(five);
+	return (res);
+}
+
 char	*ft_bintowhole(char *vlq)
 {
 	int i;
@@ -152,38 +179,70 @@ char	*ft_bintowhole(char *vlq)
 		}
 		i++;
 	}
-	printf("ret in bintovlq = %s\n", ret);
+	printf("ret in bintowhole= %s\n", ret);
 	return (ret);
 }
 
 /*
-**	reecrire bintodec pour qu'elle trouve le MSB, calcule le frac bit et ensuite calcule
-**   (sum 5^(frac_digits - i) qui correspond a la partie decimale
-*/
+ **	reecrire bintodec pour qu'elle trouve le MSB, calcule le frac bit et ensuite calcule
+ **  (sum 5^(frac_digits - i) qui correspond a la partie decimale
+ */
+
+int		fracdigits(char *dec)
+{
+	int i;
+
+	i = ft_strlen(dec);
+	while (dec[i] != '\0' && dec[i] != '1')
+		i--;
+	return (i);
+}
+
+char	*get_pow_ten(char *vlq, int n)
+{
+	char	*ret;
+	int		size;
+	int		i;
+
+	i = 0;
+	size = ft_strlen(vlq) + n;
+	if (!(ret = ft_memalloc(size + 1)))
+		return (NULL);
+	vlq_initialize(ret, '0', size);
+	while (vlq[i] != '\0')
+	{
+		ret[i] = vlq[i];
+		i++;
+	}
+
+	return (ret);
+}
 
 char	*ft_bintodec(char *vlq)
 {
-	int		i;
-	char	*ret;
-	char	*tmp;
-	char	*pow;
-	char	*one;
-	char	*two;
-	char	*mod = NULL;
+	int i;
+	int j;
+	char *ret;
+	char *tmp;
+	char *pow;
+	char *tmp_pow;
 
 	i = 0;
-	one = ft_strdup("1");
-	two = ft_strdup("2");
+	j = fracdigits(vlq);
 	if (!(ret = ft_strnew(ft_strlen(vlq) + 1)))
 		return (NULL);
 	vlq_initialize(ret, '0', ft_strlen(vlq));
-	ft_strrev(vlq);
+	//ft_strrev(vlq);
 	while (vlq[i] != 0)
 	{
 		if (vlq[i] == '1')
 		{
-			if (!(pow = ft_strdup(vlq_divmod(one, two, mod))))
+			if (!(pow = ft_strdup(vlq_fivepow(i))))
 				return (NULL);
+			tmp_pow = ft_strdup(pow);
+			free(pow);
+			pow = get_pow_ten(tmp_pow, j - 1);
+			free(tmp_pow);
 			tmp = ft_strdup(ret);
 			free(ret);
 			ret = ft_strdup(vlq_sum(tmp, pow));
@@ -191,10 +250,72 @@ char	*ft_bintodec(char *vlq)
 			free(tmp);
 		}
 		i++;
+		j--;
 	}
-	printf("ret in bintovlq = %s\n", ret);
+	printf("ret in bintodec= %s\n", ret);
 	return (ret);
 }
+
+/*
+int		fracdigits(char *dec)
+{
+	int j;
+	int i;
+
+	i = ft_strlen(dec);
+	j = i;
+	while (dec[i] != '\0' && dec[i] != '1')
+		i--;
+	return (j - i);
+}
+
+char	*ft_bintodec(char *dec)
+{
+	int frac_dig;
+	int i;
+	char *ret;
+
+	i = 0;
+	frac_dig = fracdigits(dec);
+	printf("frac_dig = %d\n", frac_dig);
+	ret = ft_strdup(vlq_fivepow(frac_dig));
+	return (ret);
+}
+
+char	*ft_bintodec(char *vlq)
+   {
+   int		i;
+   char	*ret;
+   char	*tmp;
+   char	*pow;
+   char	*one;
+   char	*two;
+   char	*mod = NULL;
+
+   i = 0;
+   one = ft_strdup("1");
+   two = ft_strdup("2");
+   if (!(ret = ft_strnew(ft_strlen(vlq) + 1)))
+   return (NULL);
+   vlq_initialize(ret, '0', ft_strlen(vlq));
+   ft_strrev(vlq);
+   while (vlq[i] != 0)
+   {
+   if (vlq[i] == '1')
+   {
+   if (!(pow = ft_strdup(vlq_divmod(one, two, mod))))
+   return (NULL);
+   tmp = ft_strdup(ret);
+   free(ret);
+   ret = ft_strdup(vlq_sum(tmp, pow));
+   free(pow);
+   free(tmp);
+   }
+   i++;
+   }
+   printf("ret in bintovlq = %s\n", ret);
+   return (ret);
+   }*/
 
 char  *get_res(char *mantissa, int exp)
 {
@@ -217,8 +338,9 @@ char  *get_res(char *mantissa, int exp)
 	if (!(ft_strncpy(right, mantissa, 52 - exp - 1)))
 		return (0);
 	if (DEBUG)
-		printf("right = %s\n", right);
+		printf("right = %s && len of right = %zu\n", right, ft_strlen(right));
 	res = ft_bintowhole(left);
+	printf("ft_bintodec = %s\n", ft_bintodec(right));
 	return (res);
 }
 

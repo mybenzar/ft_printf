@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/30 16:08:40 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/04/30 18:46:10 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,46 +42,31 @@
    */
 
 // tests de float
-/*
+
 int	main(void)
 {
 //	printf("FLT_MAX = %f\n", FLT_MAX);
 //	printf("DBL_MAX = %lf\n", DBL_MAX);
 //	printf("LDBL_MAX = %LF\n", LDBL_MAX);
-//	double f;
-//	int		exp;
-	char *s1 = ft_strdup("1");
-	char *s2 = ft_strdup("128");
-//	char mod[100];
+	double f;
+	int		exp;
+	int		n;
 
-//	char *right = ft_strdup("01001100110011001100110011001100110011001100110");
-//	int		n;
+	n = 513;
+	f = 25.4;
+	printf("frexp = %f\n, *exp = %d\n", frexp(f, &exp), exp);
+	printf("__________________________________\n\n");
+	print_df(f);
+	printf("__________________________________\n\n");
+	printf("real printf for 25.3%.30f\n", f);
+	printf("my frexp returns %s\n", ft_frexp(f, &exp));
 
-//	n = 513;
-//	f = -25.3;
-//	printf("frexp = %f\n, *exp = %d\n", frexp(f, &exp), exp);
-//	printf("__________________________________\n\n");
-//	printf("vlq_sum = %s\n", vlq_sum(s1, s2));
-//	printf("__________________________________\n\n");
-//	printf("vlq_mult = %s\n", vlq_mult(s1, s2));
-//	printf("__________________________________\n\n");
-//	print_df(f);
-//	printf("__________________________________\n\n");
-//	printf("ft_bintovlq right returns %s\n", ft_bintovlq(right));
-//	printf("real printf for 25.3%.30f\n", f);
-//	printf("my frexp returns %s\n", ft_frexp(f, &exp));
-//	printf("vlq_cmp = %d\n", vlq_cmp(s1, s2));
-//	printf("vlq_divmod = %s\n", vlq_divmod(s1, s2, mod));
-//	printf("mod = %s\n", mod);
-//	printf("vlq_sub = %s\n", vlq_sub(s1, s2));
-	printf("vlq_div_float = %s\n", vlq_div_float(s1, s2));
-//	printf("vlq_pow_ten = %s\n", vlq_pow_ten(1));
+	printf("real printf: %.50f\n", f);
 }
-*/
 
 
-//tests basiques
+/*tests basiques
 int main (void)
 {
 	printf("%d | %d\n", printf("t|%04.2o|%#2oet |%#-8.3o titi|\n", 0, 0, 0), ft_printf("t|%04.2o|%#2oet |%#-8.3o titi|\n", 0, 0, 0));
-}
+}*/
