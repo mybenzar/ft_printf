@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 16:20:44 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/30 18:46:10 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/01 08:59:24 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,22 @@ void	vlq_tmp_conv_rev2(t_calc *info, char *s1, char *s2)
 		s2[i] += 48;
 		i++;
 	}
+}
+
+void	ft_trim_char(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] == c)
+		i++;
+	printf("i = %d\n", i);
+	vlq_nshift(s, ft_strlen(s), i);
+	i = 0;
+	printf("s = %s\n", s);
+	while (s[i] != c)
+		i++;
+	s[i] = '\0';
 }
 
 void	vlq_nshift(char *s, int size, int shifts)

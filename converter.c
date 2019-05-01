@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/30 16:08:39 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/01 10:25:13 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ char *ft_strupper(char *str)
 		str[i] = ft_toupper(str[i]);
 	return (str);
 }
-
+/*
 static double	round(long long dec, char sign)
 {
 	if (sign == '-') 
@@ -256,7 +256,7 @@ static char	*dec_to_rounded_a(long double x, int prec, char sign)
 	if (!(dec_str = ft_itoa(dec)))
 		return (NULL);
 	return (dec_str);
-}
+}*/
 
 void	int_converter(t_flags *flag, uintmax_t nb)
 {
@@ -364,48 +364,25 @@ void	str_converter(t_flags *flag, char *str)
 		flag->len = flag->space;
 	else
 		flag->len = flag->space + ((min_width > len) ? len : min_width);
-	//printf("after, flag->len = %d\n", flag->len);
 }
 
-void	float_converter(t_flags *flag, long double x)
+/*
+**	---> 
+*/
+/*void	dfloat_converter(t_flags *flag, double x)
 {
-	int		i_part;
-	char	*i_str;
-	int		len;
-	
-	i_part = (long)x;
-	//a mettre de preference dans le parsing, la valeur par defaut de la precision
+	int len;
+
 	if (flag->dot < 0)
 		flag->dot = 6;
-/*	if (flag->dot >= 15)
-	{
-		flag->zero = flag->dot - 14;
-		flag->dot = 7;
-	}*/
 	if (i_part < 0)
 		flag->plus = '-';
-	if (flag->dot == 0)
-	{
-		if (x - i_part >= 5)
-			x += 1;
-		x = i_part;
-	}
-	if (x - i_part == 0)
-	{
-		flag->id_conv = 'i';
-		flag->dot = -1;
-		int_converter(flag, i_part);
-		return ;
-	}
-	if (!(i_str = ft_itoa((long)x)))
-		return ;
-	len = (int)ft_strlen(i_str) + flag->dot;
 	fill_zero_space(flag, len);
 	if (flag->dot < len)
 		flag->zero = 0;
 	if (flag->minus == 1)
 	{
-		ft_putstr(i_str);
+		ft_putstr(ft_frex(x));
 		ft_putchar('.');
 		ft_putnstr(dec_to_rounded_a(x, flag->dot, flag->plus), flag->dot);
 		print_nb_padding(flag, "no");
@@ -417,5 +394,4 @@ void	float_converter(t_flags *flag, long double x)
 		print_nb(flag, dec_to_rounded_a(x, flag->dot, flag->plus));
 	}
 	flag->len += len + flag->zero + flag->plus + flag->space + 1;
-}
-
+}*/

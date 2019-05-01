@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/30 18:46:10 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/01 11:07:52 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,11 @@ int	main(void)
 //	printf("DBL_MAX = %lf\n", DBL_MAX);
 //	printf("LDBL_MAX = %LF\n", LDBL_MAX);
 	double f;
-	int		exp;
-	int		n;
 
-	n = 513;
-	f = 25.4;
-	printf("frexp = %f\n, *exp = %d\n", frexp(f, &exp), exp);
+	f = 0.3;
+	printf("my frexp returns %s\n", ft_frexp(f));
 	printf("__________________________________\n\n");
-	print_df(f);
-	printf("__________________________________\n\n");
-	printf("real printf for 25.3%.30f\n", f);
-	printf("my frexp returns %s\n", ft_frexp(f, &exp));
-
-	printf("real printf: %.50f\n", f);
+	printf("real printf: %f\n", f);
 }
 
 

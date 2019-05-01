@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/30 17:49:22 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/01 11:01:44 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	ft_printf(const char *format, ...);
 /*
 **  Calculator Structure for Floats
 */
-
 typedef struct	s_calc
 {
 	int 		len1;
@@ -75,13 +74,11 @@ void 	str_converter(t_flags *flags, char *str);
 void	pr_int(t_flags *flags, uintmax_t nb);
 void	pr_uint(t_flags *flags, va_list va);
 void	char_converter(t_flags *flags, unsigned char c);
-void	float_converter(t_flags *flags, long double x);
+//void	dfloat_converter(t_flags *flags, double x);
 
-void	print_df(/*t_flags *flags,*/ double x);
-//void	print_ldf(t_flags *flags, long double x);
 
 /*
-**  Print Utils functions
+**  	Print Utils functions
 */
 
 void	ft_putnstr(char *str, int size);
@@ -104,29 +101,32 @@ void	free_flags(t_flags *flags);
 /*
 **		Float Utils Functions
 */
+char	*ft_frexp(double x);
+void	get_res(char *mantissa, int exp, char **res);
+char	*ft_bintowhole(char *vlq);
+char	*ft_bintodec(char *vlq);
 
-char	*ft_frexp(double x, int *exp);
+/*
+**		String Numbers Manipulation and Calculations Functions
+*/
+void	calc_info(t_calc *info, char *s1, char *s2);
+int		ft_str_isdigt(char *s); //to be added in libft
 char 	*vlq_sum(char *s1, char *s2);
+char	*vlq_mult(char *s1, char *s2);
+char	*vlq_div_float(char *divid, char *divis); //ended up not using
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
-char	*vlq_mult(char *s1, char *s2);
+char	*vlq_divmod(char *divid, char *divis, char *mod); //ended up not using
+int		vlq_cmp(char *s1, char *s2); // ended up not using but should be added to libft
+char	*vlq_sub(char *s1, char *s2); //ended up not using
+char	*vlq_pow_ten(int pow);
+char	*vlq_binpow(int n);
+void	vlq_nshift(char *s, int size, int shifts);
+void	vlq_shift_left(char *s, int size);
 void	vlq_initialize(char *vlq, int c, int size);
 void	vlq_tmp_conv(t_calc *info, char *s1, char *s2);
 void	vlq_tmp_conv_rev(char *s, int size);
-void	calc_info(t_calc *info, char *s1, char *s2);
 void	free_calc(t_calc *info);
-void	vlq_nshift(char *s, int size, int shifts);
-void	vlq_shift_left(char *s, int size);
-char	*vlq_binpow(int n);
-char	*ft_bintowhole(char *vlq);
-char	*ft_bintodec(char *vlq);
-char	*vlq_divmod(char *divid, char *divis, char *mod);
-int		vlq_cmp(char *s1, char *s2);
-int		ft_str_isdigt(char *s);
-char	*vlq_sub(char *s1, char *s2);
-char	*vlq_div_float(char *divid, char *divis);
-char	*vlq_pow_ten(int pow);
-
 /*
 **		Debug
 */
