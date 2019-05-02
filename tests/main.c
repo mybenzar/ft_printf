@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/01 11:07:52 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/02 20:10:09 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(void)
 	f = 0.3;
 	printf("my frexp returns %s\n", ft_frexp(f));
 	printf("__________________________________\n\n");
-	printf("real printf: %f\n", f);
+	printf("real printf: %.50f\n", f);
 }
 
 

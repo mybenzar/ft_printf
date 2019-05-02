@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/01 11:29:00 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/02 20:10:08 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 #include <stdio.h>
 
 /*
-**	reminder of float limits (float, double and long double) :
-**	FLT_MAX
-**	DBL_MAX
-**	LDBL_MAX
-*/
+ **	reminder of float limits (float, double and long double) :
+ **	FLT_MAX
+ **	DBL_MAX
+ **	LDBL_MAX
+ */
 
 /*
-**	---> ft_dftoa extracts the binary value of the float into a string
-*/
+ **	---> ft_dftoa extracts the binary value of the float into a string
+ */
 static char	*ft_dftoa(double x)
 {
 	int					i;
@@ -33,7 +33,7 @@ static char	*ft_dftoa(double x)
 	if (!(nb_str = (char *)malloc(sizeof(char) * 65)))
 		return (NULL);
 	tmp = *(unsigned long *)(&x);
-	while (tmp)
+	while (i <= 63)
 	{
 		if (tmp & 1)
 			nb_str[i] = '1';
@@ -60,9 +60,9 @@ static int pow2(int pow)
 }
 
 /*
-**	---> get_exp computes the decimal value of the exponent and
-**	returns an int. 1023 is the bias for 64 bits (float convention)
-*/
+ **	---> get_exp computes the decimal value of the exponent and
+ **	returns an int. 1023 is the bias for 64 bits (float convention)
+ */
 static int	get_exp(char *exp_str)
 {
 	int nb;
@@ -163,9 +163,9 @@ char	*vlq_fivepow(int n)
 }
 
 /*
-**	---> bintowhole converts the exponent binary string into a decimal string
-**	by multiplying corresponding powers of two by '1' bits
-*/
+ **	---> bintowhole converts the exponent binary string into a decimal string
+ **	by multiplying corresponding powers of two by '1' bits
+ */
 char	*ft_bintowhole(char *vlq)
 {
 	int i;
@@ -197,10 +197,10 @@ char	*ft_bintowhole(char *vlq)
 }
 
 /*
-**	---> fracdigits gets the least significant bit which corresponds
-**	to the biggest power of ten that the first '1' bit of right is going
-**	to be multiplied by
-*/
+ **	---> fracdigits gets the least significant bit which corresponds
+ **	to the biggest power of ten that the first '1' bit of right is going
+ **	to be multiplied by
+ */
 int		fracdigits(char *dec)
 {
 	int i;
@@ -232,9 +232,9 @@ char	*get_pow_ten(char *vlq, int n)
 }
 
 /*
-**	---> bintodec computes the following sum : (sum 5^(frac_digits - i) 
-**	which isequal to the decimal part (in base 10)
-*/
+ **	---> bintodec computes the following sum : (sum 5^(frac_digits - i) 
+ **	which isequal to the decimal part (in base 10)
+ */
 char	*ft_bintodec(char *vlq)
 {
 	int i;
@@ -246,6 +246,7 @@ char	*ft_bintodec(char *vlq)
 
 	i = 0;
 	j = fracdigits(vlq);
+	printf("fracdigits = %d\n", j);
 	if (!(ret = ft_strnew(ft_strlen(vlq) + 1)))
 		return (NULL);
 	vlq_initialize(ret, '0', ft_strlen(vlq));
@@ -273,41 +274,95 @@ char	*ft_bintodec(char *vlq)
 }
 
 /*
-**	---> get_res converts the binary char into left & right
-**	left[0] = '1': multiply by 2^52 to get MSB
-**	left is the part on the left of the floating point
-**	right is the part on the right of the floating point
-*/
-void	get_res(char *mantissa, int exp, char **res)
-{
-	char	*left;
-	char	*right;//[53 - exp/*-1*/];
+ **	---> get_res converts the binary char into left & right
+ **	left[0] = '1': multiply by 2^52 to get MSB
+ **	left is the part on the left of the floating point
+ **	right is the part on the right of the floating point
+ */
 
-	//res[2] = 0;
-	printf("mantissa = %s\n", mantissa);
+void	res_neg_exp(char *mantissa, int exp, char **res)
+{
+
+	char	*left;
+	char	*right;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	printf("mantissa = %s & len of mantissa = %zu\n", mantissa, ft_strlen(mantissa));
+	exp = -exp;
 	printf("exp = %d\n", exp);
 	if (!(left = ft_strnew(exp + 1)))
 		return ;
-	if (!(right = ft_strnew(53 - exp - 1)))
+	if (!(right = ft_strnew(52)))
 		return ;
-	left[0] = '1';
-	if (!(ft_strncat(left, mantissa, exp)))
-		return ;
-	printf("left = %s\n", left);
+	//right[0] = '1';
+	while (i < exp - 1)
+	{
+		left[i] = '0';
+		//right[i/* + 1*/] = '0';
+		printf("right[%d] = %c\n", i, right[i]);
+		i++;
+	}
+	//i++;
+	left[i++] = '1';
+	//right[i++] = '1';
+	printf("right[%d] = %c\n", i - 1, right[i - 1]);
 	mantissa += exp;
-	if (!(ft_strcpy(right, mantissa)))//, 52 - exp/* - 1*/)))
-		return ;
-	printf("ft_bintowhole(left) = %s\n", ft_bintowhole(left));
-	return ;
+	printf("mantissa + exp = %s & len = %zu\n", mantissa, ft_strlen(mantissa));
+	printf("left = %s\n", left);
+	printf("here, i = %d\n", i);
+	i = 0;
+	while (i < 52 - exp)
+	{
+		if (mantissa[j] == '0' || mantissa[j] == '1')
+			right[i++] = mantissa[j++]; 
+	}
+	right[i] = '\0';
+	printf("right = %s & len of right = %zu\n", right, ft_strlen(right));
 	res[0] = ft_bintowhole(left);
 	res[1] = ft_bintodec(right);
 }
 
+void	res_pos_exp(char *mantissa, int exp, char **res)
+{
+	char	*left;
+	char	*right;
+
+	printf("mantissa = %s & len of mantissa = %zu\n", mantissa, ft_strlen(mantissa));
+	printf("exp = %d\n", exp);
+	if (!(left = ft_strnew(exp + 1)))
+		return ;
+	if (!(right = ft_strnew(52 - exp)))
+		return ;
+	left[0] = '1';
+	if (!(ft_strncat(left, mantissa, exp)))
+		return ;
+	mantissa += exp;
+	printf("mantissa + exp = %s & len = %zu\n", mantissa, ft_strlen(mantissa));
+	printf("left = %s\n", left);
+	if (!(ft_strcpy(right, mantissa)))
+		return ;
+	printf("right = %s & len of right = %zu\n", right, ft_strlen(right));
+	res[0] = ft_bintowhole(left);
+	res[1] = ft_bintodec(right);
+}
+
+void	get_res(char *mantissa, int exp, char **res)
+{
+	res[2] = 0;
+	if (exp < 0)
+		res_neg_exp(mantissa, exp, res);
+	else
+		res_pos_exp(mantissa, exp, res);
+}
+
 /*
-**	--> ft_frexp computes the mantissa and the exponent and stocks them in strings
-**	it then calls out other functions (get_exp and get_res) to convert them into 
-**	decimal strings
-*/
+ **	--> ft_frexp computes the mantissa and the exponent and stocks them in strings
+ **	it then calls out other functions (get_exp and get_res) to convert them into 
+ **	decimal strings
+ */
 char	*ft_frexp(double x/*, int *exp*/)
 {
 	char *nb_str;
@@ -324,15 +379,15 @@ char	*ft_frexp(double x/*, int *exp*/)
 	if (!(res = (char **)malloc(sizeof(char *) * 3)))
 		return (NULL);
 	if (!(nb_str = ft_dftoa(x)))
-		return (0);
+		return (NULL);
 	printf("nb_str = %s\n", nb_str);
-	nb_str += sign;
-	printf("after sign = %d, nb_str = %s\n", sign, nb_str);
+	nb_str += 1;//sign;
+	printf("after sign = %d, nb_str = %s & len nb_str = %zu\n", sign, nb_str, ft_strlen(nb_str));
 	if (!(ft_strncpy(exp_str, nb_str, 11)))
-		return (0);
+		return (NULL);
 	nb_str += 11;
 	if (!(ft_strncpy(mantissa, nb_str, 52)))
-		return (0);
+		return (NULL);
 	printf("before get_res\n");
 	get_res(mantissa, get_exp(exp_str), res);
 	printf("after get_res \n");
