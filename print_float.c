@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/02 20:10:08 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 08:30:07 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,29 +295,26 @@ void	res_neg_exp(char *mantissa, int exp, char **res)
 	printf("exp = %d\n", exp);
 	if (!(left = ft_strnew(exp + 1)))
 		return ;
-	if (!(right = ft_strnew(52)))
+	if (!(right = ft_strnew(52 + exp)))
 		return ;
-	//right[0] = '1';
+	left[0] = '0';
 	while (i < exp - 1)
 	{
-		left[i] = '0';
-		//right[i/* + 1*/] = '0';
+		right[i] = '0';
 		printf("right[%d] = %c\n", i, right[i]);
 		i++;
 	}
-	//i++;
-	left[i++] = '1';
-	//right[i++] = '1';
-	printf("right[%d] = %c\n", i - 1, right[i - 1]);
-	mantissa += exp;
+	right[i++] = '1';
+	//mantissa += exp;
 	printf("mantissa + exp = %s & len = %zu\n", mantissa, ft_strlen(mantissa));
 	printf("left = %s\n", left);
 	printf("here, i = %d\n", i);
-	i = 0;
-	while (i < 52 - exp)
+	while (i < 52 + exp/* + exp*/)
 	{
 		if (mantissa[j] == '0' || mantissa[j] == '1')
 			right[i++] = mantissa[j++]; 
+	/*	else
+			right[i++] = '0';*/
 	}
 	right[i] = '\0';
 	printf("right = %s & len of right = %zu\n", right, ft_strlen(right));
