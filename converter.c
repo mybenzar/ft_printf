@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/01 10:25:13 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 10:44:53 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,26 +237,8 @@ char *ft_strupper(char *str)
 		str[i] = ft_toupper(str[i]);
 	return (str);
 }
-/*
-static double	round(long long dec, char sign)
-{
-	if (sign == '-') 
-		dec = dec - 5;
-	else
-		dec = dec + 5;
-	return (dec / 10);
-}
 
-static char	*dec_to_rounded_a(long double x, int prec, char sign)
-{
-	uintmax_t	dec;
-	char		*dec_str;
 
-	dec = round(((x - (long)x) * ft_power(10, prec + 1)), sign);
-	if (!(dec_str = ft_itoa(dec)))
-		return (NULL);
-	return (dec_str);
-}*/
 
 void	int_converter(t_flags *flag, uintmax_t nb)
 {
@@ -366,32 +348,73 @@ void	str_converter(t_flags *flag, char *str)
 		flag->len = flag->space + ((min_width > len) ? len : min_width);
 }
 
+char	*ft_round(char *str, char sign, int prec)
+{
+	char	*tmp;
+	char	*five;
+	char	*ret;
+	int		i;
+
+	i = 0;
+	if (!(ret = (char *)malloc(sizeof(char) * prec)))
+		return (NULL);
+	while (i <= prec)
+	{
+		ret[i] = str[i];
+		i++;
+	}
+	ret[i] = '\0';
+	if (!(five = ft_strdup("5")))
+		return (NULL);
+	if (sign == '-')
+	{
+		if (!(tmp = ft_strdup(ret)))
+			return (NULL);
+		free(ret);
+		ret = vlq_sub(tmp, five);
+		free(tmp);
+	}
+	else
+	{
+		if (!(tmp = ft_strdup(ret)))
+			return (NULL);
+		free(ret);
+		ret = vlq_sum(tmp, five);
+		free(tmp);
+	}
+	return (ret);
+}
+
 /*
 **	---> 
 */
-/*void	dfloat_converter(t_flags *flag, double x)
+
+void	float_converter(t_flags *flag, double x)
 {
 	int len;
+	char **res;
 
+	res = ft_frexp(x);
+	len = ft_strlen(res[0]) + ft_strlen(res[1]);
 	if (flag->dot < 0)
 		flag->dot = 6;
-	if (i_part < 0)
+	if (x < 0)
 		flag->plus = '-';
 	fill_zero_space(flag, len);
 	if (flag->dot < len)
 		flag->zero = 0;
 	if (flag->minus == 1)
 	{
-		ft_putstr(ft_frex(x));
+		ft_putstr(res[0]);
 		ft_putchar('.');
-		ft_putnstr(dec_to_rounded_a(x, flag->dot, flag->plus), flag->dot);
+		ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
 		print_nb_padding(flag, "no");
 	}
 	else
 	{	
-		ft_putstr(i_str);
+		ft_putstr(res[0]);
 		ft_putchar('.');
-		print_nb(flag, dec_to_rounded_a(x, flag->dot, flag->plus));
+		ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
 	}
 	flag->len += len + flag->zero + flag->plus + flag->space + 1;
-}*/
+}

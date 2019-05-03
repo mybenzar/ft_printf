@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 16:20:44 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/02 20:10:08 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 09:27:00 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,29 +120,22 @@ char	*vlq_sum(char *s1, char *s2)
 					|| (info->len1 >= 0 && s1[info->len1] + res[i] > 57) 
 					|| (info->len2 >= 0 && s2[info->len2] + res[i] > 57))
 		{	
-			/*res[i] += s1[info->len1] + s2[info->len2] - 10 - 48;
-			res[i] += s2[info->len2] - 10;
-			res[i] += s1[info->len2] - 10;*/
 			res[i] -= 10;
 			if (DEBUG)
 				printf("dans le if res[%d] = %d\n", i, res[i]);
 			hold = 1;
 		}
-	//	else
-	//	{
 			
 			res[i] = res[i] + ((info->len1 >= 0) ? s1[info->len1] : 0);
 			res[i] = res[i] + ((info->len2 >= 0) ? s2[info->len2] : 0);
 			res[i] = res[i] - ((info->len1 >= 0 && info->len2 >= 0) ? 48 : 0);
 			/*if (DEBUG)
 				printf("dans le else res[%d] = %d\n", i, res[i]);*/
-	//	}
 		i--;
 		if (i >= 0)
 			res[i] += hold;
 		if (res[0] == 1)
 			res[i] += 48;
-	//	printf(" res[%d] = %d\n", i, res[i]);
 		info->len1--;
 		info->len2--;
 	}
@@ -150,8 +143,6 @@ char	*vlq_sum(char *s1, char *s2)
 	while (res[i] == 0)
 		i++;
 	free_calc(info);
-	//printf("sum to be printed = %s\n", res + i);
-	//printf("end of vlq_sum\n\n");
 	return (res + i);
 }
 
@@ -163,7 +154,6 @@ void	vlq_tmp_conv(t_calc *info, char *s1, char *s2)
 	while (i <= info->len1)
 	{
 		s1[i] -= 48;
-	//	printf("in tmp conv s1[%d] = %d\n", i, s1[i]); 
 		i++;
 	}
 	i = 0;
@@ -194,7 +184,6 @@ void	vlq_tmp_conv_rev2(t_calc *info, char *s1, char *s2)
 	while (i < info->len1_static)
 	{
 		s1[i] += 48;
-//		printf("in tmp conv rev 2 s1[%d] = %d\n", i, s1[i]);
 		i++;
 	}
 	i = 0;
@@ -273,7 +262,7 @@ char	*vlq_mult(char *s1, char *s2)
 	// l'idee est de faire tous les calculs sans les 48 et de les remettre a la fin pour simplifier
 	vlq_tmp_conv(info, s1, s2);
 	vlq_initialize(sum, 0, info->max);
-	while (info->len2 >= 0 /*|| i >= 0*/)
+	while (info->len2 >= 0)
 	{
 		vlq_initialize(res, 0, info->sum + 1);
 		i = info->sum;
@@ -333,7 +322,6 @@ char	*vlq_mult(char *s1, char *s2)
 	vlq_tmp_conv_rev2(info, s1, s2);
 	free_calc(info);
 	free(res);
-	//printf("end of vlq_mult\n\n");
 	return (sum + i);
 }
 

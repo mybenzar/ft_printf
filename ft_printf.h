@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/01 11:01:44 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 09:46:56 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void 	str_converter(t_flags *flags, char *str);
 void	pr_int(t_flags *flags, uintmax_t nb);
 void	pr_uint(t_flags *flags, va_list va);
 void	char_converter(t_flags *flags, unsigned char c);
-//void	dfloat_converter(t_flags *flags, double x);
+void	float_converter(t_flags *flags, double x);
 
 
 /*
@@ -101,7 +101,7 @@ void	free_flags(t_flags *flags);
 /*
 **		Float Utils Functions
 */
-char	*ft_frexp(double x);
+char	**ft_frexp(double x);
 void	get_res(char *mantissa, int exp, char **res);
 char	*ft_bintowhole(char *vlq);
 char	*ft_bintodec(char *vlq);
