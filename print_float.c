@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/03 12:13:06 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 18:56:19 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	get_exp(char *exp_str)
 	return (nb);
 }
 
-static const char	*pow(int pow)
+const char	*tab_pow(int pow)
 {
 	const char *pow2tab[53] =
 	{
@@ -114,11 +114,11 @@ char	*vlq_binpow(int n)
 	if (!(two = ft_strdup("2")))
 		return (NULL);
 	if (n <= 51)
-		return ((char *)pow(n));
+		return ((char *)tab_pow(n));
 	else
 	{
 		i = 51;
-		if (!(res = ft_strdup(((char *)pow(i)))))
+		if (!(res = ft_strdup(((char *)tab_pow(i)))))
 			return (NULL);
 		while (i < n)
 		{

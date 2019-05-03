@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 11:25:41 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/03 09:46:02 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 18:56:23 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ static void	other_conv(t_flags *flags, va_list va)
 		char_converter(flags, flags->spec[index_is_special(flags->spec)]);
 	if (flags->id_conv == 'f')
 	{
-		//if (flags->modif == 'l' || flags->modif == 'L')
-		//	float_converter(flags, va_arg(va, long double));
-		//else
+		if (flags->modif == lt || flags->modif == L)
+			lfloat_converter(flags, va_arg(va, long double));
+		else
 			float_converter(flags, va_arg(va, double));
 	}
 }

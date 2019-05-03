@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/03 12:13:07 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 18:56:25 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	pr_int(t_flags *flags, uintmax_t nb);
 void	pr_uint(t_flags *flags, va_list va);
 void	char_converter(t_flags *flags, unsigned char c);
 void	float_converter(t_flags *flags, double x);
-
+void	lfloat_converter(t_flags *flags, long double x);
 
 /*
 **  	Print Utils functions
@@ -104,6 +104,7 @@ void	free_flags(t_flags *flags);
 char	*ft_dftoa(double x);
 char	*ft_ldftoa(long double x);
 char	**ft_frexp(double x);
+char	**ft_frexpl(long double x);
 void	get_res(char *mantissa, int exp, char **res);
 char	*ft_bintowhole(char *vlq);
 char	*ft_bintodec(char *vlq);
@@ -132,7 +133,7 @@ char	*vlq_pow_ten(int pow);
 char	*vlq_binpow(int n);
 char	*vlq_fivepow(int n);
 int		pow2(int pow);
-const char *pow(int pow);
+const char *tab_pow(int pow);
 char	*get_pow_ten(char *vlq, int n);
 void	vlq_nshift(char *s, int size, int shifts);
 void	vlq_shift_left(char *s, int size);

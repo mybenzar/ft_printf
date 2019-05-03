@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/03 11:22:41 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 17:04:07 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,6 +395,36 @@ void	float_converter(t_flags *flag, double x)
 	char **res;
 
 	res = ft_frexp(x);
+	len = ft_strlen(res[0]) + ft_strlen(res[1]);
+	if (flag->dot < 0)
+		flag->dot = 6;
+	if (x < 0)
+		flag->plus = '-';
+	fill_zero_space(flag, len);
+	if (flag->dot < len)
+		flag->zero = 0;
+	if (flag->minus == 1)
+	{
+		ft_putstr(res[0]);
+		ft_putchar('.');
+		ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
+		print_nb_padding(flag, "no");
+	}
+	else
+	{	
+		ft_putstr(res[0]);
+		ft_putchar('.');
+		ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
+	}
+	flag->len += len + flag->zero + flag->plus + flag->space + 1;
+}
+
+void	lfloat_converter(t_flags *flag, long double x)
+{
+	int len;
+	char **res;
+
+	res = ft_frexpl(x);
 	len = ft_strlen(res[0]) + ft_strlen(res[1]);
 	if (flag->dot < 0)
 		flag->dot = 6;
