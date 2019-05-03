@@ -6,7 +6,7 @@
 #    By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/14 14:33:11 by mybenzar          #+#    #+#              #
-#    Updated: 2019/04/24 13:04:54 by mybenzar         ###   ########.fr        #
+#    Updated: 2019/05/03 11:42:54 by mybenzar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ LFT = libft.a
 HEADERS = ft_printf.h
 
 SOURCES =	converter.c printf_utils.c args_conv.c ft_printf.c debug_functions.c\
-			print_float.c calculator.c
+			print_float.c calculator.c print_lfloat.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/03 11:12:24 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 12:13:06 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 /*
  **	---> ft_dftoa extracts the binary value of the float into a string
  */
-static char	*ft_dftoa(double x)
+char	*ft_dftoa(double x)
 {
 	int					i;
 	unsigned long		tmp;
@@ -44,11 +44,12 @@ static char	*ft_dftoa(double x)
 	}
 	nb_str[i] = '\0';
 	ft_strrev(nb_str);
-	ft_printf("at the end of dftoa, nb_str = %s & len = %d\n", nb_str, (int)ft_strlen(nb_str));
+	if (DEBUG)
+		ft_printf("at the end of dftoa, nb_str = %s & len = %d\n", nb_str, (int)ft_strlen(nb_str));
 	return (nb_str);
 }
 
-static int pow2(int pow)
+int pow2(int pow)
 {
 	const int pow2tab[14] =
 	{
@@ -63,7 +64,7 @@ static int pow2(int pow)
  **	---> get_exp computes the decimal value of the exponent and
  **	returns an int. 1023 is the bias for 64 bits (float convention)
  */
-static int	get_exp(char *exp_str)
+int	get_exp(char *exp_str)
 {
 	int nb;
 	int i;
@@ -72,7 +73,6 @@ static int	get_exp(char *exp_str)
 	j = 10;
 	i = 0;
 	nb = 0;
-	printf("exp_str = %s\n", exp_str);
 	while (exp_str[i] != '\0')
 	{
 		if (exp_str[i] == '1')
@@ -153,7 +153,6 @@ char	*vlq_fivepow(int n)
 		free(res);
 		if (!(res = ft_strdup(vlq_mult(tmp, five))))
 			return (NULL);
-		//printf("in fivepow, res for i = %d is |%s|\n", i, res);
 		free(tmp);
 		i++;
 	}
@@ -192,7 +191,6 @@ char	*ft_bintowhole(char *vlq)
 		}
 		i++;
 	}
-	printf("ret in bintowhole= %s\n", ret);
 	return (ret);
 }
 
@@ -246,7 +244,6 @@ char	*ft_bintodec(char *vlq)
 
 	i = 0;
 	j = fracdigits(vlq);
-	printf("fracdigits = %d\n", j);
 	if (!(ret = ft_strnew(ft_strlen(vlq) + 1)))
 		return (NULL);
 	vlq_initialize(ret, '0', ft_strlen(vlq));
@@ -269,7 +266,6 @@ char	*ft_bintodec(char *vlq)
 		i++;
 		j--;
 	}
-	printf("ret in bintodec= %s\n", ret);
 	return (ret);
 }
 
@@ -290,29 +286,22 @@ void	res_neg_exp(char *mantissa, int exp, char **res)
 	i = 0;
 	j = 0;
 	exp = -exp;
-	printf("exp = %d\n", exp);
 	if (!(left = ft_strnew(exp + 1)))
 		return ;
 	if (!(right = ft_strnew(52 + exp)))
 		return ;
 	left[0] = '0';
 	while (i < exp - 1)
-	{
-		right[i] = '0';
-		printf("right[%d] = %c\n", i, right[i]);
-		i++;
-	}
+		right[i++] = '0';
 	right[i++] = '1';
-	printf("mantissa + exp = %s & len = %zu\n", mantissa, ft_strlen(mantissa));
-	printf("here, i = %d\n", i);
 	while (i < 52 + exp)
 	{
 		if (mantissa[j] == '0' || mantissa[j] == '1')
 			right[i++] = mantissa[j++]; 
 	}
 	right[i] = '\0';
-	printf("right = %s & len of right = %zu\n", right, ft_strlen(right));
-	res[0] = ft_bintowhole(left);
+	//res[0] = ft_bintowhole(left);
+	res[0] = ft_strdup("0");
 	res[1] = ft_bintodec(right);
 }
 
@@ -322,20 +311,16 @@ void	res_big_exp(char *mantissa, int exp, char **res)
 	int		i;
 
 	i = 0;
-	printf("\n\nim in big exp\n");
-	printf("mantissa = %s & len of mantissa = %zu\n", mantissa, ft_strlen(mantissa));
 	if (!(left = ft_strnew(exp + 1)))
 		return ;
 	left[0] = '1';
 	if (!(ft_strncat(left, mantissa, exp)))
 		return ;
-	printf("left = %s & len of left = %zu\n", left, ft_strlen(left));
 	while (left[i] == '0' || left[i] == '1')
 		i++;
 	printf("i = %d\n", i);
 	while (i < exp + 1)
 		left[i++] = '0';
-	printf("left = %s & len of left = %zu\n", left, ft_strlen(left));
 	res[0] = ft_bintowhole(left);
 	res[1] = ft_strdup("0");
 }
@@ -347,8 +332,6 @@ void	res_pos_exp(char *mantissa, int exp, char **res)
 
 	if (exp > 52)
 		res_big_exp(mantissa, exp, res);
-	printf("mantissa = %s & len of mantissa = %zu\n", mantissa, ft_strlen(mantissa));
-	printf("exp = %d\n", exp);
 	if (!(left = ft_strnew(exp + 1)))
 		return ;
 	if (!(right = ft_strnew(52 - exp)))
@@ -357,13 +340,9 @@ void	res_pos_exp(char *mantissa, int exp, char **res)
 
 	if (!(ft_strncat(left, mantissa, exp)))
 		return ;
-	printf("left after cat= %s\n", left);
-		mantissa += exp;
-		if (!(ft_strcpy(right, mantissa)))
-			return ;
-	printf("mantissa + exp = %s & len = %zu\n", mantissa, ft_strlen(mantissa));
-	printf("left = %s\n", left);
-	printf("right = %s & len of right = %zu\n", right, ft_strlen(right));
+	mantissa += exp;
+	if (!(ft_strcpy(right, mantissa)))
+		return ;
 	res[0] = ft_bintowhole(left);
 	res[1] = ft_bintodec(right);
 }
@@ -399,7 +378,6 @@ char	**ft_frexp(double x/*, int *exp*/)
 		return (NULL);
 	if (!(nb_str = ft_dftoa(x)))
 		return (NULL);
-	printf("nb_str = %s\n", nb_str);
 	nb_str += 1;
 	if (!(ft_strncpy(exp_str, nb_str, 11)))
 		return (NULL);
@@ -407,11 +385,17 @@ char	**ft_frexp(double x/*, int *exp*/)
 	if (!(ft_strncpy(mantissa, nb_str, 52)))
 		return (NULL);
 	get_res(mantissa, get_exp(exp_str), res);
-	printf("res 0 = %s \n", res[0]);
-	printf("res 1 = %s \n", res[1]);
-	while (res[0][i] == '0')
-		i++;
-	res[0] += i;
+	if (DEBUG)
+	{
+		printf("res 0 = %s \n", res[0]);
+		printf("res 1 = %s \n", res[1]);
+	}
+	if (ft_strlen(res[0]) != 1 && res[0][0] == '0')
+	{
+		while (res[0][i] == '0')
+			i++;
+		res[0] += i;
+	}
 	return (res);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/03 11:11:14 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 12:13:07 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,22 @@ int	main(void)
 //	printf("FLT_MAX = %f\n", FLT_MAX);
 //	printf("DBL_MAX = %lf\n", DBL_MAX);
 //	printf("LDBL_MAX = %LF\n", LDBL_MAX);
+
+	/* tests de double	
 	double f;
 	char **res;
 	
 	f = DBL_MIN;
 	res = ft_frexp(f);
-	printf("real printf: %f\n", f);
-	printf("res[0] = %s, res[1] = %s\n", res[0], res[1]);
+	printf("real printf: %lf\n", f);
 	printf("__________________________________\n\n");
-//	ft_printf("my printf %f\n", f);
+	ft_printf("my printf %f\n", f);
+*/
+	long double f;
 
+	f = LDBL_MAX;
+	printf("%s\n", ft_ldftoa(f));
+	//printf("\n the real printf : %Lf\n", f);
 }
 
 

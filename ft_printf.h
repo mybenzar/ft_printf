@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/03 09:46:56 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/03 12:13:07 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,19 @@ void	free_flags(t_flags *flags);
 /*
 **		Float Utils Functions
 */
+char	*ft_dftoa(double x);
+char	*ft_ldftoa(long double x);
 char	**ft_frexp(double x);
 void	get_res(char *mantissa, int exp, char **res);
 char	*ft_bintowhole(char *vlq);
 char	*ft_bintodec(char *vlq);
+int		get_exp(char *exp_str);
+int		fracdigits(char *dec);
+void	res_neg_exp(char *mantissa, int exp, char **res);
+void	res_big_exp(char *mantissa, int exp, char **res);
+void	res_pos_exp(char *mantissa, int exp, char **res);
+void	get_res(char *mantissa, int exp, char **res);
+
 
 /*
 **		String Numbers Manipulation and Calculations Functions
@@ -121,12 +130,17 @@ int		vlq_cmp(char *s1, char *s2); // ended up not using but should be added to l
 char	*vlq_sub(char *s1, char *s2); //ended up not using
 char	*vlq_pow_ten(int pow);
 char	*vlq_binpow(int n);
+char	*vlq_fivepow(int n);
+int		pow2(int pow);
+const char *pow(int pow);
+char	*get_pow_ten(char *vlq, int n);
 void	vlq_nshift(char *s, int size, int shifts);
 void	vlq_shift_left(char *s, int size);
 void	vlq_initialize(char *vlq, int c, int size);
 void	vlq_tmp_conv(t_calc *info, char *s1, char *s2);
 void	vlq_tmp_conv_rev(char *s, int size);
 void	free_calc(t_calc *info);
+
 /*
 **		Debug
 */
