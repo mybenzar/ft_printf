@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/04 12:56:58 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/04 15:38:54 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,16 @@ int	main(void)
 //	printf("FLT_MAX = %f\n", FLT_MAX);
 //	printf("DBL_MAX = %lf\n", DBL_MAX);
 //	printf("LDBL_MAX = %LF\n", LDBL_MAX);
-	long double f;
+	double d;
+//	char **res;
+//	f = DBL_MAX;
+	d = 42.0;
 
-	f = LDBL_MAX;
+	printf("return = |%d | |%d|\n", printf("-15-double = |%-15f|\n", -d), ft_printf("-15-double = |%-15f|\n", -d));
+//	printf("real printf: %.50Lf\n", -f);
+//	ft_printf("my printf: %.50Lf\n", -f);
+//	printf("__________________________________\n\n");
 
-
-	ft_printf("my printf: %Lf\n", f);
-	printf("__________________________________\n\n");
-	printf("real printf: %.50Lf\n", f);
 }
 
 

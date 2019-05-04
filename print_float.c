@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/04 12:56:58 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/04 15:38:56 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	get_exp(char *exp_str)
 
 const char	*tab_pow(int pow)
 {
-	const char *pow2tab[63] =
+	const char *pow2tab[64] =
 	{
 		"1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024",
 		"2048", "4096", "8192", "16384", "32768", "65536", "131072", "262144",
@@ -101,7 +101,7 @@ const char	*tab_pow(int pow)
 		"2251799813685248", "4503599627370496", "9007199254740992", "18014398509481984",
 		"36028797018963968", "72057594037927936", "144115188075855872",
 		"288230376151711744", "576460752303423488", "1152921504606846976",
-		"2305843009213693952", 0
+		"2305843009213693952", "4611686018427387904", 0
 	};
 	return (pow2tab[pow]);
 }
@@ -206,9 +206,13 @@ int		fracdigits(char *dec)
 {
 	int i;
 
-	i = ft_strlen(dec);
+	i = ft_strlen(dec) - 1;
+	printf("dec = %s\n", dec);
 	while (dec[i] != '\0' && dec[i] != '1')
+	{
+		printf("dec[%d] = %c\n", i, dec[i]);
 		i--;
+	}
 	return (i);
 }
 
@@ -246,7 +250,8 @@ char	*ft_bintodec(char *vlq)
 	char *tmp_pow;
 
 	i = 0;
-	j = fracdigits(vlq);
+//	j = fracdigits(vlq);
+	j = ft_strlen(vlq) - 1;
 	if (!(ret = ft_strnew(ft_strlen(vlq) + 1)))
 		return (NULL);
 	vlq_initialize(ret, '0', ft_strlen(vlq));

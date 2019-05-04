@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/03 17:04:07 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/04 15:38:54 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ static int		get_min_width(t_flags *flag, int len)
 
 static void		fill_zero_space(t_flags *flag, int len)
 {
-	int	tmp;
+//	int	tmp;
 	int plus;
 
 	plus = (flag->plus == 0 ? 0 : 1);
-	if (flag->id_conv == 'f')
-		tmp = flag->dot;
+//	if (flag->id_conv == 'f')
+//		tmp = flag->dot;
 	if (flag->dot <= 0 && flag->width > len)
 	{
 		// a ete recemment modifie. avant il n yavait pas de condition if, et seul le else existait
@@ -122,8 +122,8 @@ static void		fill_zero_space(t_flags *flag, int len)
 		printf("here, len = %d\n", len);
 		printf("flag->sharp = %d\n", flag->sharp);
 	}
-	if (flag->id_conv == 'f')
-		flag->dot = tmp;
+//	if (flag->id_conv == 'f')
+//		flag->dot = tmp;
 	if (flag->width > len && flag->sharp == 1
 		&& (flag->space || flag->zero) && ft_strchr("oxX", flag->id_conv))
 	{
@@ -179,9 +179,9 @@ static void		print_exp(t_flags *flag)
 
 static void		print_nb_padding(t_flags *flag, char *nb_str)
 {
-	if (flag->plus == '+')
+	if (flag->plus == '+' && flag->id_conv != 'f')
 		ft_putchar('+');
-	if (flag->plus == '-')
+	if (flag->plus == '-' && flag->id_conv != 'f')
 		ft_putchar('-');
 	if ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
 		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0")))
@@ -198,9 +198,9 @@ static void		print_nb(t_flags *flag, char *nb_str)
 {
 	if (flag->space != 0)
 		print_nchar(flag->space, ' ');
-	if (flag->plus == '+')
+	if (flag->plus == '+' && flag->id_conv != 'f')
 		ft_putchar('+');
-	if (flag->plus == '-')
+	if (flag->plus == '-' && flag->id_conv != 'f')
 		ft_putchar('-');
 	if ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
 		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0")))
@@ -356,6 +356,8 @@ char	*ft_round(char *str, char sign, int prec)
 	int		i;
 
 	i = 0;
+	if (!ft_strcmp(str, "0"))
+		return ("0");
 	if (!(ret = (char *)malloc(sizeof(char) * prec)))
 		return (NULL);
 	while (i <= prec)
@@ -407,14 +409,13 @@ void	float_converter(t_flags *flag, double x)
 	{
 		ft_putstr(res[0]);
 		ft_putchar('.');
-		ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
 		print_nb_padding(flag, "no");
 	}
 	else
 	{	
 		ft_putstr(res[0]);
 		ft_putchar('.');
-		ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
+		print_nb(flag, ft_round(res[1], flag->plus, flag->dot));
 	}
 	flag->len += len + flag->zero + flag->plus + flag->space + 1;
 }
@@ -422,29 +423,40 @@ void	float_converter(t_flags *flag, double x)
 void	lfloat_converter(t_flags *flag, long double x)
 {
 	int len;
+	int len_dec;
 	char **res;
 
 	res = ft_frexpl(x);
-	len = ft_strlen(res[0]) + ft_strlen(res[1]);
+	len_dec = ft_strlen(res[1]);
+	len = ft_strlen(res[0]) + len_dec;
 	if (flag->dot < 0)
 		flag->dot = 6;
 	if (x < 0)
 		flag->plus = '-';
-	fill_zero_space(flag, len);
-	if (flag->dot < len)
+	fill_zero_space(flag, len_dec);
+	if (flag->dot < len_dec)
 		flag->zero = 0;
 	if (flag->minus == 1)
 	{
+		if (flag->plus == '+')
+			ft_putchar('+');
+		if (flag->plus == '-')
+			ft_putchar('-');
 		ft_putstr(res[0]);
 		ft_putchar('.');
-		ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
+	//	ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
 		print_nb_padding(flag, "no");
 	}
 	else
 	{	
+		if (flag->plus == '+')
+			ft_putchar('+');
+		if (flag->plus == '-')
+			ft_putchar('-');
 		ft_putstr(res[0]);
 		ft_putchar('.');
-		ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
+		print_nb(flag, ft_round(res[1], flag->plus, flag->dot));
+	//	ft_putnstr(ft_round(res[1], flag->plus, flag->dot), flag->dot);
 	}
 	flag->len += len + flag->zero + flag->plus + flag->space + 1;
 }
