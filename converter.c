@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/04 15:38:54 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:38:43 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -417,6 +417,11 @@ void	float_converter(t_flags *flag, double x)
 		ft_putchar('.');
 		print_nb(flag, ft_round(res[1], flag->plus, flag->dot));
 	}
+	free(res[0]);
+	free(res[1]);
+	res[0] = NULL;
+	res[1] = NULL;
+	free(res);
 	flag->len += len + flag->zero + flag->plus + flag->space + 1;
 }
 

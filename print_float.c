@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/04 15:38:56 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:38:37 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ const char	*tab_pow(int pow)
 
 char	*vlq_binpow(int n)
 {
-	int i;
+/*	int i;
 	char *res;
 	char *tmp;
 	char *two;
@@ -116,11 +116,11 @@ char	*vlq_binpow(int n)
 	i = 0;
 	if (!(two = ft_strdup("2")))
 		return (NULL);
-	if (n <= 51)
+	if (n <= 62)
 		return ((char *)tab_pow(n));
 	else
 	{
-		i = 51;
+		i = 62;
 		if (!(res = ft_strdup(((char *)tab_pow(i)))))
 			return (NULL);
 		while (i < n)
@@ -134,7 +134,8 @@ char	*vlq_binpow(int n)
 			i++;
 		}
 	}
-	return (res);
+	free(two);*/
+	return ((char *)tab_pow(n));
 }
 
 char	*vlq_fivepow(int n)
@@ -351,7 +352,11 @@ void	res_pos_exp(char *mantissa, int exp, char **res)
 	if (!(ft_strcpy(right, mantissa)))
 		return ;
 	res[0] = ft_bintowhole(left);
+	free(left);
+	left = NULL;
 	res[1] = ft_bintodec(right);
+	free(right);
+	right = NULL;
 }
 
 void	get_res(char *mantissa, int exp, char **res)
@@ -383,7 +388,7 @@ char	**ft_frexp(double x/*, int *exp*/)
 	exp_str[11] = '\0';
 	if (!(res = (char **)malloc(sizeof(char *) * 3)))
 		return (NULL);
-	if (!(nb_str = ft_dftoa(x)))
+	if (!(nb_str = (ft_dftoa(x))))
 		return (NULL);
 	nb_str += 1;
 	if (!(ft_strncpy(exp_str, nb_str, 11)))
