@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/03 18:56:20 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/04 12:56:58 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ int	main(void)
 	long double f;
 
 	f = LDBL_MAX;
-	printf("__________________________________\n\n");
-	printf("real printf: %Lf\n", f);
+
+
 	ft_printf("my printf: %Lf\n", f);
+	printf("__________________________________\n\n");
+	printf("real printf: %.50Lf\n", f);
 }
 
 

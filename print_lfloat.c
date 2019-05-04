@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 11:29:43 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/03 18:56:19 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/04 12:56:57 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,32 @@ char	*ft_ldftoa(long double x)
 {
 	int					i;
 	int					j;
-	unsigned char		tmp;
+	unsigned char		*tmp;
 	char				*nb_str;
+	int					k;
 
 	i = 0;
-	j = 1;
+	j = 0;
+	k = 0;
 	if (!(nb_str = (char *)malloc(sizeof(char) * 81)))
 		return (NULL);
-	tmp = *(unsigned char *)(&x);
-	while (i < 8)
+	tmp = (unsigned char *)(&x);
+	while (i < 10)
 	{
-		if (tmp & 1)
-			nb_str[i] = '1';
-		else
-			nb_str[i] = '0';
-		tmp >>= 1;
+		j = 0;
+		while (j < 8)
+		{
+			if (tmp[i] & 1)
+				nb_str[k] = '1';
+			else
+				nb_str[k] = '0';
+			tmp[i] >>= 1;
+			k++;
+			j++;
+		}
 		i++;
 	}
-	nb_str[i] = '\0';
+	nb_str[k] = '\0';
 	ft_strrev(nb_str);
 //	if (DEBUG)
 		ft_printf("at the end of ldftoa, nb_str = %s & len = %d\n", nb_str, (int)ft_strlen(nb_str));
@@ -57,7 +65,7 @@ int	get_exp_l(char *exp_str)
 	int i;
 	int j;
 
-	j = 10;
+	j = 14;
 	i = 0;
 	nb = 0;
 	while (exp_str[i] != '\0')
@@ -69,7 +77,6 @@ int	get_exp_l(char *exp_str)
 	}
 	nb -= 16383;
 	printf("exp = %d\n", nb);
-	//(sign = 0) ? (nb -= 1023) : (nb += 1023);
 	return (nb);
 }
 
@@ -109,11 +116,13 @@ void	res_big_exp_l(char *mantissa, int exp, char **res)
 	int		i;
 
 	i = 0;
+	printf("coucou\n");
 	if (!(left = ft_strnew(exp + 1)))
 		return ;
 	//left[0] = '1';
 	if (!(ft_strncat(left, mantissa, exp)))
 		return ;
+	printf("left = %s & len = %zu\n", left, ft_strlen(left));
 	while (left[i] == '0' || left[i] == '1')
 		i++;
 	while (i < exp + 1)
@@ -128,17 +137,19 @@ void	res_pos_exp_l(char *mantissa, int exp, char **res)
 	char	*right;
 
 	if (exp > 64)
-		res_big_exp(mantissa, exp, res);
+		res_big_exp_l(mantissa, exp, res);
 	if (!(left = ft_strnew(exp + 1)))
 		return ;
-	if (!(right = ft_strnew(64 - exp)))
+	if (!(right = ft_strnew(63 - exp)))
 		return ;
-	left[0] = '1';
+	left[0] = mantissa[0];
 	if (!(ft_strncat(left, mantissa, exp)))
 		return ;
-	mantissa += exp;
+	printf("left = %s & len = %zu\n", left, ft_strlen(left));
+	mantissa += exp + 1;
 	if (!(ft_strcpy(right, mantissa)))
 		return ;
+	printf("right = %s & len = %zu\n", right, ft_strlen(right));
 	res[0] = ft_bintowhole(left);
 	res[1] = ft_bintodec(right);
 }
