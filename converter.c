@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/06 16:01:49 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/06 17:31:24 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,16 @@ static int		get_min_width(t_flags *flag, int len)
 
 static void		fill_zero_space(t_flags *flag, int len)
 {
-//	int	tmp;
 	int plus;
 
 	plus = (flag->plus == 0 ? 0 : 1);
-//	if (flag->id_conv == 'f')
-//		tmp = flag->dot;
+	if (DEBUG)
+	{
+		printf("flag->dot = %d\n", flag->dot);
+		printf("flag->width = %d\n", flag->width);
+	}
 	if (flag->dot <= 0 && flag->width > len)
 	{
-		// a ete recemment modifie. avant il n yavait pas de condition if, et seul le else existait
 		if (flag->zero == 1)
 		{
 			flag->zero = flag->width - len - plus - (flag->space == 0 ? 0 : 1);
@@ -122,21 +123,7 @@ static void		fill_zero_space(t_flags *flag, int len)
 		printf("here, len = %d\n", len);
 		printf("flag->sharp = %d\n", flag->sharp);
 	}
-//	if (flag->id_conv == 'f')
-//		flag->dot = tmp;
-	if (flag->width > len && flag->sharp == 1
-		&& (flag->space || flag->zero) && ft_strchr("oxX", flag->id_conv))
-	{
-		if (flag->zero /*&& flag->dot < len*/)
-			flag->zero -= (flag->id_conv == 'o' ? 1 : 2);
-		if (flag->space/* && flag->dot < len*/)
-			flag->space -= (flag->id_conv == 'o' ? 1 : 2);
-	}
-	if (DEBUG)
-	{
-		printf("at the end of zero fill, flag->space = %d\n", flag->space);
-		printf("flag->zero = %d\n", flag->zero);
-	}
+
 }
 
 // regler sur papier le probleme des flags->zero flag->space
@@ -225,6 +212,11 @@ static void		print_nb(t_flags *flag, char *nb_str)
 void	char_converter(t_flags *flag, unsigned char c)
 {
 	fill_zero_space(flag, 1);
+	if (DEBUG)
+	{
+		printf("\n\nchar to be printed = %c\n", c);
+		printf("flag->space = %d\n", flag->space);
+	}
 	if (flag->minus == 1)
 	{
 		ft_putchar(c);
@@ -260,8 +252,6 @@ char *ft_strupper(char *str)
 	return (str);
 }
 
-
-
 void	int_converter(t_flags *flag, uintmax_t nb)
 {
 	char	*nb_str;
@@ -278,6 +268,7 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 		}
 		flag->id_conv = 'x';
 	}
+
 	if (nb == 0 && flag->sharp == 1 && (flag->id_conv != 'o' /*|| (flag->id_conv == 'o' && flag->width))*/))
 		flag->sharp = 0;
 	if (flag->dot == 0 && nb == 0)
@@ -296,6 +287,22 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 	if (DEBUG)
 		printf("in intconv, len = %d\n", len);
 	fill_zero_space(flag, len);
+	printf("flag->zero = %d\n", flag->zero);
+	if (nb != 0 && flag->width > len && flag->sharp == 1
+		&& (flag->space || flag->zero) && ft_strchr("oxX", flag->id_conv))
+	{
+		if (flag->zero && flag->space)
+			flag->space -= (flag->id_conv == 'o' ? 1 : 2);
+		else if (flag->zero)
+			flag->zero -= (flag->id_conv == 'o' ? 1 : 2);
+		else if (flag->space)
+			flag->space -= (flag->id_conv == 'o' ? 1 : 2);
+	}
+	if (DEBUG)
+	{
+		printf("in int conv after space and zero modif flag->space = %d\n", flag->space);
+		printf("flag->zero = %d\n", flag->zero);
+	}
 	if (flag->dot < len && flag->dot != -1)
 		flag->zero = 0;
 	if (flag->minus == 'i')
