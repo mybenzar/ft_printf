@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/04 16:38:37 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/06 12:29:58 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ char	*vlq_fivepow(int n)
 		free(tmp);
 		i++;
 	}
-	free(five);
+	ft_strdel(&five);
 	return (res);
 }
 
@@ -208,12 +208,8 @@ int		fracdigits(char *dec)
 	int i;
 
 	i = ft_strlen(dec) - 1;
-	printf("dec = %s\n", dec);
 	while (dec[i] != '\0' && dec[i] != '1')
-	{
-		printf("dec[%d] = %c\n", i, dec[i]);
 		i--;
-	}
 	return (i);
 }
 
@@ -233,7 +229,6 @@ char	*get_pow_ten(char *vlq, int n)
 		ret[i] = vlq[i];
 		i++;
 	}
-
 	return (ret);
 }
 
@@ -309,7 +304,6 @@ void	res_neg_exp(char *mantissa, int exp, char **res)
 			right[i++] = mantissa[j++]; 
 	}
 	right[i] = '\0';
-	//res[0] = ft_bintowhole(left);
 	res[0] = ft_strdup("0");
 	res[1] = ft_bintodec(right);
 }
@@ -352,27 +346,45 @@ void	res_pos_exp(char *mantissa, int exp, char **res)
 	if (!(ft_strcpy(right, mantissa)))
 		return ;
 	res[0] = ft_bintowhole(left);
-	free(left);
-	left = NULL;
+	ft_strdel(&left);
 	res[1] = ft_bintodec(right);
-	free(right);
-	right = NULL;
+	ft_strdel(&right);
 }
 
 void	get_res(char *mantissa, int exp, char **res)
 {
-	res[2] = 0;
 	if (exp < 0)
 		res_neg_exp(mantissa, exp, res);
 	else
 		res_pos_exp(mantissa, exp, res);
 }
 
+
 /*
- **	--> ft_frexp computes the mantissa and the exponent and stocks them in strings
- **	it then calls out other functions (get_exp and get_res) to convert them into 
- **	decimal strings
- */
+**	--> check_nan_inf checks if the number entered exists and is not infinite
+**	and returns 1 after printing "nan" or "inf" if it is
+*/
+
+int		check_nan_inf(char *mantissa, char *exp_str)
+{
+	if (!ft_strcmp("11111111111", exp_str) && ft_strchr(mantissa, '1'))
+	{
+		ft_putendl("NaN");
+		return (1);
+	}
+	if (!ft_strcmp("11111111111", exp_str) && !ft_strchr(mantissa, '1'))
+	{
+		ft_putendl("inf");
+		return (1);
+	}
+	return (0);
+}
+
+/*
+**	--> ft_frexp computes the mantissa and the exponent and stocks them in strings
+**	it then calls out other functions (get_exp and get_res) to convert them into 
+**	decimal strings
+*/
 char	**ft_frexp(double x/*, int *exp*/)
 {
 	char *nb_str;
@@ -386,15 +398,15 @@ char	**ft_frexp(double x/*, int *exp*/)
 	(x < 0) ? (sign = 1) : (sign = 0);
 	mantissa[53] = '\0';
 	exp_str[11] = '\0';
-	if (!(res = (char **)malloc(sizeof(char *) * 3)))
+	if (!(res = (char **)malloc(sizeof(char *) * 2)))
 		return (NULL);
-	if (!(nb_str = (ft_dftoa(x))))
+	if (!(nb_str = ft_dftoa(x)))
 		return (NULL);
-	nb_str += 1;
-	if (!(ft_strncpy(exp_str, nb_str, 11)))
+	if (!(ft_strncpy(exp_str, nb_str + 1, 11)))
 		return (NULL);
-	nb_str += 11;
-	if (!(ft_strncpy(mantissa, nb_str, 52)))
+	if (!(ft_strncpy(mantissa, nb_str + 12, 52)))
+		return (NULL);
+	if (check_nan_inf(mantissa, exp_str))
 		return (NULL);
 	get_res(mantissa, get_exp(exp_str), res);
 	if (DEBUG)
@@ -408,6 +420,7 @@ char	**ft_frexp(double x/*, int *exp*/)
 			i++;
 		res[0] += i;
 	}
+	ft_strdel(&nb_str);
 	return (res);
 }
 

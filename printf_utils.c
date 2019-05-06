@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 16:05:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/04/29 14:41:05 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/06 11:54:57 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,5 +236,4 @@ void	free_flags(t_flags *flags)
 	free(flags);
 	flags = NULL;
 }
-
 

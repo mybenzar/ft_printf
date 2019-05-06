@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 11:29:43 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/04 15:32:52 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/06 12:29:56 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	res_neg_exp_l(char *mantissa, int exp, char **res)
 	right[i] = '\0';
 	res[0] = ft_strdup("0");
 	res[1] = ft_bintodec(right);
+	ft_strdel(&right);
+	ft_strdel(&left);
 }
 
 void	res_big_exp_l(char *mantissa, int exp, char **res)
@@ -119,6 +121,7 @@ void	res_big_exp_l(char *mantissa, int exp, char **res)
 	while (i < exp + 1)
 		left[i++] = '0';
 	res[0] = ft_bintowhole(left);
+	ft_strdel(&left);
 	res[1] = ft_strdup("0");
 }
 
@@ -139,7 +142,9 @@ void	res_pos_exp_l(char *mantissa, int exp, char **res)
 	if (!(ft_strcpy(right, mantissa)))
 		return ;
 	res[0] = ft_bintowhole(left);
+	ft_strdel(&left);
 	res[1] = ft_bintodec(right);
+	ft_strdel(&right);
 }
 
 void	get_res_l(char *mantissa, int exp, char **res)
@@ -149,6 +154,21 @@ void	get_res_l(char *mantissa, int exp, char **res)
 		res_neg_exp_l(mantissa, exp, res);
 	else
 		res_pos_exp_l(mantissa, exp, res);
+}
+
+int		check_nan_inf_l(char *mantissa, char *exp_str)
+{
+	if (!ft_strcmp("111111111111111", exp_str) && ft_strchr(mantissa, '1'))
+	{
+		ft_putendl("NaN");
+		return (1);
+	}
+	if (!ft_strcmp("111111111111111", exp_str) && !ft_strchr(mantissa, '1'))
+	{
+		ft_putendl("inf");
+		return (1);
+	}
+	return (0);
 }
 
 char	**ft_frexpl(long double x)
@@ -164,16 +184,15 @@ char	**ft_frexpl(long double x)
 	(x < 0) ? (sign = 1) : (sign = 0);
 	mantissa[64] = '\0';
 	exp_str[15] = '\0';
-
 	if (!(res = (char **)malloc(sizeof(char *) * 3)))
 		return (NULL);
 	if (!(nb_str = ft_ldftoa(x)))
 		return (NULL);
-	nb_str += 1;
-	if (!(ft_strncpy(exp_str, nb_str, 15)))
+	if (!(ft_strncpy(exp_str, nb_str + 1, 15)))
 		return (NULL);
-	nb_str += 15;
-	if (!(ft_strncpy(mantissa, nb_str, 63)))
+	if (!(ft_strncpy(mantissa, nb_str + 16, 63)))
+		return (NULL);
+	if (check_nan_inf_l(mantissa, exp_str))
 		return (NULL);
 	get_res_l(mantissa, get_exp_l(exp_str), res);
 	if (ft_strlen(res[0]) != 1 && res[0][0] == '0')
@@ -182,5 +201,6 @@ char	**ft_frexpl(long double x)
 			i++;
 		res[0] += i;
 	}
+	ft_strdel(&nb_str);
 	return (res);
 }

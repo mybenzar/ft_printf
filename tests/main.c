@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/04 16:38:42 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/06 12:29:57 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,38 @@ int	main(void)
 //	printf("FLT_MAX = %f\n", FLT_MAX);
 //	printf("DBL_MAX = %lf\n", DBL_MAX);
 //	printf("LDBL_MAX = %LF\n", LDBL_MAX);
-	double d;
+	float f = 0.42;
+	double d = 42.0;
+	long double ld = 42.42;
 //	char **res;
 //	f = DBL_MAX;
-	d = 42.0;
 
+
+	printf("return = |%d | |%d|\n", printf("L_double = |%Lf|\n", ld), ft_printf("L_double = |%Lf|\n", ld));
+	printf("return = |%d | |%d|\n", printf("-L_double = |%Lf|\n", -ld), ft_printf("-L_double = |%Lf|\n", -ld));
+	printf("return = |%d | |%d|\n", printf(".30double = |%.30f|\n", d), ft_printf(".30double = |%.30f|\n", d));
+	printf("return = |%d | |%d|\n", printf(".30double = |%.30f|\n", -d), ft_printf(".30double = |%.30f|\n", -d));
+
+	printf("return = |%d | |%d|\n", printf(".15L_double = |%.15Lf|\n", ld), ft_printf(".15L_double = |%.15Lf|\n", ld));
+	printf("return = |%d | |%d|\n", printf(".15L_double = |%.15Lf|\n", -ld), ft_printf(".15L_double = |%.15Lf|\n", -ld));
+	
+	printf("--------PASSED-------------------\n");
 	printf("return = |%d | |%d|\n", printf("-15-double = |%-15f|\n", -d), ft_printf("-15-double = |%-15f|\n", -d));
-//	printf("real printf: %.50Lf\n", -f);
-//	ft_printf("my printf: %.50Lf\n", -f);
-//	printf("__________________________________\n\n");
+	printf("return = |%d | |%d|\n", printf("double = |%f|\n", d), ft_printf("double = |%f|\n", d));
+	printf("return = |%d | |%d|\n", printf("-double = |%f|\n", -d), ft_printf("-double = |%f|\n", -d));
+	printf("return = |%d | |%d|\n", printf("float = |%f|\n", f), ft_printf("float = |%f|\n", f));
+	printf("return = |%d | |%d|\n", printf("-float = |%f|\n", -f), ft_printf("-float = |%f|\n", -f));
+	printf("return = |%d | |%d|\n", printf(".10float = |%.10f|\n", f), ft_printf(".10float = |%.10f|\n", f));
+	printf("return = |%d | |%d|\n", printf(".0f = |%.0f|\n", f), ft_printf(".0f = |%.0f|\n", f));
+	printf("return = |%d | |%d|\n", printf(".f = |%.f|\n", f), ft_printf(".f = |%.f|\n", f));
+	printf("return = |%d | |%d|\n", printf(".10f = |%.10f|\n", f), ft_printf(".10f = |%.10f|\n", f));
+	printf("return = |%d | |%d|\n", printf(".10float = |%.10f|\n", -f), ft_printf(".10float = |%.10f|\n", -f));
+	printf("return = |%d | |%d|\n", printf(".0f = |%.0f|\n", -f), ft_printf(".0f = |%.0f|\n", -f));
+	printf("return = |%d | |%d|\n", printf(".f = |%.f|\n", -f), ft_printf(".f = |%.f|\n", -f));
+	printf("return = |%d | |%d|\n", printf(".10f = |%.10f|\n", -f), ft_printf(".10f = |%.10f|\n", -f));
+	printf("---------------------------\n");
 
 }
 
 
-/*tests basiques
-int main (void)
-{
-	printf("%d | %d\n", printf("t|%04.2o|%#2oet |%#-8.3o titi|\n", 0, 0, 0), ft_printf("t|%04.2o|%#2oet |%#-8.3o titi|\n", 0, 0, 0));
-}*/
+
