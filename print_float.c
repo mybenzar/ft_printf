@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/06 12:29:58 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/06 14:50:59 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,16 +365,18 @@ void	get_res(char *mantissa, int exp, char **res)
 **	and returns 1 after printing "nan" or "inf" if it is
 */
 
-int		check_nan_inf(char *mantissa, char *exp_str)
+int		check_nan_inf(char *mantissa, char *exp_str, char sign)
 {
 	if (!ft_strcmp("11111111111", exp_str) && ft_strchr(mantissa, '1'))
 	{
-		ft_putendl("NaN");
+		ft_putstr("nan");
 		return (1);
 	}
 	if (!ft_strcmp("11111111111", exp_str) && !ft_strchr(mantissa, '1'))
 	{
-		ft_putendl("inf");
+		if (sign == '1')
+			ft_putchar('-');
+		ft_putstr("inf");
 		return (1);
 	}
 	return (0);
@@ -390,12 +392,10 @@ char	**ft_frexp(double x/*, int *exp*/)
 	char *nb_str;
 	char mantissa[54]; //if 64 bits, mantissa[23] else if 80 bits, mantissa[52] and exponent[11]
 	char exp_str[12];
-	int	sign;
 	char **res;
 	int i;
 
 	i = 0;
-	(x < 0) ? (sign = 1) : (sign = 0);
 	mantissa[53] = '\0';
 	exp_str[11] = '\0';
 	if (!(res = (char **)malloc(sizeof(char *) * 2)))
@@ -406,7 +406,7 @@ char	**ft_frexp(double x/*, int *exp*/)
 		return (NULL);
 	if (!(ft_strncpy(mantissa, nb_str + 12, 52)))
 		return (NULL);
-	if (check_nan_inf(mantissa, exp_str))
+	if (check_nan_inf(mantissa, exp_str, nb_str[0]))
 		return (NULL);
 	get_res(mantissa, get_exp(exp_str), res);
 	if (DEBUG)

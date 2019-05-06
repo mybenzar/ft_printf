@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 16:05:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/06 11:54:57 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/06 15:35:49 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void get_opt(t_flags *flags, int *i)
 			|| flags->id_conv == 'i'))
 			flags->space = 1;
 	}
-	// invisible minus sign
 	if (flags->minus == 1 && flags->space == 1)
 		flags->minus = 'i';
 	if (flags->minus == 1 && flags->zero)
@@ -121,7 +120,7 @@ void get_opt(t_flags *flags, int *i)
 void 	parsing_flags(t_flags *flags)
 {
 	if (flags->id_conv == 'i')
-		flags->id_conv = 'd'; // i est deprecie
+		flags->id_conv = 'd';
 	if (flags->zero != 0 && flags->minus != 0)
 		flags->zero = 0;
 	if (flags->space == 1 && flags->plus == '+')
@@ -201,15 +200,13 @@ int	get_flag_conv(char *format, int *i, t_flags *flags)
 
 	k = *i;
 	start = k;
-	if (format[k] && no_id_conv(format))
+	if (format[k] && no_id_conv(format + k))
 	{
 		flags->id_conv = 'n';
 		if (format[index_is_special(format + k)])
 			*i = k + index_is_special(format + k);
 		if (!(flags->spec = ft_strdup(format + k)))
 			return (0);
-		if (DEBUG)
-			printf("in get flag conv for id_conv 'n', flags->spec = %s\n", flags->spec);
 		return (1);
 	}
 	while (format[k] && format[k] != '%' && !is_alt_special(format[k])

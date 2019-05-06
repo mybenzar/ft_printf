@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/06 12:01:17 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/06 16:01:49 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,11 @@ void	char_converter(t_flags *flag, unsigned char c)
 	if (flag->minus == 1)
 	{
 		ft_putchar(c);
+		if (flag->zero && flag->id_conv == 'n')
+		{
+			flag->len += flag->zero;
+			print_nchar(flag->zero, '0');
+		}
 		if (flag->space != 0)
 			print_nchar(flag->space, ' ');
 	}
@@ -235,9 +240,14 @@ void	char_converter(t_flags *flag, unsigned char c)
 	{
 		if (flag->space != 0)
 			print_nchar(flag->space, ' ');
+		if (flag->zero && flag->id_conv == 'n')
+		{
+			flag->len += flag->zero;
+			print_nchar(flag->zero, '0');
+		}
 		ft_putchar(c);
 	}
-	flag->len = 1 + flag->space;
+	flag->len += 1 + flag->space;
 }
 
 char *ft_strupper(char *str)
@@ -358,7 +368,8 @@ void	str_converter(t_flags *flag, char *str)
 		flag->len = flag->space;
 	else
 		flag->len = flag->space + ((min_width > len) ? len : min_width);
-	ft_strdel(&str);
+	if (!ft_strcmp("(null)", str))
+		ft_strdel(&str);
 }
 
 char	*ft_round(char *str, int prec)
@@ -414,7 +425,13 @@ void	float_converter(t_flags *flag, double x)
 
 	if (x < 0)
 		flag->plus = '-';
-	res = ft_frexp(x);
+	if (flag->plus == '+')
+		ft_putchar('+');
+	if (!(res = ft_frexp(x)))
+	{
+		flag->len = 3 + (flag->plus != 0 ? 1 : 0);
+		return ;
+	}
 	print_float(flag, res);
 }
 
@@ -424,7 +441,13 @@ void	lfloat_converter(t_flags *flag, long double x)
 
 	if (x < 0)
 		flag->plus = '-';
-	res = ft_frexpl(x);
+	if (flag->plus == '+')
+		ft_putchar('+');
+	if (!(res = ft_frexpl(x)))
+	{
+		flag->len = 3 + (flag->plus != 0 ? 1 : 0);
+		return ;
+	}
 	print_float(flag, res);
 }
 
