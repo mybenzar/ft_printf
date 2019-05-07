@@ -33,7 +33,7 @@ int	main(void)
 	char *str = "42 42 42 42 42 42 42 42 42 42 42 42";
 
 
-	printf("%d | %d\n", printf("test|%#.4o| et |%02o| |%0#14.0o|!!|\n", 012, 036, 12587499), ft_printf("test|%#.4o| et |%02o| |%0#14.0o|!!|\n", 012, 036, 12587499));
+
 	printf("return = |%d | |%d|\n", printf("10.0f = |%10.0f|\n", f), ft_printf("10.0f = |%10.0f|\n", f));
 	printf("---------------------------\n");
 	printf("return = |%d | |%d|\n", printf("10f = |%10f|\n", f), ft_printf("10f = |%10f|\n", f));
@@ -60,6 +60,8 @@ int	main(void)
 	printf("---------------------------\n");
 	printf("%d | %d\n", printf("-5%% = %-5%\n"), ft_printf("-5%% = %-5%\n"));
 	printf("---------------------------\n");
+	printf("%d | %d\n", printf("test|%#.4o| et |%02o| |%0#14.0o|!!|\n", 012, 036, 12587499), ft_printf("test|%#.4o| et |%02o| |%0#14.0o|!!|\n", 012, 036, 12587499));
+	
 }
 
 

@@ -195,7 +195,7 @@ static void		print_nb(t_flags *flag, char *nb_str)
 {
 	if (flag->space != 0)
 		print_nchar(flag->space, ' ');
-	if (flag->id_conv != 'f')
+//	if (flag->id_conv != 'f')
 		print_sign(flag);
 	/*if (flag->plus == '+' && flag->id_conv != 'f')
 		ft_putchar('+');
@@ -287,8 +287,7 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 	if (DEBUG)
 		printf("in intconv, len = %d\n", len);
 	fill_zero_space(flag, len);
-	printf("flag->zero = %d\n", flag->zero);
-	if (nb != 0 && flag->width > len && flag->sharp == 1
+	if (nb != 0 && (flag->width > len || flag->dot > len) && flag->sharp == 1
 		&& (flag->space || flag->zero) && ft_strchr("oxX", flag->id_conv))
 	{
 		if (flag->zero && flag->space)
@@ -465,39 +464,38 @@ void	print_float(t_flags *flag, char **res)
 	
 	len_dec = ft_strlen(res[1]);
 	len_whole = ft_strlen(res[0]);
-	if (flag->dot == 0)
-	{
-		print_sign(flag);
-		ft_putstr(res[0]);
-		flag->len = len_whole + (flag->plus == '-' ? 1 : 0);
-		ft_strdel(&res[0]);
-		ft_strdel(&res[1]);
-		free(res);
-		return ;
-	}
 	if (flag->dot < 0)
 		flag->dot = 6;
 	if (flag->dot < len_dec + len_whole)
 		flag->zero = 0;
 	flag->width = flag->width - len_whole - (flag->plus == '-' ? 1 : 0);
 	fill_zero_space(flag, flag->dot);
+	if (flag->dot != 0 && flag->plus != '-')
+		flag->space--;
+//	print_sign(flag);
+//	if (flag->dot == 0)
+//	{
+//		if (flag->minus == 1)
+//			print_nb_padding(flag, res[0]);
+//		else
+			print_nb(flag, res[0]);
+//		flag->len = len_whole + flag->space + (flag->plus == '-' ? 1 : 0);
+//		ft_strdel(&res[0]);
+//		ft_strdel(&res[1]);
+//		free(res);
+//		return ;
+//	}
+//	ft_putstr(res[0]);
+	if (flag->dot != 0)
+		ft_putchar('.');
 	if (flag->minus == 1)
-	{
-		print_sign(flag);
-		ft_putstr(res[0]);
-		ft_putchar('.');
 		print_nb_padding(flag, ft_round(res[1], flag->dot - 1));
-	}
 	else
-	{	
-		print_sign(flag);
-		ft_putstr(res[0]);
-		ft_putchar('.');
-		print_nb(flag, ft_round(res[1], flag->dot - 1));
-	}
+		ft_putnstr(ft_round(res[1], flag->dot - 1), flag->dot);
+//		print_nb(flag, ft_round(res[1], flag->dot - 1));
 	ft_strdel(&res[0]);
 	ft_strdel(&res[1]);
 	free(res);
-	flag->len += len_whole + flag->dot + flag->space + (flag->plus == '-' ? 1 : 0) + 1;
+	flag->len += len_whole + flag->dot + flag->space + (flag->plus == '-' ? 1 : 0) + (flag->dot != 0 ? 1 : 0);
 }
 
