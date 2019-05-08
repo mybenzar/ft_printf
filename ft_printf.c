@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 17:49:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/08 12:13:32 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/08 13:45:56 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,10 @@ int	ft_printf(const char *format, ...)
 			i++;
 			if (str_format[i] && (get_flag_conv(str_format, &i, flags)))
 			{
-		//		printf("\n________________________\n");
-		//		printf("\nflags->spec = %s\n", flags->spec);
-				get_flags(flags, va);
-			//	printf_flags(flags);
+				get_flags(flags);
 				print_param(flags, va);
-
-
 			}
-		//	printf("before, len = %d\n", len);
 			len = len + flags->len;
-		//	printf("\nlen = %d\n\n\n", len);
-		//	printf("\n__________________________\n");
 			free(flags->spec);
 		}
 		if (str_format[i] == '%' && str_format[i + 1] == '%')

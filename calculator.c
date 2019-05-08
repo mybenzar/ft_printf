@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 16:20:44 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/04 16:38:41 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/08 14:32:08 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,7 @@ char	*vlq_sum(char *s1, char *s2)
 	t_calc	*info;
 	
 	if (!ft_str_isdigit(s1) || !ft_str_isdigit(s2))
-	{
-		ft_putendl("ERROR NOT A DIGIT");
 		return (NULL);
-	}
-
 	if (!(info = (t_calc *)malloc(sizeof(t_calc))))
 		return (NULL);
 	calc_info(info, s1, s2);
@@ -105,14 +101,14 @@ char	*vlq_sum(char *s1, char *s2)
 	while (info->len1 >= 0 || info->len2 >= 0 || i >= 0)
 	{
 		hold = 0;
-		if ((info->len1 >= 0 && info->len2 >= 0 && ((s1[info->len1] + s2[info->len2] + res[i] - 48) > 57))
-					|| (info->len1 >= 0 && s1[info->len1] + res[i] > 57) 
-					|| (info->len2 >= 0 && s2[info->len2] + res[i] > 57))
+		if ((info->len1 >= 0 && info->len2 >= 0
+			&& ((s1[info->len1] + s2[info->len2] + res[i] - 48) > 57))
+			|| (info->len1 >= 0 && s1[info->len1] + res[i] > 57) 
+			|| (info->len2 >= 0 && s2[info->len2] + res[i] > 57))
 		{	
-			res[i] -= 10;
-			hold = 1;
+		res[i] -= 10;
+		hold = 1;
 		}
-			
 			res[i] = res[i] + ((info->len1 >= 0) ? s1[info->len1] : 0);
 			res[i] = res[i] + ((info->len2 >= 0) ? s2[info->len2] : 0);
 			res[i] = res[i] - ((info->len1 >= 0 && info->len2 >= 0) ? 48 : 0);
@@ -262,10 +258,10 @@ char	*vlq_mult(char *s1, char *s2)
 		info->ten_dec++;
 		if (!(tmp_sum = ft_strdup(sum)))
 			return (NULL);
-		free(sum);
+		ft_strdel(&sum);
 		if (!(sum = ft_strdup(vlq_sum(tmp_sum, res))))
 			return (NULL);
-		free(tmp_sum);
+		ft_strdel(&tmp_sum);
 		info->len2--;
 	}
 	i = 0;
@@ -273,7 +269,7 @@ char	*vlq_mult(char *s1, char *s2)
 		i++;
 	vlq_tmp_conv_rev2(info, s1, s2);
 	free_calc(info);
-	free(res);
+	ft_strdel(&res);
 	return (sum + i);
 }
 
@@ -288,7 +284,7 @@ int		is_div_by_two(char *nb)
 
 
 /*
- ** Returns 0 if equal, positive int if s1 > s2, neg int if s2 > s1
+** Returns 0 if equal, positive int if s1 > s2, neg int if s2 > s1
 */
 
 int		vlq_cmp(char *s1, char *s2)
@@ -335,11 +331,9 @@ char	*vlq_sub(char *s1, char *s2)
 		free(diff);
 		diff = ft_strdup(vlq_sum(one, tmp_diff));
 	}
-	free(tmp);
+	ft_strdel(&tmp);
 	return ("0");
 }
-
-
 
 char	*vlq_divmod(char *divid, char *divis, char *mod)
 {
@@ -349,7 +343,8 @@ char	*vlq_divmod(char *divid, char *divis, char *mod)
 	char	*sum;
 	char	*prev;
 
-	if (!(one = ft_strdup("1")) || !(sum = ft_strdup("1")) || !(prev = ft_strdup("0")) || !(tmp = ft_strdup(divis)))
+	if (!(one = ft_strdup("1")) || !(sum = ft_strdup("1"))
+		|| !(prev = ft_strdup("0")) || !(tmp = ft_strdup(divis)))
 		return (NULL);
 	vlq_initialize(mod, 0, 99);
 	while (vlq_cmp(divid, tmp) >= 0)
@@ -358,31 +353,31 @@ char	*vlq_divmod(char *divid, char *divis, char *mod)
 		tmp_sum = ft_strdup(sum);
 		if (vlq_cmp(divid, tmp) <= 0)
 		{
-			free(tmp_sum);
-			free(one);
+			ft_strdel(&tmp_sum);
+			ft_strdel(&one);
 			if (vlq_cmp(divid, tmp) < 0)
 			{
 				tmp_sum = ft_strdup(vlq_mult(prev, divis));
 				ft_strcpy(mod, vlq_sub(divid, tmp_sum));
-				free(tmp_sum);
-				free(tmp);
+				ft_strdel(&tmp_sum);
+				ft_strdel(&tmp);
 				return (prev);
 			}
 			if (vlq_cmp(divid, tmp) == 0)
 			{
 				ft_strcpy(mod, "0");
-				free(tmp);
+				ft_strdel(&tmp);
 				return (sum);
 			}
 		}
-		free(prev);
+		ft_strdel(&prev);
 		prev = ft_strdup(sum);
-		free(sum);
+		ft_strdel(&sum);
 		sum = ft_strdup(vlq_sum(tmp_sum, one));
-		free(tmp_sum);
+		ft_strdel(&tmp_sum);
 	}
-	free(tmp);
-	free(one);
+	ft_strdel(&tmp);
+	ft_strdel(&one);
 	ft_strcpy(mod, divid);
 	return ("0");
 }
@@ -406,7 +401,7 @@ char	*vlq_pow_ten(int pow)
 		ft_strncat(pow_ten, zero, i);
 		i++;
 	}
-	free(zero);
+	ft_strdel(&zero);
 	return (pow_ten);
 }
 
@@ -438,8 +433,8 @@ char	*vlq_div_float(char *divid, char *divis)
 		free(ret);
 		ret = ft_strdup(vlq_divmod(divid_pow, divis, mod));
 	}
-	free(divid_pow);
-	free(pow_ten);
+	ft_strdel(&divid_pow);
+	ft_strdel(&pow_ten);
 	return (ret);
 }
 

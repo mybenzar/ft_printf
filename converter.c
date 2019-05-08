@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/08 12:07:07 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/08 13:48:20 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static int		get_min_width(t_flags *flag, int len)
 		return (min_width_no_precision(flag, len));
 	else
 	{
-		//if (flag->width == 0)
-		//	return (len);
 		if (flag->dot > len)
 		{
 			if (flag->width > len)
@@ -114,16 +112,6 @@ static void		fill_zero_space(t_flags *flag, int len)
 	}
 	else if (flag->dot != 0 && flag->width == 0)
 		flag->zero = ((flag->dot > len) ? (flag->dot - len) : 0);
-	if (DEBUG)
-	{
-		printf("her,e flag->dot = %d\n", flag->dot);
-		printf("her,e flag->space = %d\n", flag->space);
-		printf("here, flag->zero = %d\n", flag->zero);
-		printf("here, flag->width = %d\n", flag->width);
-		printf("here, len = %d\n", len);
-		printf("flag->sharp = %d\n", flag->sharp);
-	}
-
 }
 
 void		print_nchar(int size, char c)
