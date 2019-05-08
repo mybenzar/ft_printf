@@ -191,6 +191,7 @@ int		main(void)
 	printf("\nPrintf :    | %27.3u |\n", 65740);
 	ft_printf("\nFt_Printf : | %02u |", 0);
 	printf("\nPrintf :    | %02u |\n", 0);
+	
 	/*
 	** TEST DE %f
 	*/
@@ -215,19 +216,16 @@ int		main(void)
 	printf("\nPrintf :    | %#.f |\n", doub);
 	ft_printf("\nFt_Printf : | %027.3f |", doub3);
 	printf("\nPrintf :    | %027.3f |\n", doub3);
-	ft_printf("\nFt_Printf : | %#2f |", doub2);
-	printf("\nPrintf :    | %#2f |\n", doub2);
+
 	ft_printf("\nFt_Printf : | %#60.30f |", doub4);
 	printf("\nPrintf :    | %#60.30f |\n", doub4);
+	
+	printf("\n--------------PASSED------------\n");
+	
 	ft_printf("\nFt_Printf : | %#+60.30f |", doub5);
 	printf("\nPrintf :    | %#+60.30f |\n", doub5);
-	ft_printf("\nFt_Printf : | %#.30F |", doub6);
-	printf("\nPrintf :    | %#.30F |\n", doub6);
-	doub2 *= doub2 * doub2 *doub2 *doub2;
-	ft_printf("\nFt_Printf : | %#.30F |", doub2);
-	printf("\nPrintf :    | %#.30F |\n", doub2);
-	ft_printf("\nft_printf : %50v\n");
-	ft_printf("\nft_printf : %50d\n", 50);
+	ft_printf("\nFt_Printf : | %#2f |", doub2);
+	printf("\nPrintf :    | %#2f |\n", doub2);
 	free(str);
 	return (0);
 }

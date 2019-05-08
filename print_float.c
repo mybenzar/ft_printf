@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/06 14:50:59 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/08 11:20:17 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,10 @@ void	res_neg_exp(char *mantissa, int exp, char **res)
 	left[0] = '0';
 	while (i < exp - 1)
 		right[i++] = '0';
-	right[i++] = '1';
+	if (exp == 1023 && !ft_strchr(mantissa, '1'))
+		right[i++] = '0';
+	else
+		right[i++] = '1';
 	while (i < 52 + exp)
 	{
 		if (mantissa[j] == '0' || mantissa[j] == '1')
@@ -306,6 +309,8 @@ void	res_neg_exp(char *mantissa, int exp, char **res)
 	right[i] = '\0';
 	res[0] = ft_strdup("0");
 	res[1] = ft_bintodec(right);
+	ft_strdel(&left);
+	ft_strdel(&right);
 }
 
 void	res_big_exp(char *mantissa, int exp, char **res)
@@ -326,6 +331,7 @@ void	res_big_exp(char *mantissa, int exp, char **res)
 		left[i++] = '0';
 	res[0] = ft_bintowhole(left);
 	res[1] = ft_strdup("0");
+	ft_strdel(&left);
 }
 
 void	res_pos_exp(char *mantissa, int exp, char **res)
@@ -365,20 +371,12 @@ void	get_res(char *mantissa, int exp, char **res)
 **	and returns 1 after printing "nan" or "inf" if it is
 */
 
-int		check_nan_inf(char *mantissa, char *exp_str, char sign)
+int		check_nan_inf(char *mantissa, char *exp_str/*, char sign*/)
 {
 	if (!ft_strcmp("11111111111", exp_str) && ft_strchr(mantissa, '1'))
-	{
-		ft_putstr("nan");
 		return (1);
-	}
 	if (!ft_strcmp("11111111111", exp_str) && !ft_strchr(mantissa, '1'))
-	{
-		if (sign == '1')
-			ft_putchar('-');
-		ft_putstr("inf");
-		return (1);
-	}
+		return (-1);
 	return (0);
 }
 
@@ -406,14 +404,21 @@ char	**ft_frexp(double x/*, int *exp*/)
 		return (NULL);
 	if (!(ft_strncpy(mantissa, nb_str + 12, 52)))
 		return (NULL);
-	if (check_nan_inf(mantissa, exp_str, nb_str[0]))
-		return (NULL);
-	get_res(mantissa, get_exp(exp_str), res);
-	if (DEBUG)
+	if (check_nan_inf(mantissa, exp_str) == 1)
 	{
-		printf("res 0 = %s \n", res[0]);
-		printf("res 1 = %s \n", res[1]);
+		res[0] = ft_strdup("nan");
+		res[1] = NULL;
+		ft_strdel(&nb_str);
+		return (res);
 	}
+	if (check_nan_inf(mantissa, exp_str) == -1)
+	{
+		res[0] = ft_strdup("inf");
+		res[1] = NULL;
+		ft_strdel(&nb_str);
+		return (res);
+	}
+	get_res(mantissa, get_exp(exp_str), res);
 	if (ft_strlen(res[0]) != 1 && res[0][0] == '0')
 	{
 		while (res[0][i] == '0')

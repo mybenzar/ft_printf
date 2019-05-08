@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 16:05:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/06 15:35:49 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/08 12:25:19 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ int	get_size(char *spec, int *i)  //chope la size pour la precision ou la width 
 		*i += 1;
 		k++;
 	}
-/*	if (k == 0)
-		return (-1);*/
-	/*	if (spec[k] != '.' && spec[k] != '\0')
-		return (0);*/
 	return (size);
 }
 
@@ -39,27 +35,7 @@ int is_integer(char id_conv)
 		return (1);
 	return (0);
 }
-/*
-int parse_modifiers(t_flags *flags)
-{	
-	if ((flags->modif == l || flags->modif == h) && !(ft_strchr("diouxXp", flags->id_conv)))
-	{
-		ft_putstr(ER_MODIF);
-		return (-1);
-	}
-	if (flags->modif == hh && !(flags->id_conv == 'c'))
-	{
-		ft_putstr(ER_MODIF);
-		return (-1);
-	}
-	if (flags->modif == L && !(flags->id_conv == 'f'))
-	{
-		ft_putstr(ER_MODIF);
-		return (-1);
-	}
-	return (1);
-}
-*/
+
 void	get_modif(t_flags *flags)
 {
 	char *tmp;
@@ -84,18 +60,26 @@ void	get_modif(t_flags *flags)
 	else
 		flags->modif = n;
 	free(tmp);
-//	parse_modifiers(flags);	
 }
 
-void get_opt(t_flags *flags, int *i)
+void get_opt(t_flags *flags, int *i, va_list va)
 {
 
-	if (ft_isdigit(flags->spec[*i]) && flags->spec[*i] != '0' && flags->width == 0)
-		flags->width = get_size((flags->spec) + *i, i);
+	if ((ft_isdigit(flags->spec[*i]) || flags->spec[*i] == '*') && flags->spec[*i] != '0' && flags->width == 0)
+	{
+		printf("flags->spec[%d] = %c\n", *i, flags->spec[*i]);
+		if (flags->spec[*i] == '*')
+			flags->width = va_arg(va, int);
+		else
+			flags->width = get_size((flags->spec) + *i, i);
+	}
 	if (flags->spec[*i] == '.')
 	{
 		*i += 1;
-		flags->dot = get_size(flags->spec + *i, i);// saute le point
+		if (flags->spec[*i] == '*')
+			flags->dot = va_arg(va, int);
+		else
+			flags->dot = get_size(flags->spec + *i, i);// saute le point
 	}
 	if (ft_strchr( "0#-+ ", flags->spec[*i]) != NULL)
 	{
@@ -127,15 +111,16 @@ void 	parsing_flags(t_flags *flags)
 		flags->space = 0; // gerer le cas ou l'arg est signe et neg remmettre a 0
 }
 
-void	get_flags(t_flags *flags)
+void	get_flags(t_flags *flags, va_list va)
 {
 	int i;
 
 	i = 0;
 	flags->dot = -1;
+	printf("flags->spec = %s\n", flags->spec);
 	while (flags->spec[i])
 	{
-		get_opt(flags, &i);
+		get_opt(flags, &i, va);
 		if (flags->spec[i] != '.')
 			i += 1;
 	}

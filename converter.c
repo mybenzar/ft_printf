@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/06 17:31:24 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/08 12:07:07 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,6 @@ static void		fill_zero_space(t_flags *flag, int len)
 	}
 
 }
-
-// regler sur papier le probleme des flags->zero flag->space
 
 void		print_nchar(int size, char c)
 {
@@ -349,8 +347,12 @@ void	str_converter(t_flags *flag, char *str)
 		printf("string to be printed in str_conv  = %s\n", str);
 		printf("min_width = %d\n", min_width);
 	}
+	if (flag->id_conv == 'f' && flag->plus)
+		flag->space--;
 	if (flag->minus == 1)
 	{
+		if (flag->id_conv == 'f' && flag->plus)
+			ft_putchar(flag->plus);
 		if (flag->dot != 0)
 			ft_putnstr(str, min_width);
 		if (flag->space != 0)
@@ -360,6 +362,8 @@ void	str_converter(t_flags *flag, char *str)
 	{
 		if (flag->space != 0)
 			print_nchar(flag->space, ' ');
+		if (flag->id_conv == 'f' && flag->plus)
+			ft_putchar(flag->plus);
 		if (flag->dot != 0)
 			ft_putnstr(str, min_width);
 	}
@@ -431,11 +435,14 @@ void	float_converter(t_flags *flag, double x)
 
 	if (x < 0)
 		flag->plus = '-';
-	if (flag->plus == '+')
-		ft_putchar('+');
 	if (!(res = ft_frexp(x)))
+		return ;
+	if (!res[1])
 	{
-		flag->len = 3 + (flag->plus != 0 ? 1 : 0);
+		str_converter(flag, res[0]);
+		ft_strdel(&res[0]);
+		ft_strdel(&res[1]);
+		free(res);
 		return ;
 	}
 	print_float(flag, res);
@@ -447,11 +454,14 @@ void	lfloat_converter(t_flags *flag, long double x)
 
 	if (x < 0)
 		flag->plus = '-';
-	if (flag->plus == '+')
-		ft_putchar('+');
 	if (!(res = ft_frexpl(x)))
+		return ;
+	if (!res[1])
 	{
-		flag->len = 3 + (flag->plus != 0 ? 1 : 0);
+		str_converter(flag, res[0]);
+		ft_strdel(&res[0]);
+		ft_strdel(&res[1]);
+		free(res);
 		return ;
 	}
 	print_float(flag, res);
@@ -461,41 +471,42 @@ void	print_float(t_flags *flag, char **res)
 {
 	int	len_dec;
 	int	len_whole;
-	
+	int	zero_whole;
+	int width_whole;
+
+	zero_whole = flag->zero != 0 ? 1 : 0;
 	len_dec = ft_strlen(res[1]);
 	len_whole = ft_strlen(res[0]);
 	if (flag->dot < 0)
 		flag->dot = 6;
 	if (flag->dot < len_dec + len_whole)
 		flag->zero = 0;
+	width_whole = flag->width - flag->dot - (flag->plus != 0 ? 1 : 0) - 1;
 	flag->width = flag->width - len_whole - (flag->plus == '-' ? 1 : 0);
 	fill_zero_space(flag, flag->dot);
-	if (flag->dot != 0 && flag->plus != '-')
+	if (width_whole > len_whole && zero_whole)
+	{
+		flag->zero = width_whole - len_whole;
+		flag->space -= flag->zero;
+	}
+	if (flag->dot != 0 && flag->plus != '-' && flag->space)
 		flag->space--;
-//	print_sign(flag);
-//	if (flag->dot == 0)
-//	{
-//		if (flag->minus == 1)
-//			print_nb_padding(flag, res[0]);
-//		else
-			print_nb(flag, res[0]);
-//		flag->len = len_whole + flag->space + (flag->plus == '-' ? 1 : 0);
-//		ft_strdel(&res[0]);
-//		ft_strdel(&res[1]);
-//		free(res);
-//		return ;
-//	}
-//	ft_putstr(res[0]);
-	if (flag->dot != 0)
+	print_nb(flag, res[0]);
+	flag->zero = 0;
+	if (flag->dot != 0 || flag->sharp)
 		ft_putchar('.');
 	if (flag->minus == 1)
 		print_nb_padding(flag, ft_round(res[1], flag->dot - 1));
 	else
+	{
+		if (flag->dot > len_dec)
+			flag->zero = flag->dot - len_dec;
 		ft_putnstr(ft_round(res[1], flag->dot - 1), flag->dot);
-//		print_nb(flag, ft_round(res[1], flag->dot - 1));
+		print_nchar(flag->zero, '0');
+	}
 	ft_strdel(&res[0]);
 	ft_strdel(&res[1]);
 	free(res);
-	flag->len += len_whole + flag->dot + flag->space + (flag->plus == '-' ? 1 : 0) + (flag->dot != 0 ? 1 : 0);
+	flag->len += len_whole + flag->dot + flag->space + (flag->plus == '-' ? 1 : 0) + (flag->dot > 0 ? 1 : 0);
 }
 

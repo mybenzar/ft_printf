@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/06 17:31:23 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/08 12:15:46 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int 	get_flag_conv(char *format, int *i, t_flags *flags);
 int 	is_alt_special(char c);
 int 	is_special(char c);
 int 	get_size(char *spec, int *i); // chope la size pour la precision ou la width
-void	get_flags(t_flags *flags); // chope les flags options
+void	get_flags(t_flags *flags, va_list va); // chope les flags options
 void	free_flags(t_flags *flags);
 
 /*
