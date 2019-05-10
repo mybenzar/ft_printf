@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/08 11:20:17 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/10 18:20:08 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ char	*ft_dftoa(double x)
 	}
 	nb_str[i] = '\0';
 	ft_strrev(nb_str);
-	if (DEBUG)
-		ft_printf("at the end of dftoa, nb_str = %s & len = %d\n", nb_str, (int)ft_strlen(nb_str));
 	return (nb_str);
 }
 
@@ -61,9 +59,9 @@ int pow2(int pow)
 }
 
 /*
- **	---> get_exp computes the decimal value of the exponent and
- **	returns an int. 1023 is the bias for 64 bits (float convention)
- */
+**	---> get_exp computes the decimal value of the exponent and
+**	returns an int. 1023 is the bias for 64 bits (float convention)
+*/
 int	get_exp(char *exp_str)
 {
 	int nb;
@@ -81,11 +79,10 @@ int	get_exp(char *exp_str)
 		j--;
 	}
 	nb -= 1023;
-	//(sign = 0) ? (nb -= 1023) : (nb += 1023);
 	return (nb);
 }
 
-const char	*tab_pow(int pow)
+char	*vlq_binpow(int pow)
 {
 	const char *pow2tab[64] =
 	{
@@ -103,39 +100,7 @@ const char	*tab_pow(int pow)
 		"288230376151711744", "576460752303423488", "1152921504606846976",
 		"2305843009213693952", "4611686018427387904", 0
 	};
-	return (pow2tab[pow]);
-}
-
-char	*vlq_binpow(int n)
-{
-/*	int i;
-	char *res;
-	char *tmp;
-	char *two;
-
-	i = 0;
-	if (!(two = ft_strdup("2")))
-		return (NULL);
-	if (n <= 62)
-		return ((char *)tab_pow(n));
-	else
-	{
-		i = 62;
-		if (!(res = ft_strdup(((char *)tab_pow(i)))))
-			return (NULL);
-		while (i < n)
-		{
-			if (!(tmp = ft_strdup(res)))
-				return (NULL);
-			free(res);
-			if (!(res = ft_strdup(vlq_mult(tmp, two))))
-				return (NULL);
-			free(tmp);
-			i++;
-		}
-	}
-	free(two);*/
-	return ((char *)tab_pow(n));
+	return ((char *)pow2tab[pow]);
 }
 
 char	*vlq_fivepow(int n)
@@ -146,18 +111,16 @@ char	*vlq_fivepow(int n)
 	char *five;
 
 	i = 0;
-	if (!(five = ft_strdup("5")))
-		return (NULL);
-	if (!(res = ft_strdup(five)))
+	if (!(five = ft_strdup("5")) ||!(res = ft_strdup(five)))
 		return (NULL);
 	while (i < n)
 	{
 		if (!(tmp = ft_strdup(res)))
 			return (NULL);
-		free(res);
-		if (!(res = ft_strdup(vlq_mult(tmp, five))))
+		ft_strdel(&res);
+		if (!(res = vlq_mult(tmp, five)))
 			return (NULL);
-		free(tmp);
+		ft_strdel(&tmp);
 		i++;
 	}
 	ft_strdel(&five);
@@ -183,15 +146,13 @@ char	*ft_bintowhole(char *vlq)
 	{
 		if (vlq[i] == '1')
 		{
-			if (!(pow = ft_strdup(vlq_binpow(i))))
+			if (!(pow = ft_strdup(vlq_binpow(i))) || !(tmp = ft_strdup(ret)))
 				return (NULL);
-			if (!(tmp = ft_strdup(ret)))
+			ft_strdel(&ret);
+			if (!(ret = vlq_sum(tmp, pow)))
 				return (NULL);
-			free(ret);
-			if (!(ret = ft_strdup(vlq_sum(tmp, pow))))
-				return (NULL);
-			free(pow);
-			free(tmp);
+			ft_strdel(&pow);
+			ft_strdel(&tmp);
 		}
 		i++;
 	}
@@ -203,16 +164,6 @@ char	*ft_bintowhole(char *vlq)
  **	to the biggest power of ten that the first '1' bit of right is going
  **	to be multiplied by
  */
-int		fracdigits(char *dec)
-{
-	int i;
-
-	i = ft_strlen(dec) - 1;
-	while (dec[i] != '\0' && dec[i] != '1')
-		i--;
-	return (i);
-}
-
 char	*get_pow_ten(char *vlq, int n)
 {
 	char	*ret;
@@ -246,7 +197,6 @@ char	*ft_bintodec(char *vlq)
 	char *tmp_pow;
 
 	i = 0;
-//	j = fracdigits(vlq);
 	j = ft_strlen(vlq) - 1;
 	if (!(ret = ft_strnew(ft_strlen(vlq) + 1)))
 		return (NULL);
@@ -255,17 +205,17 @@ char	*ft_bintodec(char *vlq)
 	{
 		if (vlq[i] == '1')
 		{
-			if (!(pow = ft_strdup(vlq_fivepow(i))))
+			if (!(pow = vlq_fivepow(i)) || !(tmp_pow = ft_strdup(pow)))
 				return (NULL);
-			tmp_pow = ft_strdup(pow);
-			free(pow);
-			pow = get_pow_ten(tmp_pow, j);
-			free(tmp_pow);
-			tmp = ft_strdup(ret);
-			free(ret);
-			ret = ft_strdup(vlq_sum(tmp, pow));
-			free(pow);
-			free(tmp);
+			ft_strdel(&pow);
+			if (!(pow = get_pow_ten(tmp_pow, j)) || !(tmp = ft_strdup(ret)))
+				return (NULL);
+			ft_strdel(&tmp_pow);
+			ft_strdel(&ret);
+			if (!(ret = vlq_sum(tmp, pow)))
+				return (NULL);
+			ft_strdel(&pow);
+			ft_strdel(&tmp);
 		}
 		i++;
 		j--;
@@ -274,11 +224,11 @@ char	*ft_bintodec(char *vlq)
 }
 
 /*
- **	---> get_res converts the binary char into left & right
- **	left[0] = '1': multiply by 2^52 to get MSB
- **	left is the part on the left of the floating point
- **	right is the part on the right of the floating point
- */
+**	---> get_res converts the binary char into left & right
+**	left[0] = '1': multiply by 2^52 to get MSB
+**	left is the part on the left of the floating point
+**	right is the part on the right of the floating point
+*/
 void	res_neg_exp(char *mantissa, int exp, char **res)
 {
 
@@ -343,13 +293,10 @@ void	res_pos_exp(char *mantissa, int exp, char **res)
 		res_big_exp(mantissa, exp, res);
 	if (!(left = ft_strnew(exp + 1)))
 		return ;
-	if (!(right = ft_strnew(52 - exp)))
-		return ;
 	left[0] = '1';
 	if (!(ft_strncat(left, mantissa, exp)))
 		return ;
-	mantissa += exp;
-	if (!(ft_strcpy(right, mantissa)))
+	if (!(right = ft_strdup(mantissa + exp)))
 		return ;
 	res[0] = ft_bintowhole(left);
 	ft_strdel(&left);
@@ -365,12 +312,10 @@ void	get_res(char *mantissa, int exp, char **res)
 		res_pos_exp(mantissa, exp, res);
 }
 
-
 /*
 **	--> check_nan_inf checks if the number entered exists and is not infinite
 **	and returns 1 after printing "nan" or "inf" if it is
 */
-
 int		check_nan_inf(char *mantissa, char *exp_str/*, char sign*/)
 {
 	if (!ft_strcmp("11111111111", exp_str) && ft_strchr(mantissa, '1'))
@@ -385,24 +330,19 @@ int		check_nan_inf(char *mantissa, char *exp_str/*, char sign*/)
 **	it then calls out other functions (get_exp and get_res) to convert them into 
 **	decimal strings
 */
-char	**ft_frexp(double x/*, int *exp*/)
+char	**ft_frexp(double x)
 {
 	char *nb_str;
-	char mantissa[54]; //if 64 bits, mantissa[23] else if 80 bits, mantissa[52] and exponent[11]
+	char *mantissa;	
 	char exp_str[12];
 	char **res;
 	int i;
 
 	i = 0;
-	mantissa[53] = '\0';
 	exp_str[11] = '\0';
-	if (!(res = (char **)malloc(sizeof(char *) * 2)))
-		return (NULL);
-	if (!(nb_str = ft_dftoa(x)))
-		return (NULL);
-	if (!(ft_strncpy(exp_str, nb_str + 1, 11)))
-		return (NULL);
-	if (!(ft_strncpy(mantissa, nb_str + 12, 52)))
+	if (!(res = (char **)malloc(sizeof(char *) * 2)) || !(nb_str = ft_dftoa(x))
+		|| !(ft_strncpy(exp_str, nb_str + 1, 11))
+		|| !(mantissa = ft_strdup(nb_str + 12)))
 		return (NULL);
 	if (check_nan_inf(mantissa, exp_str) == 1)
 	{
@@ -425,7 +365,7 @@ char	**ft_frexp(double x/*, int *exp*/)
 			i++;
 		res[0] += i;
 	}
+	ft_strdel(&mantissa);
 	ft_strdel(&nb_str);
 	return (res);
 }
-

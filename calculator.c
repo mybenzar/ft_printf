@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 16:20:44 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/10 12:31:36 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:53:24 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,39 +91,60 @@ int		sum_hold(t_calc *info, char c1, char c2, char c3)
 		return (0);
 }
 
-void	do_sum(t_calc *info, char *res, char *s1, char *s2)
+char	*do_sum(t_calc *info, char *s1, char *s2)
 {
-	int i;
-	int hold;
-	
+	int		i;
+	int		hold;
+	char	*res;	
+	if (!(res = ft_strnew(info->max + 2)))
+		return (NULL);
+	//vlq_initialize(res, 0, info->max + 1);
+	res[info->max + 1] = '\0';
 	i = info->max;
-	while (/*info->len1 >= 0 || info->len2 >= 0 ||*/ i >= 0)
+	while (i > 0)
 	{
+	//	printf("info->len1 = %d\n", info->len1);
+	//	printf("info->len2 = %d\n", info->len2);
 		hold = 0;
-		if (sum_hold(info, s1[info->len1], s2[info->len2], res[i]))
+		if ((info->len1 >= 0 && info->len2 >= 0
+			&& ((s1[info->len1] + s2[info->len2] + res[i] - 48) > 57))
+			|| (info->len1 >= 0 && s1[info->len1] + res[i] > 57) 
+			|| (info->len2 >= 0 && s2[info->len2] + res[i] > 57))
+		//if (sum_hold(info, s1[info->len1], s2[info->len2], res[i]))
 		{	
 			res[i] -= 10;
 			hold = 1;
 		}
-		res[i] = res[i] + ((info->len1 >= 0) ? s1[info->len1] : 0);
-		res[i] = res[i] + ((info->len2 >= 0) ? s2[info->len2] : 0);
-		res[i] = res[i] - ((info->len1 >= 0 && info->len2 >= 0) ? 48 : 0);
-		i--;
-		if (i >= 0)
-			res[i] += hold;
+		res[i] += (info->len1 >= 0) ? s1[info->len1] : 0;
+		res[i] += (info->len2 >= 0) ? s2[info->len2] : 0;
+		res[i] -= (info->len1 >= 0 && info->len2 >= 0) ? 48 : 0;
+		res[--i] += hold;
+//		printf("address of &res[%d] = %p\n", i, &res[i]);
 		if (res[0] == 1)
 			res[i] += 48;
 		info->len1--;
 		info->len2--;
 	}
-	printf("address of s1 = %p\n", s1);
+	return (res);
+}
+
+char	*trim_zero(char *s)
+{
+	int 	i;
+	char	*ret;
+
+	i = 0;
+	while (s[i] == 0)
+		i++;
+	if (!(ret = ft_strdup(s + i)))
+		return (NULL);
+	return (ret);
 }
 
 char	*vlq_sum(char *s1, char *s2)
 {
 	char	*res;
 	char	*ret;
-	int		i;
 	t_calc	*info;
 	
 	if (!ft_str_isdigit(s1) || !ft_str_isdigit(s2))
@@ -133,15 +154,7 @@ char	*vlq_sum(char *s1, char *s2)
 	calc_info(info, s1, s2);
 	info->len1 -= 1;
 	info->len2 -= 1;
-	i = info->max + 1;
-	if (!(res = ft_strnew(i)))
-		return (NULL);
-	vlq_initialize(res, 0, i);
-	do_sum(info, res, s1, s2);
-	i = 0;
-	while (res[i] == 0)
-		i++;
-	if (!(ret = ft_strdup(res + i)))
+	if (!(res = do_sum(info, s1, s2)) || !(ret = trim_zero(res)))
 		return (NULL);
 	ft_strdel(&res);
 	free_calc(info);
@@ -154,16 +167,10 @@ void	vlq_tmp_conv(t_calc *info, char *s1, char *s2)
 
 	i = 0;
 	while (i <= info->len1)
-	{
-		s1[i] -= 48;
-		i++;
-	}
+		s1[i++] -= 48;
 	i = 0;
 	while (i <= info->len2)
-	{	
-		s2[i] -= 48;
-		i++;
-	}
+		s2[i++] -= 48;
 }
 
 void	vlq_tmp_conv_rev(char *s, int size)
@@ -172,10 +179,7 @@ void	vlq_tmp_conv_rev(char *s, int size)
 
 	i = 0;
 	while (i < size)
-	{
-		s[i] += 48;
-		i++;
-	}
+		s[i++] += 48;
 }
 
 void	vlq_tmp_conv_rev2(t_calc *info, char *s1, char *s2)
@@ -184,16 +188,10 @@ void	vlq_tmp_conv_rev2(t_calc *info, char *s1, char *s2)
 
 	i = 0;
 	while (i < info->len1_static)
-	{
-		s1[i] += 48;
-		i++;
-	}
+		s1[i++] += 48;
 	i = 0;
 	while (i < info->len2_static)
-	{
-		s2[i] += 48;
-		i++;
-	}
+		s2[i++] += 48;
 }
 
 void	vlq_nshift(char *s, int size, int shifts)
@@ -221,58 +219,60 @@ void	vlq_shift_left(char *s, int size)
 		s[i] = tmp[i + 1];
 		i--;
 	}
-	free(tmp);
+	ft_strdel(&tmp);
 }
 
-char	*vlq_mult(char *s1, char *s2)
-{	
-	char	*sum;
-	char	*res;
-	char	*tmp_sum;
-	t_calc	*info;
-	int		j;
-	int		i;
-	int		hold;
+void	do_mult(t_calc *info, char *s1, char *s2, char *res)
+{
+	int i;
+	int j;
+	int	hold;
 
-	if (!ft_str_isdigit(s1) || !ft_str_isdigit(s2))
-	{
-		ft_putendl("ERROR NOT A DIGIT");
-		return (NULL);
-	}
-	if (!(info = (t_calc *)malloc(sizeof(t_calc))))
-		return (NULL);
-	calc_info(info, s1, s2);
-	info->len1 -= 1;
-	info->len2 -= 1;
 	i = info->sum;
-	if (!(res = ft_strnew(i + 1)))
+	j = info->len1;
+	hold = 0;	
+	while (j >= 0)
+	{
+		hold = 0;
+		if (j >= 0 && info->len2 >= 0 && s1[j] * s2[info->len2] + res[i] >= 10)
+		{
+			hold = (res[i] + s1[j] * s2[info->len2]) / 10;
+			res[i] = (res[i] + s1[j] * s2[info->len2]) % 10;
+		}
+		else if (info->len2 < 0)
+			res[i] = 0;
+		else
+			res[i] += s1[j] * ((info->len2 >= 0) ? s2[info->len2] : 1);
+		res[--i] += hold;
+		j--;
+	}
+}
+
+char	*trim_zero_char(char *s)
+{
+	int		i;
+	char	*ret;
+
+	i = 0;
+	while (s[i] == '0')
+		i++;
+	if (!(ret = ft_strdup(s + i)))
 		return (NULL);
-	if (!(sum = ft_strnew(info->max)))
+	return (ret);
+}
+
+char	*mult_inter_sums(t_calc *info, char *s1, char *s2, char *res)
+{
+	char	*tmp_sum;
+	char	*sum;
+
+	if (!(sum = ft_strdup("0")))
 		return (NULL);
 	vlq_tmp_conv(info, s1, s2);
-	vlq_initialize(sum, 0, info->max);
 	while (info->len2 >= 0)
 	{
 		vlq_initialize(res, 0, info->sum + 1);
-		i = info->sum;
-		j = info->len1;
-		hold = 0;
-		while (j >= 0)
-		{
-			hold = 0;
-			if (j >= 0 && info->len2 >= 0 && s1[j] * s2[info->len2] + res[i] >= 10)
-			{
-				hold = (res[i] + s1[j] * s2[info->len2]) / 10;
-				res[i] = (res[i] + s1[j] * s2[info->len2]) % 10;
-			}
-			else if (info->len2 < 0)
-				res[i] = 0;
-			else
-				res[i] += s1[j] * ((info->len2 >= 0) ? s2[info->len2] : 1);
-			i--;
-			res[i] += hold;
-			j--;
-		}
+		do_mult(info, s1, s2, res);
 		vlq_tmp_conv_rev(res, info->sum + 1);
 		if (info->ten_dec > 1)
 			vlq_nshift(res, info->sum + 1, info->ten_dec);
@@ -285,13 +285,32 @@ char	*vlq_mult(char *s1, char *s2)
 		ft_strdel(&tmp_sum);
 		info->len2--;
 	}
-	i = 0;
-	while (sum[i] == '0')
-		i++;
+	return (sum);
+}
+
+char	*vlq_mult(char *s1, char *s2)
+{	
+	char	*sum;
+	char	*res;
+	t_calc	*info;
+	char	*ret;
+
+	if (!ft_str_isdigit(s1) || !ft_str_isdigit(s2))
+		return (NULL);
+	if (!(info = (t_calc *)malloc(sizeof(t_calc))))
+		return (NULL);
+	calc_info(info, s1, s2);
+	info->len1 -= 1;
+	info->len2 -= 1;
+	if (!(res = ft_strnew(info->sum + 1)))
+		return (NULL);
+	if (!(sum = mult_inter_sums(info, s1, s2, res)) || !(ret = trim_zero_char(sum)))
+		return (NULL);
+	ft_strdel(&sum);
 	vlq_tmp_conv_rev2(info, s1, s2);
 	free_calc(info);
 	ft_strdel(&res);
-	return (sum + i);
+	return (ret);
 }
 
 int		is_div_by_two(char *nb)
@@ -323,36 +342,51 @@ int		vlq_cmp(char *s1, char *s2)
 		return (ft_strcmp(s1, s2));
 }
 
+char	*do_sub(char *s1, char *s2, char *tmp, char *tmp_diff)
+{
+	char *diff;
+	char 	*one;
+
+	if (!(diff = ft_strdup("0")) || !(one = ft_strdup("1")))
+		return (NULL);
+	while (vlq_cmp(s1, tmp))
+	{
+		ft_strdel(&tmp);
+		if (!(tmp = vlq_sum(s2, diff)))
+			return (NULL);
+		ft_strdel(&tmp_diff);
+		if (!(tmp_diff = ft_strdup(diff)))
+			return (NULL);
+		if (!vlq_cmp(s1, tmp))
+		{
+			ft_strdel(&tmp);
+			ft_strdel(&one);
+			ft_strdel(&tmp_diff);
+			return (diff);
+		}
+		ft_strdel(&diff);
+		if (!(diff = vlq_sum(one, tmp_diff)))
+			return (NULL);
+	}
+	ft_strdel(&one);
+	return (diff);
+}
+
 char	*vlq_sub(char *s1, char *s2)
 {
 	char	*tmp;
-	char 	*one;
 	char	*diff;
 	char	*tmp_diff;
 
 	if (vlq_cmp(s1, s2) < 0)
-	{
-		ft_putendl("incorrect input : s2 is bigger than s1");
 		return (NULL);
-	}
-	if (!(diff = ft_strdup("0")) || !(tmp = ft_strdup("0"))
-		|| !(one = ft_strdup("1")) || !(tmp_diff = ft_strdup("0")))
+	if (!(tmp = ft_strdup("0")) || !(tmp_diff = ft_strdup("0")))
 		return (NULL);
-	while (vlq_cmp(s1, tmp))
-	{
-		free(tmp);
-		tmp = ft_strdup(vlq_sum(s2, diff));
-		free(tmp_diff);
-		tmp_diff = ft_strdup(diff);
-		if (!vlq_cmp(s1, tmp))
-		{
-			free(tmp);
-			return (diff);
-		}
-		free(diff);
-		diff = ft_strdup(vlq_sum(one, tmp_diff));
-	}
+	if (!(diff = do_sub(s1, s2, tmp, tmp_diff)))
+		return (NULL);
 	ft_strdel(&tmp);
+	ft_strdel(&tmp_diff);
+	ft_strdel(&diff);
 	return ("0");
 }
 
@@ -410,12 +444,11 @@ char	*vlq_pow_ten(int pow)
 	char	*zero;
 
 	i = 0;
-	if (!(pow_ten = ft_strdup("1")))
+	if (!(pow_ten = ft_strdup("1")) || !(zero = ft_strdup("00000000000000000")))
 		return (NULL);
-	zero = ft_strdup("00000000000000000");
 	while (i < pow)
 	{
-		free(pow_ten);
+		ft_strdel(&pow_ten);
 		if (!(pow_ten = ft_strnew(i + 1)))
 			return (NULL);
 		pow_ten[0] = '1';

@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/08 14:32:09 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/10 18:47:30 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ char		*vlq_pow_ten(int pow);
 char		*vlq_binpow(int n);
 char		*vlq_fivepow(int n);
 int			pow2(int pow);
-const char *tab_pow(int pow);
 char		*get_pow_ten(char *vlq, int n);
 void		vlq_nshift(char *s, int size, int shifts);
 void		vlq_shift_left(char *s, int size);

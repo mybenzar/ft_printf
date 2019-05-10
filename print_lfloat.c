@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 11:29:43 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/08 12:25:27 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:34:52 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,15 +132,11 @@ void	res_pos_exp_l(char *mantissa, int exp, char **res)
 
 	if (exp > 64)
 		res_big_exp_l(mantissa, exp, res);
-	if (!(left = ft_strnew(exp + 1)))
+	if (!(left = ft_strnew(exp + 1)) || !(right = ft_strnew(63 - exp))
+		|| !(ft_strncat(left, mantissa, exp + 1))
+		|| !(ft_strcpy(right, mantissa + exp + 1)))
 		return ;
-	if (!(right = ft_strnew(63 - exp)))
-		return ;
-	if (!(ft_strncat(left, mantissa, exp + 1)))
-		return ;
-	mantissa += exp + 1;
-	if (!(ft_strcpy(right, mantissa)))
-		return ;
+	//mantissa += exp + 1;
 	res[0] = ft_bintowhole(left);
 	ft_strdel(&left);
 	res[1] = ft_bintodec(right);
@@ -176,23 +172,16 @@ int		check_nan_inf_l(char *mantissa, char *exp_str/*, int sign*/)
 char	**ft_frexpl(long double x)
 {
 	char *nb_str;
-	char mantissa[65];
+	char *mantissa;
 	char exp_str[16];
 	char **res;
 	int i;
 
 	i = 0;
-	mantissa[64] = '\0';
 	exp_str[15] = '\0';
-	if (!(res = (char **)malloc(sizeof(char *) * 3)))
-		return (NULL);
-	if (!(nb_str = ft_ldftoa(x)))
-		return (NULL);
-	if (!(ft_strncpy(exp_str, nb_str + 1, 15)))
-		return (NULL);
-	if (!(ft_strncpy(mantissa, nb_str + 16, 63)))
-		return (NULL);
-	if (check_nan_inf_l(mantissa, exp_str))
+	if (!(res = (char **)malloc(sizeof(char *) * 3)) || !(nb_str = ft_ldftoa(x))
+		|| !(ft_strncpy(exp_str, nb_str + 1, 15))
+		|| !(mantissa = ft_strdup(nb_str + 16)))
 		return (NULL);
 	if (check_nan_inf_l(mantissa, exp_str) == 1)
 	{
@@ -209,7 +198,6 @@ char	**ft_frexpl(long double x)
 		return (res);
 	}
 	get_res_l(mantissa, get_exp_l(exp_str), res);
-	
 	if (ft_strlen(res[0]) != 1 && res[0][0] == '0')
 	{
 		while (res[0][i] == '0')
@@ -217,5 +205,6 @@ char	**ft_frexpl(long double x)
 		res[0] += i;
 	}
 	ft_strdel(&nb_str);
+	ft_strdel(&mantissa);
 	return (res);
 }
