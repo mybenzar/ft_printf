@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 17:57:47 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/08 12:25:19 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/10 12:31:36 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,21 @@
 
 int	main(void)
 {
-	char *str;
+	//float f;
+	//f = 42.01;
+	//ft_printf("\nFt_Printf : | %f |", f);
+	//printf("\nPrintf :    | %f |", f);
+	
+	char *s1;
+	char *s2;
+	char *res;
 
-	str = ft_strdup("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
-	ft_printf("\nFt_Printf : | %*.*s |",15,8, str);
-	printf("\nPrintf :    | %*.*s |\n",15,8, str);
+	s1 = ft_strdup("1");
+	s2 = ft_strdup("3");
+	res = vlq_sum(s1, s2);
+	printf("res = %s\n", res);
+	ft_strdel(&s1);
+	ft_strdel(&s2);
+	ft_strdel(&res);
 }
 

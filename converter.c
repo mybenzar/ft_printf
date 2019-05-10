@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:03:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/08 13:48:20 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/10 12:31:37 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,6 @@ static void		print_nb_padding(t_flags *flag, char *nb_str)
 {
 	if (flag->id_conv != 'f')
 		print_sign(flag);
-	/*if (flag->plus == '+' && flag->id_conv != 'f')
-		ft_putchar('+');
-	if (flag->plus == '-' && flag->id_conv != 'f')
-		ft_putchar('-');*/
 	if ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
 		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0")))
 		print_exp(flag);
@@ -181,12 +177,7 @@ static void		print_nb(t_flags *flag, char *nb_str)
 {
 	if (flag->space != 0)
 		print_nchar(flag->space, ' ');
-//	if (flag->id_conv != 'f')
 		print_sign(flag);
-	/*if (flag->plus == '+' && flag->id_conv != 'f')
-		ft_putchar('+');
-	if (flag->plus == '-' && flag->id_conv != 'f')
-		ft_putchar('-');*/
 	if ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
 		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0")))
 		print_exp(flag);
@@ -198,11 +189,6 @@ static void		print_nb(t_flags *flag, char *nb_str)
 void	char_converter(t_flags *flag, unsigned char c)
 {
 	fill_zero_space(flag, 1);
-	if (DEBUG)
-	{
-		printf("\n\nchar to be printed = %c\n", c);
-		printf("flag->space = %d\n", flag->space);
-	}
 	if (flag->minus == 1)
 	{
 		ft_putchar(c);
@@ -243,8 +229,6 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 	char	*nb_str;
 	int		len;
 	
-	if (DEBUG)
-		printf("nb to be processed in int conv = %lu\n", nb);
 	if (flag->id_conv == 'p')
 	{	
 		if (nb == 0)
@@ -254,8 +238,7 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 		}
 		flag->id_conv = 'x';
 	}
-
-	if (nb == 0 && flag->sharp == 1 && (flag->id_conv != 'o' /*|| (flag->id_conv == 'o' && flag->width))*/))
+	if (nb == 0 && flag->sharp == 1 && (flag->id_conv != 'o'))
 		flag->sharp = 0;
 	if (flag->dot == 0 && nb == 0)
 	{
@@ -265,13 +248,9 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 	}
 	else if (!(nb_str = ft_itoabase(nb, get_base(flag->id_conv))))
 		return ;
-	if (DEBUG)
-		printf("nb_str to be printed before process in int conv = %s\n", nb_str);
 	if (flag->id_conv == 'X')
 		nb_str = ft_strupper(nb_str);
 	len = (int)ft_strlen(nb_str);
-	if (DEBUG)
-		printf("in intconv, len = %d\n", len);
 	fill_zero_space(flag, len);
 	if (nb != 0 && (flag->width > len || flag->dot > len) && flag->sharp == 1
 		&& (flag->space || flag->zero) && ft_strchr("oxX", flag->id_conv))
@@ -282,11 +261,6 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 			flag->zero -= (flag->id_conv == 'o' ? 1 : 2);
 		else if (flag->space)
 			flag->space -= (flag->id_conv == 'o' ? 1 : 2);
-	}
-	if (DEBUG)
-	{
-		printf("in int conv after space and zero modif flag->space = %d\n", flag->space);
-		printf("flag->zero = %d\n", flag->zero);
 	}
 	if (flag->dot < len && flag->dot != -1)
 		flag->zero = 0;
@@ -301,20 +275,10 @@ void	int_converter(t_flags *flag, uintmax_t nb)
 		print_nb_padding(flag, nb_str);
 	else
 		print_nb(flag, nb_str);
-	if (DEBUG)
-	{
-		printf("\n\nin int_converter, flag->len = %d\n", flag->len);
-		printf("flag->zero = %d\n", flag->zero);
-		printf("flag->plus = %d\n", flag->plus);
-		printf("flag->space = %d\n", flag->space);
-		printf("len = %d\n\n", len);
-	}
 	ft_strdel(&nb_str);
 	if (flag->plus)
 		flag->len++;
 	flag->len += len + flag->zero + flag->space;
-	if (DEBUG)
-		printf("final int conv flag->len = %d\n", flag->len);
 }
 
 void	str_converter(t_flags *flag, char *str)
@@ -329,12 +293,6 @@ void	str_converter(t_flags *flag, char *str)
 	}
 	len = (int)ft_strlen(str);
 	min_width = get_min_width(flag, len);
-	//min_width = ft_strcmp(str, "(null)") == 0 ? get_min_width(flag, 0) : get_min_width(flag, len);
-	if (DEBUG)
-	{
-		printf("string to be printed in str_conv  = %s\n", str);
-		printf("min_width = %d\n", min_width);
-	}
 	if (flag->id_conv == 'f' && flag->plus)
 		flag->space--;
 	if (flag->minus == 1)
@@ -355,13 +313,6 @@ void	str_converter(t_flags *flag, char *str)
 		if (flag->dot != 0)
 			ft_putnstr(str, min_width);
 	}
-	if (DEBUG)
-	{
-		printf("before, flag->len = %d\n", flag->len);
-		printf("flag->space = %d\n", flag->space);
-		printf("min_width = %d\n", min_width);
-		printf("len = %d\n", len);
-	}
 	if (!ft_strcmp(str, "(null)") && flag->dot == 0)
 		flag->len = flag->space;
 	else
@@ -377,21 +328,14 @@ char	*ft_round(char *str, int prec)
 	char	*ret;
 	int		i;
 
-	i = 0;
-	if (DEBUG)
-		printf("in round, str = %s\n", str);
+	i = -1;
 	if (!ft_strcmp(str, "0"))
 		return ("0");
-	if (!(ret = (char *)malloc(sizeof(char) * prec)))
+	if (!(ret = (char *)malloc(sizeof(char) * prec + 2)))
 		return (NULL);
-	while (i <= prec + 1)
-	{
+	while (++i <= prec + 1)
 		ret[i] = str[i];
-		i++;
-	}
 	ret[i] = '\0';
-	if (DEBUG)
-		printf("ret = %s\n", ret);
 	if (!(five = ft_strdup("5")))
 		return (NULL);
 	if (ret[i - 1] == '0')
@@ -404,7 +348,7 @@ char	*ft_round(char *str, int prec)
 	{
 		if (!(tmp = ft_strdup(ret)))
 			return (NULL);
-		free(ret);
+		ft_strdel(&ret);
 		ret = vlq_sum(tmp, five);
 		ret[i - 1] = '\0';
 		ft_strdel(&tmp);
