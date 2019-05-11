@@ -6,12 +6,12 @@
 /*   By: malavent <malavent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 12:38:14 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/19 10:18:25 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/11 12:25:33 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-	
+
 char	*ft_strncat(char *dest, char const *src, size_t n)
 {
 	int				i;

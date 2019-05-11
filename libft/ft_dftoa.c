@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strupper.c                                      :+:      :+:    :+:   */
+/*   ft_dftoa.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/30 13:39:20 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/11 12:09:41 by mybenzar         ###   ########.fr       */
+/*   Created: 2019/05/11 12:20:06 by mybenzar          #+#    #+#             */
+/*   Updated: 2019/05/11 12:21:35 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strupper(char *str)
-{
-	int i;
+/*
+**	---> ft_dftoa extracts the binary value of the float into a string
+*/
 
-	i = -1;
-	while (str[++i] != '\0')
-		str[i] = ft_toupper(str[i]);
-	return (str);
+char	*ft_dftoa(double x)
+{
+	int					i;
+	unsigned long		tmp;
+	char				*nb_str;
+
+	i = 0;
+	if (!(nb_str = (char *)malloc(sizeof(char) * 65)))
+		return (NULL);
+	tmp = *(unsigned long *)(&x);
+	while (i <= 63)
+	{
+		if (tmp & 1)
+			nb_str[i] = '1';
+		else
+			nb_str[i] = '0';
+		tmp >>= 1;
+		i++;
+	}
+	nb_str[i] = '\0';
+	ft_strrev(nb_str);
+	return (nb_str);
 }

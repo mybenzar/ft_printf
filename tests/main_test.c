@@ -6,7 +6,7 @@
 /*   By: roster <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 10:36:16 by roster            #+#    #+#             */
-/*   Updated: 2019/05/10 20:27:17 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/11 16:15:10 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int		main(void)
 	printf("---------------------------\n");
 	printf(MAGENTA"# address = p|\n"RESET);
 	printf("return = |%d | |%d|\n", printf("addr = |%p|\n", str), ft_printf("addr = |%p|\n", str));
-
 
 
 	printf(YELLOW"|\n--------------------\n");

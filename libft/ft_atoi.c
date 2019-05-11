@@ -6,12 +6,12 @@
 /*   By: malavent <malavent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 11:37:23 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/02 17:27:23 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/11 12:22:39 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
+
 int	ft_atoi(const char *str)
 {
 	int	res;

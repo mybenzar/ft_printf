@@ -6,7 +6,7 @@
 /*   By: malavent <malavent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 12:38:54 by malavent          #+#    #+#             */
-/*   Updated: 2019/04/04 08:40:15 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/11 12:21:17 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,13 @@ char				ft_convert_itoc(uintmax_t value);
 size_t				ft_numlen_base(uintmax_t value, uintmax_t base);
 char				*ft_itoabase(uintmax_t value, int base);
 int					ft_intsize(int n);
-
 char				*ft_strrev(char *str);
 void				ft_swap(char *a, char *b);
+/*
+**				Added functions for ft_printf
+*/
+void				ft_putnstr(char *str, int size);
+char				*ft_strupper(char *str);
+void				print_nchar(int size, char c);
+char				*ft_dftoa(double x);
 #endif

@@ -6,7 +6,7 @@
 /*   By: malavent <malavent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 11:48:56 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/06 17:31:24 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/11 12:24:16 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char		*ft_itoabase(uintmax_t value, int base)
 {
 	char	*itoa;
 	size_t	size;
-	
+
 	if (base == 10)
 		return (ft_itoa(value));
 	if (value == 0)

@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:51 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/08 13:59:03 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/11 15:22:13 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	get_opt(t_flags *flags, int *i)
 		if (flags->spec[*i] == '+')
 			flags->plus = '+';
 		if (flags->spec[*i] == ' ' && flags->plus != '+' && (flags->width
-			|| flags->id_conv == 'd' || flags->id_conv == 'i'))
+			|| flags->id_conv == 'd' || flags->id_conv == 'i'
+			|| flags->id_conv == 'f'))
 			flags->space = 1;
 	}
 	if (flags->minus == 1 && flags->space == 1)

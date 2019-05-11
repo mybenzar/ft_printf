@@ -6,7 +6,7 @@
 #    By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/14 14:33:11 by mybenzar          #+#    #+#              #
-#    Updated: 2019/05/08 14:14:47 by mybenzar         ###   ########.fr        #
+#    Updated: 2019/05/11 14:44:27 by mybenzar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ HEADERS = ft_printf.h
 
 SOURCES =	converter.c print_utils.c args_conv.c ft_printf.c debug_functions.c\
 			print_float.c calculator.c print_lfloat.c get_flags.c parsing_utils.c\
-			free_functions.c
+			free_functions.c fill_padding.c print_nb.c print_char.c print_str.c\
+			print_nb_padding.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 17:49:31 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/08 13:45:56 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/11 15:19:24 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	ft_printf(const char *format, ...)
 		if (str_format[i] == '%' && str_format[i + 1] != '%' && str_format[i + 1])
 		{
 			i++;
+
 			if (str_format[i] && (get_flag_conv(str_format, &i, flags)))
 			{
 				get_flags(flags);
@@ -60,10 +61,5 @@ int	ft_printf(const char *format, ...)
 	free_flags(flags);
 	free(str_format);
 	str_format = NULL;
-	if (DEBUG)
-	{
-		printf("final len = %d\n", len);
-		printf("\n\n_____________________________________________________________________________\n\n");
-	}
 	return (len);
 }

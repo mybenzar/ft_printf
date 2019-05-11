@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strupper.c                                      :+:      :+:    :+:   */
+/*   ft_putnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/30 13:39:20 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/11 12:09:41 by mybenzar         ###   ########.fr       */
+/*   Created: 2019/05/11 12:04:02 by mybenzar          #+#    #+#             */
+/*   Updated: 2019/05/11 12:06:16 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strupper(char *str)
+void		ft_putnstr(char *str, int size)
 {
 	int i;
 
-	i = -1;
-	while (str[++i] != '\0')
-		str[i] = ft_toupper(str[i]);
-	return (str);
+	i = 0;
+	while (i < size && str[i] != '\0')
+		ft_putchar(str[i++]);
 }
