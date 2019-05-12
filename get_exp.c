@@ -1,48 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_utils.c                                      :+:      :+:    :+:   */
+/*   get_exp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/08 14:15:42 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:05:16 by mybenzar         ###   ########.fr       */
+/*   Created: 2019/05/12 12:54:09 by mybenzar          #+#    #+#             */
+/*   Updated: 2019/05/12 12:54:33 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		index_is_special(char *str)
+/*
+**	---> get_exp computes the decimal value of the exponent and
+**	returns an int. 1023 is the bias for 64 bits (float convention)
+*/
+
+int	get_exp(char *exp_str)
 {
+	int nb;
 	int i;
+	int j;
 
+	j = 10;
 	i = 0;
-	while (str[i] != '\0')
+	nb = 0;
+	while (exp_str[i] != '\0')
 	{
-		if (is_special(str[i]))
-			return (i);
+		if (exp_str[i] == '1')
+			nb = nb + pow2(j);
 		i++;
+		j--;
 	}
-	return (-1);
-}
-
-int		no_id_conv(char *format)
-{
-	int k;
-
-	k = 0;
-	while (format[k])
-	{
-		if (is_fconv(format[k]))
-			return (0);
-		k++;
-	}
-	return (1);
-}
-
-void	handle_neg(t_flags *flag)
-{
-	flag->plus = '-';
-	if (!flag->width && flag->space)
-		flag->space = 0;
+	nb -= 1023;
+	return (nb);
 }

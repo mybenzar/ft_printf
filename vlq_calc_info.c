@@ -1,48 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_utils.c                                      :+:      :+:    :+:   */
+/*   vlq_calc_info.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/08 14:15:42 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:05:16 by mybenzar         ###   ########.fr       */
+/*   Created: 2019/05/12 14:07:01 by mybenzar          #+#    #+#             */
+/*   Updated: 2019/05/12 14:09:30 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		index_is_special(char *str)
+void	calc_info(t_calc *info, char *s1, char *s2)
 {
 	int i;
 
 	i = 0;
-	while (str[i] != '\0')
-	{
-		if (is_special(str[i]))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int		no_id_conv(char *format)
-{
-	int k;
-
-	k = 0;
-	while (format[k])
-	{
-		if (is_fconv(format[k]))
-			return (0);
-		k++;
-	}
-	return (1);
-}
-
-void	handle_neg(t_flags *flag)
-{
-	flag->plus = '-';
-	if (!flag->width && flag->space)
-		flag->space = 0;
+	info->len1 = ft_strlen(s1);
+	info->len2 = ft_strlen(s2);
+	info->len1_static = info->len1;
+	info->len2_static = info->len2;
+	info->max = ft_max(info->len1, info->len2);
+	info->min = ft_min(info->len1, info->len2);
+	info->sum = info->len1 + info->len2;
+	info->ten_dec = 1;
 }

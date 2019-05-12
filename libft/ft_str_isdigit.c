@@ -1,48 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_utils.c                                      :+:      :+:    :+:   */
+/*   ft_str_isdigit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/08 14:15:42 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:05:16 by mybenzar         ###   ########.fr       */
+/*   Created: 2019/05/12 13:36:33 by mybenzar          #+#    #+#             */
+/*   Updated: 2019/05/12 13:37:35 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		index_is_special(char *str)
+int		ft_str_isdigit(char *s)
 {
 	int i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (s[i])
 	{
-		if (is_special(str[i]))
-			return (i);
+		if (!(ft_isdigit(s[i])))
+			return (0);
 		i++;
 	}
-	return (-1);
-}
-
-int		no_id_conv(char *format)
-{
-	int k;
-
-	k = 0;
-	while (format[k])
-	{
-		if (is_fconv(format[k]))
-			return (0);
-		k++;
-	}
 	return (1);
-}
-
-void	handle_neg(t_flags *flag)
-{
-	flag->plus = '-';
-	if (!flag->width && flag->space)
-		flag->space = 0;
 }

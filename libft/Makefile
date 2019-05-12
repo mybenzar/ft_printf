@@ -6,7 +6,7 @@
 #    By: malavent <malavent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 12:46:05 by malavent          #+#    #+#              #
-#    Updated: 2019/05/11 12:21:00 by mybenzar         ###   ########.fr        #
+#    Updated: 2019/05/12 14:11:11 by mybenzar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRCS =	ft_bzero.c ft_itoa.c ft_memalloc.c ft_memccpy.c ft_memchr.c ft_toupper.c\
 		ft_strnlen.c ft_lstsort.c ft_lstswap_content.c ft_lst_pushback.c\
 		ft_lstsize.c ft_itoabase.c ft_convert_itoc.c ft_numlen_base.c\
 		ft_convert_dec.c ft_intsize.c ft_strjoin_free.c ft_swap.c ft_strrev.c\
-		ft_putnstr.c ft_strupper.c print_nchar.c ft_dftoa.c\
+		ft_putnstr.c ft_strupper.c print_nchar.c ft_dftoa.c ft_max.c ft_min.c\
+		ft_str_isdigit.c vlq_cmp.c
 
 OBJS =  ft_bzero.o ft_itoa.o ft_memalloc.o ft_memccpy.o ft_memchr.o ft_memcmp.o\
 		ft_memcpy.o ft_memdel.o ft_memmove.o ft_strlen.o ft_strnew.o ft_isascii.o\
@@ -47,7 +48,8 @@ OBJS =  ft_bzero.o ft_itoa.o ft_memalloc.o ft_memccpy.o ft_memchr.o ft_memcmp.o\
 		ft_strnlen.o ft_lstsort.o ft_lstswap_content.o ft_lst_pushback.o\
 		ft_lstsize.o ft_itoabase.o ft_convert_itoc.o ft_numlen_base.o\
 		ft_convert_dec.o ft_intsize.o ft_strjoin_free.o ft_swap.o ft_strrev.o\
-		ft_putnstr.o ft_strupper.o print_nchar.o ft_dftoa.o\
+		ft_putnstr.o ft_strupper.o print_nchar.o ft_dftoa.o ft_max.o ft_min.o\
+		ft_str_isdigit.o vlq_cmp.o
 
 all : $(NAME)
 

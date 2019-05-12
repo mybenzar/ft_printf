@@ -6,7 +6,7 @@
 /*   By: malavent <malavent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 12:38:54 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/11 12:21:17 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/12 14:09:31 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,11 @@ void				ft_putnstr(char *str, int size);
 char				*ft_strupper(char *str);
 void				print_nchar(int size, char c);
 char				*ft_dftoa(double x);
+int					ft_min(int a, int b);
+int					ft_max(int a, int b);
+int					ft_str_isdigit(char *s);
+/*
+**				VLQ functions
+*/
+int					vlq_cmp(char *s1, char *s2);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 12:16:27 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/11 12:17:13 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/12 14:13:04 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	str_no_padding(t_flags *flag, char *str, int min_width)
 		ft_putnstr(str, min_width);
 }
 
-void	str_converter(t_flags *flag, char *str)
+void		str_converter(t_flags *flag, char *str)
 {
 	int min_width;
 	int	len;

@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 11:25:41 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/08 14:20:12 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/12 13:33:19 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ void		print_param(t_flags *flags, va_list va)
 		if (nb_sign < 0)
 		{
 			nb_sign = -nb_sign;
-			flags->plus = '-';
-			if (!flags->width && flags->space)
-				flags->space = 0;
+			handle_neg(flags);
 		}
 		int_converter(flags, nb_sign);
 	}

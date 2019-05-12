@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 11:44:42 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/11 16:15:09 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/12 12:17:48 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ static void	fill_no_prec(t_flags *flag, int len)
 	{
 		if (flag->zero == 1)
 		{
+			if (flag->space == 1 && flag->plus == '-')
+				flag->space = 0;
 			flag->zero = flag->width - len - plus - (flag->space == 0 ? 0 : 1);
 			if (flag->dot == 0)
 				flag->space = flag->width - len - plus;

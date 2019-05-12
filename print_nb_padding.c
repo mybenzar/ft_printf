@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 11:48:38 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/11 11:52:36 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/12 14:15:24 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ void		print_nb_padding(t_flags *flag, char *nb_str)
 {
 	if (flag->id_conv != 'f')
 		print_sign(flag);
-	if ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
-		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0")))
+	if (flag->id_conv != 'f'
+		&& ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
+		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0"))))
 		print_exp(flag);
 	if (flag->zero != 0)
 		print_nchar(flag->zero, '0');
@@ -66,8 +67,9 @@ void		print_nb(t_flags *flag, char *nb_str)
 	if (flag->space != 0)
 		print_nchar(flag->space, ' ');
 	print_sign(flag);
-	if ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
-		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0")))
+	if (flag->id_conv != 'f'
+		&& ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
+		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0"))))
 		print_exp(flag);
 	if (flag->zero != 0)
 		print_nchar(flag->zero, '0');

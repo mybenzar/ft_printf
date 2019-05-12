@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/11 14:52:38 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/12 14:09:30 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void			fill_zero_space(t_flags *flag, int len);
 int				get_base(char conv);
 void			print_nb(t_flags *flag, char *nb_str);
 void			print_nb_padding(t_flags *flag, char *nb_str);
+void			handle_neg(t_flags *flags);
 
 /*
 **		Arg Parsing Functions
@@ -107,55 +108,56 @@ void			parsing_flags(t_flags *flags);
 **		Parsing Utils Functions
 */
 
-int			is_fconv(char c);
-int			is_alt_special(char c);
-int			is_special(char c);
-int			no_id_conv(char *format);
-int			is_integer(char id_conv);
+int				is_fconv(char c);
+int				is_alt_special(char c);
+int				is_special(char c);
+int				no_id_conv(char *format);
+int				is_integer(char id_conv);
+
 /*
 **		Free Functions
 */
-void		free_flags(t_flags *flags);
-void		free_calc(t_calc *info);
+
+void			free_flags(t_flags *flags);
+void			free_calc(t_calc *info);
+void			free_res(char **res);
+
 /*
 **		Float Utils Functions
 */
 
-char		*ft_dftoa(double x);
-char		*ft_ldftoa(long double x);
-char		*ft_bintowhole(char *vlq);
-char		*ft_bintodec(char *vlq);
-void		get_res(char *mantissa, int exp, char **res);
-void		get_res_l(char *mantissa, int exp, char **res);
-int			get_exp(char *exp_str);
-int			get_exp_l(char *exp_str);
-char		**ft_frexp(double x);
-char		**ft_frexpl(long double x);
+char			*ft_dftoa(double x);
+char			*ft_ldftoa(long double x);
+char			*ft_bintowhole(char *vlq);
+char			*ft_bintodec(char *vlq);
+void			get_res(char *mantissa, int exp, char **res);
+void			get_res_l(char *mantissa, int exp, char **res);
+int				get_exp(char *exp_str);
+int				get_exp_l(char *exp_str);
+char			**ft_frexp(double x);
+char			**ft_frexpl(long double x);
+char			*ft_round(char *str, int prec);
 
 /*
 **		String Numbers Manipulation and Calculations Functions
 */
 
-void		calc_info(t_calc *info, char *s1, char *s2);
-int			ft_str_isdigt(char *s); //to be added in libft
-char 		*vlq_sum(char *s1, char *s2);
-char		*vlq_mult(char *s1, char *s2);
-char		*vlq_div_float(char *divid, char *divis); //ended up not using
-int			ft_max(int a, int b);
-int			ft_min(int a, int b);
-char		*vlq_divmod(char *divid, char *divis, char *mod); //ended up not using
-int			vlq_cmp(char *s1, char *s2); // ended up not using but should be added to libft
-char		*vlq_sub(char *s1, char *s2); //ended up not using
-char		*vlq_pow_ten(int pow);
-char		*vlq_binpow(int n);
-char		*vlq_fivepow(int n);
-int			pow2(int pow);
-char		*get_pow_ten(char *vlq, int n);
-void		vlq_nshift(char *s, int size, int shifts);
-void		vlq_shift_left(char *s, int size);
-void		vlq_initialize(char *vlq, int c, int size);
-void		vlq_tmp_conv(t_calc *info, char *s1, char *s2);
-void		vlq_tmp_conv_rev(char *s, int size);
+void			calc_info(t_calc *info, char *s1, char *s2);
+char 			*vlq_sum(char *s1, char *s2);
+char			*vlq_mult(char *s1, char *s2);
+int				ft_max(int a, int b);
+int				ft_min(int a, int b);
+char			*vlq_pow_ten(int pow);
+char			*vlq_binpow(int n);
+char			*vlq_fivepow(int n);
+int				pow2(int pow);
+char			*get_pow_ten(char *vlq, int n);
+void			vlq_nshift(char *s, int size, int shifts);
+void			vlq_shift_left(char *s, int size);
+void			vlq_initialize(char *vlq, int c, int size);
+void			vlq_tmp_conv(t_calc *info, char *s1, char *s2);
+void			vlq_tmp_conv_rev(char *s, int size);
+void			vlq_tmp_conv_rev2(t_calc *info, char *s1, char *s2);
 
 /*
 **		Debug

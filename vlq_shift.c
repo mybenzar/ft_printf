@@ -1,48 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_utils.c                                      :+:      :+:    :+:   */
+/*   vlq_shift.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/08 14:15:42 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:05:16 by mybenzar         ###   ########.fr       */
+/*   Created: 2019/05/12 13:51:46 by mybenzar          #+#    #+#             */
+/*   Updated: 2019/05/12 13:52:21 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		index_is_special(char *str)
+void	vlq_nshift(char *s, int size, int shifts)
 {
 	int i;
 
 	i = 0;
-	while (str[i] != '\0')
-	{
-		if (is_special(str[i]))
-			return (i);
-		i++;
-	}
-	return (-1);
+	if (shifts == 0)
+		return ;
+	while (++i < shifts)
+		vlq_shift_left(s, size);
 }
 
-int		no_id_conv(char *format)
+void	vlq_shift_left(char *s, int size)
 {
-	int k;
+	int		i;
+	char	*tmp;
 
-	k = 0;
-	while (format[k])
+	i = size - 1;
+	if (!(tmp = ft_strdup(s)))
+		return ;
+	s[i--] = '0';
+	while (i >= 0)
 	{
-		if (is_fconv(format[k]))
-			return (0);
-		k++;
+		s[i] = tmp[i + 1];
+		i--;
 	}
-	return (1);
-}
-
-void	handle_neg(t_flags *flag)
-{
-	flag->plus = '-';
-	if (!flag->width && flag->space)
-		flag->space = 0;
+	ft_strdel(&tmp);
 }

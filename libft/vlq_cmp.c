@@ -1,48 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_utils.c                                      :+:      :+:    :+:   */
+/*   vlq_comp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/08 14:15:42 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:05:16 by mybenzar         ###   ########.fr       */
+/*   Created: 2019/05/12 14:04:18 by mybenzar          #+#    #+#             */
+/*   Updated: 2019/05/12 14:04:38 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		index_is_special(char *str)
+/*
+** Returns 0 if equal, positive int if s1 > s2, neg int if s2 > s1
+*/
+
+int		vlq_cmp(char *s1, char *s2)
 {
-	int i;
+	int len1;
+	int len2;
 
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (is_special(str[i]))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int		no_id_conv(char *format)
-{
-	int k;
-
-	k = 0;
-	while (format[k])
-	{
-		if (is_fconv(format[k]))
-			return (0);
-		k++;
-	}
-	return (1);
-}
-
-void	handle_neg(t_flags *flag)
-{
-	flag->plus = '-';
-	if (!flag->width && flag->space)
-		flag->space = 0;
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	if (len1 > len2)
+		return (1);
+	else if (len1 < len2)
+		return (-1);
+	else
+		return (ft_strcmp(s1, s2));
 }
