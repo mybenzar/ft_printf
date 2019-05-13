@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/12 14:09:30 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 10:51:25 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void			other_conv(t_flags *flags, va_list va);
 
 int				get_flag_conv(char *format, int *i, t_flags *flags);
 int				get_size(char *spec, int *i);
+void			get_size_width(t_flags *flags, int *i);
 void			get_flags(t_flags *flags);
 void			get_opt(t_flags *flags, int *i);
 void			get_modif(t_flags *flags);

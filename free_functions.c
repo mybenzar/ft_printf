@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 14:11:58 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:39:41 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 13:49:45 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	free_res(char **res)
 {
 	ft_strdel(&res[0]);
 	ft_strdel(&res[1]);
+	ft_strdel(&res[2]);
 	free(res);
 	res = NULL;
 }

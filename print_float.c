@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:01:42 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 10:45:58 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	print_whole(t_flags *flag, char **res, int len_whole)
 	width_whole = flag->width - flag->dot - (flag->plus != 0 ? 1 : 0) - 1;
 	flag->width = flag->width - len_whole - (flag->plus == '-' ? 1 : 0);
 	fill_zero_space(flag, flag->dot);
-
 	if (width_whole > len_whole && zero_whole)
 	{
 		flag->zero = width_whole - len_whole;
@@ -56,12 +55,11 @@ static void	print_whole(t_flags *flag, char **res, int len_whole)
 	tmp_space = flag->space;
 	if (flag->minus == 1)
 		flag->space = 0;
-
 	print_nb(flag, res[0]);
 	flag->space = tmp_space;
 }
 
-void	print_float(t_flags *flag, char **res)
+void		print_float(t_flags *flag, char **res)
 {
 	int		len_dec;
 	int		len_whole;

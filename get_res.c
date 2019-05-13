@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 12:51:21 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:16:50 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 11:36:05 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,16 @@
 **	right is the part on the right of the floating point
 */
 
-/*static void	fill_right(char *mantissa, char *right, int exp, int i)
-{
-
-
-
-}*/
-
 static void	res_neg_exp(char *mantissa, int exp, char **res)
 {
-	char	*left;
 	char	*right;
 	int		i;
 	int		j;
 
 	i = 0;
 	exp = -exp;
-	if (!(left = ft_strnew(exp + 1))
-		|| !(right = ft_strnew(52 + exp)))
+	if (!(right = ft_strnew(52 + exp)))
 		return ;
-	left[0] = '0';
 	while (i < exp - 1)
 		right[i++] = '0';
 	if (exp == 1023 && !ft_strchr(mantissa, '1'))
@@ -52,12 +42,10 @@ static void	res_neg_exp(char *mantissa, int exp, char **res)
 			right[i++] = mantissa[j++];
 	}
 	right[i] = '\0';
-	//fill_right(mantissa, right, exp, i);
-	res[0] = ft_strdup("0");
-	res[1] = ft_bintodec(right);
-	ft_strdel(&left);
+	if (!(res[0] = ft_strdup("0"))
+		|| !(res[1] = ft_bintodec(right)))
+		return ;
 	ft_strdel(&right);
-
 }
 
 static void	res_big_exp(char *mantissa, int exp, char **res)
@@ -75,8 +63,9 @@ static void	res_big_exp(char *mantissa, int exp, char **res)
 		i++;
 	while (i < exp + 1)
 		left[i++] = '0';
-	res[0] = ft_bintowhole(left);
-	res[1] = ft_strdup("0");
+	if (!(res[0] = ft_bintowhole(left))
+		|| (!(res[1] = ft_strdup("0"))))
+		return ;
 	ft_strdel(&left);
 }
 
@@ -94,18 +83,17 @@ static void	res_pos_exp(char *mantissa, int exp, char **res)
 		return ;
 	if (!(right = ft_strdup(mantissa + exp)))
 		return ;
-	res[0] = ft_bintowhole(left);
+	if (!(res[0] = ft_bintowhole(left))
+		|| (!(res[1] = ft_bintodec(right))))
+		return ;
 	ft_strdel(&left);
-	res[1] = ft_bintodec(right);
 	ft_strdel(&right);
 }
 
 void		get_res(char *mantissa, int exp, char **res)
 {
-
 	if (exp < 0)
 		res_neg_exp(mantissa, exp, res);
 	else
 		res_pos_exp(mantissa, exp, res);
-
 }

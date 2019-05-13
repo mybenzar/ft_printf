@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 13:00:08 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:00:11 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 13:57:55 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ void	float_converter(t_flags *flag, double x)
 		handle_neg(flag);
 	if (!(res = ft_frexp(x)))
 		return ;
+	if (res[2][0] == '-')
+		flag->plus = '-';
 	if (!res[1])
 	{
 		str_converter(flag, res[0]);
-		ft_strdel(&res[0]);
-		ft_strdel(&res[1]);
-		free(res);
-		res = NULL;
+		free_res(res);
 		return ;
 	}
 	print_float(flag, res);
@@ -40,13 +39,12 @@ void	lfloat_converter(t_flags *flag, long double x)
 		handle_neg(flag);
 	if (!(res = ft_frexpl(x)))
 		return ;
+	if (res[2][0] == '-')
+		flag->plus = '-';
 	if (!res[1])
 	{
 		str_converter(flag, res[0]);
-		ft_strdel(&res[0]);
-		ft_strdel(&res[1]);
-		free(res);
-		res = NULL;
+		free_res(res);
 		return ;
 	}
 	print_float(flag, res);

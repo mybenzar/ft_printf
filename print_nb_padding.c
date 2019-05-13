@@ -6,13 +6,13 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 11:48:38 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 14:15:24 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 10:45:17 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		get_base(char conv)
+int			get_base(char conv)
 {
 	if (conv == 'd' || conv == 'i' || conv == 'u')
 		return (10);
@@ -23,7 +23,7 @@ int		get_base(char conv)
 	return (-1);
 }
 
-static void		print_exp(t_flags *flag)
+static void	print_exp(t_flags *flag)
 {
 	if (flag->id_conv == 'o' || flag->id_conv == 'x' || flag->id_conv == 'X')
 		ft_putchar('0');
@@ -51,8 +51,10 @@ void		print_nb_padding(t_flags *flag, char *nb_str)
 	if (flag->id_conv != 'f')
 		print_sign(flag);
 	if (flag->id_conv != 'f'
-		&& ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
-		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0"))))
+		&& ((flag->sharp == 1 && ft_strcmp(nb_str, "")
+		&& ft_strcmp(nb_str, "0"))
+		|| (flag->sharp == 1 && flag->id_conv == 'o'
+		&& ft_strcmp(nb_str, "0"))))
 		print_exp(flag);
 	if (flag->zero != 0)
 		print_nchar(flag->zero, '0');
@@ -68,8 +70,10 @@ void		print_nb(t_flags *flag, char *nb_str)
 		print_nchar(flag->space, ' ');
 	print_sign(flag);
 	if (flag->id_conv != 'f'
-		&& ((flag->sharp == 1 && ft_strcmp(nb_str, "") && ft_strcmp(nb_str, "0"))
-		|| (flag->sharp == 1 && flag->id_conv == 'o' && ft_strcmp(nb_str, "0"))))
+		&& ((flag->sharp == 1 && ft_strcmp(nb_str, "")
+		&& ft_strcmp(nb_str, "0"))
+		|| (flag->sharp == 1 && flag->id_conv == 'o'
+		&& ft_strcmp(nb_str, "0"))))
 		print_exp(flag);
 	if (flag->zero != 0)
 		print_nchar(flag->zero, '0');

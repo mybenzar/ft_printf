@@ -6,13 +6,13 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 11:44:42 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 12:17:48 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 14:51:12 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int		min_width_no_precision(t_flags *flag, int len)
+static int	min_width_no_precision(t_flags *flag, int len)
 {
 	if (flag->dot == 0)
 	{
@@ -35,7 +35,7 @@ static int		min_width_no_precision(t_flags *flag, int len)
 	return (-1);
 }
 
-int		get_min_width(t_flags *flag, int len)
+int			get_min_width(t_flags *flag, int len)
 {
 	if (flag->dot <= 0)
 		return (min_width_no_precision(flag, len));

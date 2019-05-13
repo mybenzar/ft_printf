@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:51 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/11 15:22:13 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 11:34:15 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	get_modif(t_flags *flags)
 		flags->modif = hh;
 	else if (ft_strncmp(flags->spec, "ll", 2) == 0)
 		flags->modif = ll;
-	else if (tmp[0] == 'l' )
+	else if (tmp[0] == 'l')
 		flags->modif = l;
 	else if (tmp[0] == 'L')
 		flags->modif = L;
@@ -38,38 +38,10 @@ void	get_modif(t_flags *flags)
 	free(tmp);
 }
 
-int		get_size(char *spec, int *i)
-{
-	int size;
-	int k;
-
-	k = 0;
-	size = 0;
-	while (ft_isdigit(spec[k]) && spec[k])
-	{
-		size = (size * 10) + (spec[k] - 48);
-		*i += 1;
-		k++;
-	}
-	return (size);
-}
-
-void	get_size_width(t_flags *flags, int *i)
-{
-	if (ft_isdigit(flags->spec[*i]) && flags->spec[*i] != '0'
-		&& flags->width == 0)
-		flags->width = get_size((flags->spec) + *i, i);
-	if (flags->spec[*i] == '.')
-	{
-		*i += 1;
-		flags->dot = get_size(flags->spec + *i, i);
-	}
-}
-
 void	get_opt(t_flags *flags, int *i)
 {
 	get_size_width(flags, i);
-	if (ft_strchr( "0#-+ ", flags->spec[*i]) != NULL)
+	if (ft_strchr("0#-+ ", flags->spec[*i]) != NULL)
 	{
 		if (flags->spec[*i] == '0')
 			flags->zero = 1;
@@ -129,7 +101,7 @@ int		get_flag_conv(char *format, int *i, t_flags *flags)
 	if (format[k] && no_id_conv(format + k))
 		return (get_flag_no_id(format, i, flags));
 	while (format[k] && format[k] != '%' && !is_alt_special(format[k])
-		&& (ft_strchr(VALID, format[k]) != NULL)) 
+		&& (ft_strchr(VALID, format[k]) != NULL))
 	{
 		if (is_fconv(format[k]))
 		{

@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 12:45:07 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 13:30:23 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 14:46:55 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 **	Exponent = 15 bits
 **	Integer Part = 1 bit
 **	Mantissa = 63 bits
-**	"In contrast to the single and double-precision formats, this format does 
-**	not utilize an implicit/hidden bit. 
-**	Rather, bit 63 contains the integer part of the significand and bits 62-0 
+**	"In contrast to the single and double-precision formats, this format does
+**	not utilize an implicit/hidden bit.
+**	Rather, bit 63 contains the integer part of the significand and bits 62-0
 **	hold the fractional part. Bit 63 will be 1 on all normalized numbers."
 */
 
@@ -32,16 +32,16 @@ static int	check_nan_inf_l(char *mantissa, char *exp_str)
 	return (0);
 }
 
-static char	**lhandle_ni(char **res, char *nb_str, char *mantissa, char *exp_str)
+static char	**lhandle_ni(char **res, char *nb_str, char *mantissa, char *exp)
 {
-	if (check_nan_inf_l(mantissa, exp_str) == 1)
+	if (check_nan_inf_l(mantissa, exp) == 1)
 	{
 		res[0] = ft_strdup("nan");
 		res[1] = NULL;
 		ft_strdel(&nb_str);
 		return (res);
 	}
-	if (check_nan_inf_l(mantissa, exp_str) == -1)
+	if (check_nan_inf_l(mantissa, exp) == -1)
 	{
 		res[0] = ft_strdup("inf");
 		res[1] = NULL;
@@ -63,18 +63,15 @@ char		**ft_frexpl(long double x)
 	exp_str[15] = '\0';
 	if (!(res = (char **)malloc(sizeof(char *) * 3))
 		|| !(nb_str = ft_ldftoa(x))
+		|| !(res[2] = (char *)malloc(sizeof(char) * 2))
 		|| !(ft_strncpy(exp_str, nb_str + 1, 15))
 		|| !(mantissa = ft_strdup(nb_str + 16)))
 		return (NULL);
 	if (check_nan_inf_l(mantissa, exp_str) != 0)
 		return (lhandle_ni(res, nb_str, mantissa, exp_str));
 	get_res_l(mantissa, get_exp_l(exp_str), res);
-	if (ft_strlen(res[0]) != 1 && res[0][0] == '0')
-	{
-		while (res[0][i] == '0')
-			i++;
-		res[0] += i;
-	}
+	if (!ft_strchr(nb_str + 1, '1') && nb_str[0] == '1')
+		ft_strcpy(res[2], "-\0");
 	ft_strdel(&nb_str);
 	ft_strdel(&mantissa);
 	return (res);

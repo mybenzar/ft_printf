@@ -1,48 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_utils.c                                      :+:      :+:    :+:   */
+/*   get_size.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/08 14:15:42 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 15:39:35 by mybenzar         ###   ########.fr       */
+/*   Created: 2019/05/13 10:49:50 by mybenzar          #+#    #+#             */
+/*   Updated: 2019/05/13 10:51:57 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		index_is_special(char *str)
+int		get_size(char *spec, int *i)
 {
-	int i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (is_special(str[i]))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int		no_id_conv(char *format)
-{
+	int size;
 	int k;
 
 	k = 0;
-	while (format[k])
+	size = 0;
+	while (ft_isdigit(spec[k]) && spec[k])
 	{
-		if (is_fconv(format[k]))
-			return (0);
+		size = (size * 10) + (spec[k] - 48);
+		*i += 1;
 		k++;
 	}
-	return (1);
+	return (size);
 }
 
-void	handle_neg(t_flags *flag)
+void	get_size_width(t_flags *flags, int *i)
 {
-	flag->plus = '-';
-	if (!flag->width && flag->space)
-		flag->space = 0;
+	if (ft_isdigit(flags->spec[*i]) && flags->spec[*i] != '0'
+		&& flags->width == 0)
+		flags->width = get_size((flags->spec) + *i, i);
+	if (flags->spec[*i] == '.')
+	{
+		*i += 1;
+		flags->dot = get_size(flags->spec + *i, i);
+	}
 }

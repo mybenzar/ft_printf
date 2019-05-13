@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 11:41:59 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/12 11:55:07 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 10:43:47 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	print_int(t_flags *flag, char *nb_str, uintmax_t nb)
 	flag->len += len;
 }
 
-void	int_converter(t_flags *flag, uintmax_t nb)
+void		int_converter(t_flags *flag, uintmax_t nb)
 {
 	char	*nb_str;
 
