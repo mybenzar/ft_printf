@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 13:26:00 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 11:30:11 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:08:41 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ static void	res_neg_exp_l(char *mantissa, int exp, char **res)
 			right[i++] = mantissa[j++];
 	}
 	right[i] = '\0';
-	res[0] = ft_strdup("0");
-	res[1] = ft_bintodec(right);
+	if (!(res[0] = ft_strdup("0"))
+		|| !(res[1] = ft_bintodec(right)))
+		return ;
 	ft_strdel(&right);
 }
 
@@ -50,9 +51,10 @@ static void	res_big_exp_l(char *mantissa, int exp, char **res)
 		i++;
 	while (i < exp + 1)
 		left[i++] = '0';
-	res[0] = ft_bintowhole(left);
+	if (!(res[0] = ft_bintowhole(left))
+		|| !(res[1] = ft_strdup("0")))
+		return ;
 	ft_strdel(&left);
-	res[1] = ft_strdup("0");
 }
 
 static void	res_pos_exp_l(char *mantissa, int exp, char **res)
@@ -67,9 +69,10 @@ static void	res_pos_exp_l(char *mantissa, int exp, char **res)
 		|| !(ft_strncat(left, mantissa, exp + 1))
 		|| !(ft_strcpy(right, mantissa + exp + 1)))
 		return ;
-	res[0] = ft_bintowhole(left);
+	if (!(res[0] = ft_bintowhole(left))
+		|| !(res[1] = ft_bintodec(right)))
+		return ;
 	ft_strdel(&left);
-	res[1] = ft_bintodec(right);
 	ft_strdel(&right);
 }
 

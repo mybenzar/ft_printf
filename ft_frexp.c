@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 12:33:55 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 14:49:46 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 19:00:38 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static char		**handle_ni(char **res, char *nb_str, char *mantissa, char *exp)
 	{
 		res[0] = ft_strdup("nan");
 		res[1] = NULL;
+		ft_strdel(&mantissa);
 		ft_strdel(&nb_str);
 		return (res);
 	}
@@ -40,6 +41,7 @@ static char		**handle_ni(char **res, char *nb_str, char *mantissa, char *exp)
 		res[0] = ft_strdup("inf");
 		res[1] = NULL;
 		ft_strdel(&nb_str);
+		ft_strdel(&mantissa);
 		return (res);
 	}
 	return (NULL);
@@ -63,7 +65,7 @@ char			**ft_frexp(double x)
 	exp_str[11] = '\0';
 	if (!(res = (char **)malloc(sizeof(char *) * 3))
 		|| !(nb_str = ft_dftoa(x))
-		|| !(res[2] = (char *)malloc(sizeof(char) * 2))
+		|| !(res[2] = ft_strnew(1))
 		|| !(ft_strncpy(exp_str, nb_str + 1, 11))
 		|| !(mantissa = ft_strdup(nb_str + 12)))
 		return (NULL);

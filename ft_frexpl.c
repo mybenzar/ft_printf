@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 12:45:07 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 14:46:55 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:07:46 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,20 @@ static char	**lhandle_ni(char **res, char *nb_str, char *mantissa, char *exp)
 {
 	if (check_nan_inf_l(mantissa, exp) == 1)
 	{
-		res[0] = ft_strdup("nan");
+		if (!(res[0] = ft_strdup("nan")))
+			return (NULL);
 		res[1] = NULL;
 		ft_strdel(&nb_str);
+		ft_strdel(&mantissa);
 		return (res);
 	}
 	if (check_nan_inf_l(mantissa, exp) == -1)
 	{
-		res[0] = ft_strdup("inf");
+		if (!(res[0] = ft_strdup("inf")))
+			return (NULL);
 		res[1] = NULL;
 		ft_strdel(&nb_str);
+		ft_strdel(&mantissa);
 		return (res);
 	}
 	return (NULL);
@@ -63,7 +67,7 @@ char		**ft_frexpl(long double x)
 	exp_str[15] = '\0';
 	if (!(res = (char **)malloc(sizeof(char *) * 3))
 		|| !(nb_str = ft_ldftoa(x))
-		|| !(res[2] = (char *)malloc(sizeof(char) * 2))
+		|| !(res[2] = ft_strnew(1))
 		|| !(ft_strncpy(exp_str, nb_str + 1, 15))
 		|| !(mantissa = ft_strdup(nb_str + 16)))
 		return (NULL);

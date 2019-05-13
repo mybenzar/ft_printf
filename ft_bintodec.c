@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 13:15:46 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 15:14:33 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/13 18:56:15 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*compute_sum(char *vlq, char *ret, int i, int j)
 	{
 		if (vlq[i] == '1')
 		{
-			if (!(pow = ft_strdup(vlq_fivepow(i)))
+			if (!(pow = vlq_fivepow(i))
 				|| !(tmp_pow = ft_strdup(pow)))
 				return (NULL);
 			ft_strdel(&pow);
