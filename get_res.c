@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 12:51:21 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 11:36:05 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/14 15:37:49 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ static void	res_pos_exp(char *mantissa, int exp, char **res)
 	char	*right;
 
 	if (exp > 52)
+	{
 		res_big_exp(mantissa, exp, res);
+		return ;
+	}
 	if (!(left = ft_strnew(exp + 1)))
 		return ;
 	left[0] = '1';

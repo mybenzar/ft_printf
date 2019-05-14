@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 13:14:11 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 14:50:27 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/14 17:07:53 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_bintowhole(char *vlq)
 	{
 		if (vlq[i] == '1')
 		{
-			if (!(pow = ft_strdup(vlq_binpow(i)))
+			if (!(pow = vlq_binpow(i))
 				|| !(tmp = ft_strdup(ret)))
 				return (NULL);
 			ft_strdel(&ret);

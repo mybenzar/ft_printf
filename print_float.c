@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/14 12:26:34 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/14 15:16:00 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	float_padding(t_flags *flag, char **res)
 {
-	//print_nb_padding(flag, res[1]);
 	ft_putnstr(res[1], flag->dot);
 	if (flag->space != 0)
 		print_nchar(flag->space, ' ');
