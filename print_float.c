@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 10:45:58 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/14 10:35:50 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,26 @@
 
 static void	float_padding(t_flags *flag, char **res)
 {
-	char	*round;
+/*	char	*round;
 
 	if (!(round = ft_round(res[1], flag->dot - 1)))
 		return ;
 	print_nb_padding(flag, round);
-	ft_strdel(&round);
+	ft_strdel(&round);*/
+	print_nb_padding(flag, res[1]);
 }
 
 static void	float_no_padding(t_flags *flag, char **res, int len_dec)
 {
-	char	*round;
+//	char	*round;
 
 	if (flag->dot > len_dec)
 		flag->zero = flag->dot - len_dec;
-	if (!(round = ft_round(res[1], flag->dot - 1)))
-		return ;
-	ft_putnstr(round, flag->dot);
-	ft_strdel(&round);
+/*	if (!(round = ft_round(res[1], flag->dot - 1)))
+		return ;*/
+	ft_putnstr(res[1], flag->dot);
+//	ft_putnstr(round, flag->dot);
+//	ft_strdel(&round);
 	print_nchar(flag->zero, '0');
 }
 
@@ -70,6 +72,7 @@ void		print_float(t_flags *flag, char **res)
 		flag->space++;
 	if (flag->dot < 0)
 		flag->dot = 6;
+	ft_round(res, flag->dot - 1);
 	print_whole(flag, res, len_whole);
 	flag->zero = 0;
 	if (flag->dot != 0 || flag->sharp)

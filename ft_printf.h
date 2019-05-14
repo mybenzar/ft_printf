@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/13 10:51:25 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/14 10:33:53 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int				get_exp(char *exp_str);
 int				get_exp_l(char *exp_str);
 char			**ft_frexp(double x);
 char			**ft_frexpl(long double x);
-char			*ft_round(char *str, int prec);
+void			ft_round(char **res, int prec);
 
 /*
 **		String Numbers Manipulation and Calculations Functions

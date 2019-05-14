@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 13:02:25 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 19:17:35 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/14 10:35:49 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ static void	fill_prec(char *ret, char *str, int size, int *i)
 		ret[*i] = '\0';
 }
 
-static char	*do_rounding(char *ret, int i)
+static char	*do_rounding(char *ret, int i, char **res)
 {
 	char	*tmp;
 	char	*five;
+	char	*one;
 
+
+	if (!(one = ft_strdup("1")))
+		return (NULL);
 	if (!(five = ft_strdup("5")))
 		return (NULL);
 	if (ret[i - 1] == '0')
@@ -40,6 +44,15 @@ static char	*do_rounding(char *ret, int i)
 	}
 	if (ret[i - 1] >= '5')
 	{
+		if (i == 1)
+		{
+			if (!(tmp = ft_strdup(res[0])))
+				return (NULL);
+			ft_strdel(&res[0]);
+			if (!(res[0] = vlq_sum(tmp, one)))
+				return (NULL);
+			ft_strdel(&tmp);
+		}
 		if (!(tmp = ft_strdup(ret)))
 			return (NULL);
 		ft_strdel(&ret);
@@ -52,16 +65,18 @@ static char	*do_rounding(char *ret, int i)
 	return (ret);
 }
 
-char		*ft_round(char *str, int prec)
+void		ft_round(char **res, int prec)
 {
 	char	*ret;
 	int		i;
 
 	i = 0;
-	if (!ft_strcmp(str, "0"))
-		return ("0");
+	if (!ft_strcmp(res[1], "0"))
+		return ;
+	//	return ("0");
 	if (!(ret = ft_strnew(prec + 2)))
-		return (NULL);
-	fill_prec(ret, str, prec + 1, &i);
-	return (do_rounding(ret, prec + 2));
+		return ;
+	fill_prec(ret, res[1], prec + 1, &i);
+	ft_strdel(&res[1]);
+	res[1] = do_rounding(ret, prec + 2, res);
 }
