@@ -6,7 +6,7 @@
 #    By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/14 14:33:11 by mybenzar          #+#    #+#              #
-#    Updated: 2019/05/14 10:11:26 by mybenzar         ###   ########.fr        #
+#    Updated: 2019/05/15 09:10:38 by mybenzar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SOURCES =	print_utils.c args_conv.c ft_printf.c print_float.c get_flags.c\
 			get_res_l.c ft_frexp.c ft_ldftoa.c ft_frexpl.c ft_bintowhole.c\
 			ft_bintodec.c vlq_pow.c get_exp.c get_exp_l.c float_converter.c\
 			ft_round.c vlq_sum.c vlq_initialize.c vlq_conv.c vlq_shift.c\
-			vlq_mult.c vlq_calc_info.c
+			vlq_mult.c vlq_calc_info.c ft_round_utils.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

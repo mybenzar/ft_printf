@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/14 15:16:00 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/15 11:04:31 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	print_whole(t_flags *flag, char **res, int len_whole)
 		flag->space = 0;
 	print_nb(flag, res[0]);
 	flag->space = tmp_space;
+	flag->len += (flag->zero > 0 ? flag->zero : 0);
 }
 
 void		print_float(t_flags *flag, char **res)
@@ -56,7 +57,9 @@ void		print_float(t_flags *flag, char **res)
 	int		len_dec;
 	int		len_whole;
 
-	if (flag->space && flag->plus != '-')
+	if (flag->space && flag->plus == '-')
+		flag->space = 0;
+	if (flag->space && flag->plus != '-' && flag->dot != 0)
 		flag->space++;
 	if (flag->dot < 0)
 		flag->dot = 6;

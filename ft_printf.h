@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/14 14:36:53 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/15 09:16:43 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ int				get_exp_l(char *exp_str);
 char			**ft_frexp(double x);
 char			**ft_frexpl(long double x);
 void			ft_round(char **res, t_flags *flag);
+void			fill_prec(char *ret, char *str, int size);
+int				only_nine(char *ret);
 
 /*
 **		String Numbers Manipulation and Calculations Functions
@@ -148,7 +150,6 @@ char 			*vlq_sum(char *s1, char *s2);
 char			*vlq_mult(char *s1, char *s2);
 int				ft_max(int a, int b);
 int				ft_min(int a, int b);
-char			*vlq_pow_ten(int pow);
 char			*vlq_binpow(int n);
 char			*vlq_fivepow(int n);
 int				pow2(int pow);
@@ -160,10 +161,4 @@ void			vlq_tmp_conv(t_calc *info, char *s1, char *s2);
 void			vlq_tmp_conv_rev(char *s, int size);
 void			vlq_tmp_conv_rev2(t_calc *info, char *s1, char *s2);
 
-/*
-**		Debug
-*/
-
-void	printf_flags(t_flags *flags);
-void	put_flags(t_flags *flags);
 #endif

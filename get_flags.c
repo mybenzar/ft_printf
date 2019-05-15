@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:51 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/13 11:34:15 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/15 11:04:32 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int		get_flag_no_id(char *format, int *i, t_flags *flags)
 
 	k = *i;
 	flags->id_conv = 'n';
-	if (format[index_is_special(format + k)])
+	if (index_is_special(format + k) >= 0
+		&& format[index_is_special(format + k)])
 		*i = k + index_is_special(format + k);
 	if (!(flags->spec = ft_strdup(format + k)))
 		return (0);

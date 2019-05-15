@@ -6,40 +6,11 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 13:02:25 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/14 17:07:54 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/15 09:22:21 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-static void	fill_prec(char *ret, char *str, int size)
-{
-	int j;
-	int i;
-
-	i = 0;
-	j = ft_strlen(str);
-	while (i <= size && i < j)
-	{
-		ret[i] = str[i];
-		i += 1;
-	}
-	ret[i] = '\0';
-}
-
-static int	only_nine(char *ret)
-{
-	int i;
-
-	i = 0;
-	while (ret[i] != '\0')
-	{
-		if (ret[i] != '9')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 static void	round_whole(char **res)
 {
@@ -50,7 +21,7 @@ static void	round_whole(char **res)
 		|| !(tmp = ft_strdup(res[0])))
 		return ;
 	if (!ft_strcmp(res[0], "0"))
-	{				
+	{
 		ft_strdel(&res[0]);
 		if (!(res[0] = ft_strdup("1")))
 			return ;
@@ -65,13 +36,30 @@ static void	round_whole(char **res)
 	ft_strdel(&one);
 }
 
+static void	round_sup(char *ret, int i, char **res)
+{
+	char	*five;
+
+	if ((only_nine(ret) && i - 1 < (int)ft_strlen(ret)) || i == 1)
+	{
+		round_whole(res);
+		return ;
+	}
+	if (!(five = ft_strdup("5")))
+		return ;
+	ft_strdel(&res[1]);
+	if (!(res[1] = vlq_sum(ret, five)))
+		return ;
+	res[1][i - 1] = '\0';
+	if (res[1][i - 2] == '1' && i == 2)
+		round_whole(res);
+	ft_strdel(&five);
+}
+
 static void	do_rounding(char *ret, int i, char **res)
 {
 	char	*tmp;
-	char	*five;
 
-	if (!(five = ft_strdup("5")))
-		return ;
 	if (ret[i - 1] == '0')
 	{
 		ret[i - 1] = '\0';
@@ -83,37 +71,16 @@ static void	do_rounding(char *ret, int i, char **res)
 		ft_strdel(&tmp);
 	}
 	else if (ret[i - 1] >= '5')
-	{
-		if ((only_nine(ret) && i - 1 < (int)ft_strlen(ret)) || i == 1)
-		{
-			ft_strdel(&five);
-			ft_strdel(&ret);
-			round_whole(res);
-			return ;
-		}
-		if (!(tmp = ft_strdup(ret)))
-			return ;
-		ft_strdel(&ret);
-		if (!(ret = vlq_sum(tmp, five)))
-			return ;
-		ret[i - 1] = '\0';
-		ft_strdel(&res[1]);
-		if (!(res[1] = ft_strdup(ret)))
-			return ; 
-		ft_strdel(&tmp);
-		if (ret[i - 2] == '1' && i == 2)
-			round_whole(res);
-	}
+		round_sup(ret, i, res);
 	ft_strdel(&ret);
-	ft_strdel(&five);
 }
 
 void		ft_round(char **res, t_flags *flag)
 {
 	char	*ret;
-	int 	prec;
+	int		prec;
 
-	prec = flag->dot - 1; 
+	prec = flag->dot - 1;
 	if (!ft_strcmp(res[1], "0"))
 		return ;
 	if (!(ret = ft_strnew(prec + 2)))
