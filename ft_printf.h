@@ -6,7 +6,7 @@
 /*   By: malavent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:09:08 by malavent          #+#    #+#             */
-/*   Updated: 2019/05/15 09:16:43 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/15 09:43:39 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # define F_TYPE "diouxXcspf"
 # define VALID "0123456789#0.+- hlLdiouxXcspf"
 # define DEBUG 0
-
-#include <stdio.h>
 
 typedef enum	e_modif
 {
@@ -146,7 +144,7 @@ int				only_nine(char *ret);
 */
 
 void			calc_info(t_calc *info, char *s1, char *s2);
-char 			*vlq_sum(char *s1, char *s2);
+char			*vlq_sum(char *s1, char *s2);
 char			*vlq_mult(char *s1, char *s2);
 int				ft_max(int a, int b);
 int				ft_min(int a, int b);

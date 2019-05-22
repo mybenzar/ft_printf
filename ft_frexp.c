@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 12:33:55 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/14 16:20:55 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/15 11:58:30 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static char		**handle_ni(char **res, char *nb_str, char *mantissa, char *exp)
 {
 	if (check_nan_inf(mantissa, exp) == 1)
 	{
-		res[0] = ft_strdup("nan");
+		if (!(res[0] = ft_strdup("nan")))
+			return (NULL);
 		res[1] = NULL;
 		ft_strdel(&mantissa);
 		ft_strdel(&nb_str);
@@ -38,7 +39,8 @@ static char		**handle_ni(char **res, char *nb_str, char *mantissa, char *exp)
 	}
 	if (check_nan_inf(mantissa, exp) == -1)
 	{
-		res[0] = ft_strdup("inf");
+		if (!(res[0] = ft_strdup("inf")))
+			return (NULL);
 		res[1] = NULL;
 		ft_strdel(&nb_str);
 		ft_strdel(&mantissa);

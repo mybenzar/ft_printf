@@ -6,7 +6,7 @@
 /*   By: mybenzar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 14:44:53 by mybenzar          #+#    #+#             */
-/*   Updated: 2019/05/15 11:04:31 by mybenzar         ###   ########.fr       */
+/*   Updated: 2019/05/15 11:10:45 by mybenzar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static void	print_whole(t_flags *flag, char **res, int len_whole)
 
 void		print_float(t_flags *flag, char **res)
 {
-	int		len_dec;
-	int		len_whole;
+	int		len_d;
+	int		len_w;
 
 	if (flag->space && flag->plus == '-')
 		flag->space = 0;
@@ -64,9 +64,9 @@ void		print_float(t_flags *flag, char **res)
 	if (flag->dot < 0)
 		flag->dot = 6;
 	ft_round(res, flag);
-	len_dec = ft_strlen(res[1]);
-	len_whole = ft_strlen(res[0]);
-	print_whole(flag, res, len_whole);
+	len_d = ft_strlen(res[1]);
+	len_w = ft_strlen(res[0]);
+	print_whole(flag, res, len_w);
 	flag->zero = 0;
 	if (flag->dot != 0 || flag->sharp)
 	{
@@ -76,8 +76,7 @@ void		print_float(t_flags *flag, char **res)
 	if (flag->minus == 1)
 		float_padding(flag, res);
 	else
-		float_no_padding(flag, res, len_dec);
+		float_no_padding(flag, res, len_d);
 	free_res(res);
-	flag->len += len_whole + flag->dot + flag->space;
-	flag->len += (flag->plus != 0 ? 1 : 0);
+	flag->len += len_w + flag->dot + flag->space + (flag->plus != 0 ? 1 : 0);
 }
